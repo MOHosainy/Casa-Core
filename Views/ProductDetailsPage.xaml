@@ -1,0 +1,336 @@
+<ContentPage
+    x:Class="MauiStoreApp.Views.ProductDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+    xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
+    xmlns:model="clr-namespace:MauiStoreApp.Models"
+    xmlns:modelroot="clr-namespace:MauiStoreApp.Models"
+    xmlns:vm="clr-namespace:MauiStoreApp.ViewModels"
+    x:DataType="local:ProductDetailsViewModel"
+    BackgroundColor="#F4F3F4"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior Command="{Binding InitCommand}" EventName="NavigatedTo" />
+    </ContentPage.Behaviors>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ScrollView Grid.Row="1" Margin="0,-1,0,0">
+            <VerticalStackLayout Padding="0">
+                <Grid
+                    x:Name="ProductNavigation"
+                    Padding="5,10"
+                    BackgroundColor="White"
+                    ColumnDefinitions="48,*,48"
+                    ColumnSpacing="10">
+
+                    <!--  back button  -->
+                    <ImageButton
+                        Grid.Column="0"
+                        BackgroundColor="Transparent"
+                        CornerRadius="20"
+                        HeightRequest="25"
+                        Source="arrow_back.svg"
+                        WidthRequest="25">
+                        <ImageButton.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductDetailsViewModel}}, Path=GoBackCommand}" />
+                        </ImageButton.GestureRecognizers>
+                    </ImageButton>
+
+                    <HorizontalStackLayout Grid.Column="1" />
+
+                    <!--  share button  -->
+                    <ImageButton
+                        Grid.Column="2"
+                        Padding="6"
+                        Command="{Binding ShareProductCommand}"
+                        CommandParameter="{Binding Product}"
+                        CornerRadius="17"
+                        HeightRequest="46"
+                        Source="share.svg"
+                        WidthRequest="46" />
+                </Grid>
+                <Frame
+                    Margin="0,-1,0,0"
+                    Padding="0,40,0,15"
+                    BackgroundColor="White"
+                    BorderColor="Transparent"
+                    CornerRadius="0"
+                    HasShadow="False"
+                    ZIndex="2">
+                    <Image
+                        Margin="0"
+                        Aspect="AspectFit"
+                        HeightRequest="160"
+                        Source="{Binding Product.Image}" />
+                </Frame>
+
+                <Frame
+                    Margin="0,-70,0,0"
+                    Padding="60"
+                    BackgroundColor="White"
+                    BorderColor="Beige"
+                    CornerRadius="60"
+                    HasShadow="False"
+                    ZIndex="1" />
+
+                <VerticalStackLayout Padding="0,30">
+                    <!--  available label  -->
+                    <Label
+                        Padding="20,0"
+                        FontAttributes="Bold"
+                        FontFamily="AstoreEczarSemiBold"
+                        FontSize="Small"
+                        Text="Available"
+                        TextColor="Green"
+                        VerticalTextAlignment="Center" />
+
+                    <Label
+                        Padding="20,10,20,0"
+                        FontFamily="AstoreEczarSemiBold"
+                        FontSize="21"
+                        Text="{Binding Product.Title}" />
+
+                    <!--  flex layout with price and add to cart button  -->
+                    <FlexLayout
+                        Margin="20,10,20,10"
+                        AlignItems="Center"
+                        Direction="Row"
+                        HeightRequest="45"
+                        JustifyContent="SpaceBetween">
+                        <Label
+                            FontAttributes="Bold"
+                            FontFamily="AstoreEczarSemiBold"
+                            FontSize="24"
+                            Text="{Binding Product.Price, StringFormat='€{0:F2}'}"
+                            TextColor="Black"
+                            VerticalTextAlignment="Center" />
+                        <Button
+                            Margin="0,0,0,0"
+                            Padding="10,5"
+                            BackgroundColor="#E7B844"
+                            BorderColor="Transparent"
+                            BorderWidth="0"
+                            Command="{Binding AddToCartCommand}"
+                            CommandParameter="{Binding Product}"
+                            CornerRadius="10"
+                            FontAttributes="Bold"
+                            FontFamily="AstoreEczarSemiBold"
+                            FontSize="Medium"
+                            Text="Add to cart"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </FlexLayout>
+
+                    <!--  description  -->
+                    <Frame
+                        Margin="0,5"
+                        Padding="15,12"
+                        BackgroundColor="#FFF"
+                        BorderColor="Transparent"
+                        CornerRadius="0"
+                        HasShadow="False">
+                        <StackLayout>
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="AstoreEczarSemiBold"
+                                FontSize="17"
+                                Text="Product description" />
+
+                            <Label
+                                FontFamily="AstoreEczarSemiBold"
+                                FontSize="16"
+                                Text="{Binding Product.Description}"
+                                TextColor="DimGray" />
+                        </StackLayout>
+                    </Frame>
+
+                    <!--  category  -->
+                    <Frame
+                        Margin="0,5"
+                        Padding="15,12"
+                        BackgroundColor="#FFF"
+                        BorderColor="Transparent"
+                        CornerRadius="0"
+                        HasShadow="False">
+                        <StackLayout>
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="AstoreEczarSemiBold"
+                                FontSize="17"
+                                Text="Category" />
+                            <Label
+                                FontFamily="AstoreEczarSemiBold"
+                                FontSize="16"
+                                Text="{Binding Product.Category}"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </Frame>
+
+                    <StackLayout Padding="20,0">
+                        <Label
+                            Margin="0,5"
+                            FontAttributes="Bold"
+                            FontFamily="AstoreEczarSemiBold"
+                            FontSize="17"
+                            Text="Reviews" />
+
+                        <!--  rating  -->
+                        <Frame
+                            Padding="15,12"
+                            BackgroundColor="#FFF7F3"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            HasShadow="False"
+                            HeightRequest="60">
+                            <FlexLayout
+                                AlignItems="Center"
+                                Direction="Row"
+                                JustifyContent="SpaceBetween">
+                                <FlexLayout
+                                    AlignItems="Center"
+                                    Direction="Row"
+                                    JustifyContent="Start">
+
+                                    <Image
+                                        Aspect="AspectFit"
+                                        HeightRequest="30"
+                                        Source="star_filled_yellow.svg"
+                                        VerticalOptions="Center" />
+
+                                    <Label
+                                        Margin="1,0"
+                                        FontAttributes="Bold"
+                                        FontFamily="AstoreEczarSemiBold"
+                                        FontSize="18"
+                                        Text="{Binding Product.Rating.Rate}"
+                                        VerticalOptions="Center" />
+
+                                    <Label
+                                        Margin="1,1,0,1"
+                                        FontSize="16"
+                                        Text="{Binding Product.Rating.Count, StringFormat='({0} reviews)'}"
+                                        VerticalOptions="Center" />
+                                </FlexLayout>
+
+                                <Image
+                                    Aspect="AspectFit"
+                                    HeightRequest="30"
+                                    HorizontalOptions="End"
+                                    Source="arrow_next_small.svg"
+                                    VerticalOptions="Center" />
+                            </FlexLayout>
+                        </Frame>
+
+                        <!--  cross-sell section  -->
+                        <Label
+                            Margin="0,20,0,10"
+                            FontAttributes="Bold"
+                            FontFamily="AstoreEczarSemiBold"
+                            FontSize="17"
+                            Text="You may also like" />
+
+                        <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding CrossSellProducts}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Product">
+                                    <StackLayout Margin="10" WidthRequest="160">
+                                        <!--  Image Frame  -->
+                                        <Frame
+                                            Padding="1"
+                                            BorderColor="Transparent"
+                                            CornerRadius="8"
+                                            HasShadow="False">
+                                            <Grid>
+                                                <!--  product image  -->
+                                                <Image
+                                                    Margin="20"
+                                                    Aspect="AspectFit"
+                                                    HeightRequest="130"
+                                                    Source="{Binding Image}">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:HomePageViewModel}}, Path=ProductTappedCommand}" CommandParameter="{Binding .}" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </Grid>
+                                        </Frame>
+
+                                        <!--  rating, title, price  -->
+                                        <FlexLayout
+                                            Margin="5,0"
+                                            AlignItems="Start"
+                                            Direction="Column"
+                                            JustifyContent="Start">
+
+                                            <!--  rating  -->
+                                            <FlexLayout
+                                                AlignItems="Start"
+                                                AlignSelf="Center"
+                                                Direction="Row"
+                                                HeightRequest="30"
+                                                JustifyContent="Start"
+                                                Wrap="NoWrap">
+                                                <Image
+                                                    Aspect="AspectFit"
+                                                    HeightRequest="16"
+                                                    HorizontalOptions="StartAndExpand"
+                                                    Source="star_filled_yellow.svg"
+                                                    VerticalOptions="Center"
+                                                    WidthRequest="16" />
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontFamily="AstoreEczarSemiBold"
+                                                    FontSize="Small"
+                                                    HorizontalOptions="StartAndExpand"
+                                                    Text="{Binding Rating.Rate}"
+                                                    TextColor="Black"
+                                                    VerticalTextAlignment="Center" />
+                                            </FlexLayout>
+
+                                            <!--  title  -->
+                                            <Label
+                                                Margin="0,3"
+                                                FontFamily="AstoreEczarSemiBold"
+                                                FontSize="Small"
+                                                HeightRequest="38"
+                                                LineBreakMode="WordWrap"
+                                                MaxLines="2"
+                                                Text="{Binding Title}"
+                                                TextColor="#000" />
+
+                                            <!--  price  -->
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="AstoreEczarSemiBold"
+                                                FontSize="Medium"
+                                                HeightRequest="30"
+                                                HorizontalOptions="StartAndExpand"
+                                                LineBreakMode="NoWrap"
+                                                Text="{Binding Price, StringFormat='€{0:F2}'}"
+                                                TextColor="Black" />
+                                            <FlexLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductDetailsViewModel}}, Path=ProductTappedCommand}" CommandParameter="{Binding .}" />
+                                            </FlexLayout.GestureRecognizers>
+                                        </FlexLayout>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+        <!--  loading indicator  -->
+        <ActivityIndicator
+            Grid.Row="1"
+            HorizontalOptions="CenterAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiStoreApp.Views.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+    xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
+    xmlns:model="clr-namespace:MauiStoreApp.Models"
+    xmlns:modelroot="clr-namespace:MauiStoreApp.Models"
+    xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
+    x:DataType="local:ProfilePageViewModel">
+
+    <Shell.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  title in the middle  -->
+            <Label
+                Grid.Column="0"
+                FontAttributes="Bold"
+                FontFamily="AstoreEczarSemiBold"
+                FontSize="20"
+                HorizontalOptions="CenterAndExpand"
+                Text="My account"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" />
+
+            <!--  right button placeholder  -->
+            <Button
+                Grid.Column="1"
+                HorizontalOptions="End"
+                Text="" />
+        </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior Command="{Binding InitCommand}" EventName="NavigatedTo" />
+    </ContentPage.Behaviors>
+
+    <!--  page wrapper  -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout
+                Grid.Row="0"
+                Padding="0"
+                IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+                <Frame
+                    Margin="-90,-75,-5,0"
+                    BackgroundColor="Transparent"
+                    BorderColor="Transparent"
+                    CornerRadius="120"
+                    HeightRequest="180"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsUserLoggedIn}"
+                    ZIndex="0">
+
+                    <FlexLayout
+                        Margin="80,55,0,0"
+                        AlignItems="Center"
+                        Direction="Row">
+
+                        <!--  Avatar with Initials  -->
+                        <Frame
+                            Margin="8"
+                            Padding="0"
+                            BackgroundColor="#689F38"
+                            BorderColor="White"
+                            CornerRadius="30"
+                            HasShadow="True"
+                            HeightRequest="55"
+                            WidthRequest="55"
+                            ZIndex="2">
+                            <Label
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                Text="{Binding User.AvatarInitials}"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Frame>
+
+                        <StackLayout
+                            HorizontalOptions="Center"
+                            Spacing="5"
+                            VerticalOptions="Center">
+
+                            <!--  Name  -->
+                            <Label
+                                Margin="0,0,0,3"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                Text="{Binding User.FullName}"
+                                TextColor="#FFF" />
+
+                            <FlexLayout AlignItems="Center" Direction="Row">
+
+                                <!--  Location marker icon  -->
+                                <Image
+                                    Margin="1,0,0,0"
+                                    Aspect="AspectFit"
+                                    HeightRequest="18"
+                                    Source="location_yellow.svg"
+                                    WidthRequest="18" />
+
+                                <!--  City label  -->
+                                <Label
+                                    Margin="3,0,0,0"
+                                    FontAttributes="Bold"
+                                    HeightRequest="20"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{Binding User.Address.CityCapitalized}"
+                                    TextColor="#FFF" />
+                            </FlexLayout>
+                        </StackLayout>
+                    </FlexLayout>
+
+                    <Frame.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0.0" Color="{StaticResource Primary}" />
+                            <GradientStop Offset="1.0" Color="{StaticResource Primary}" />
+                        </LinearGradientBrush>
+                    </Frame.Background>
+                </Frame>
+
+                <!--  Addresses Section  -->
+                <StackLayout
+                    Margin="0,20,0,0"
+                    Padding="15,0"
+                    IsVisible="{Binding IsUserLoggedIn}">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="Addresses"
+                        TextColor="DimGray" />
+                    <Frame
+                        Margin="0,5"
+                        Padding="10"
+                        BackgroundColor="#FFF7F3"
+                        BorderColor="Transparent">
+                        <StackLayout>
+                            <Label Text="{Binding User.FullName}" />
+                            <Label Text="{Binding User.Address.FullStreet}" />
+                            <Label Text="{Binding User.Address.CityAndZipcode}" />
+                            <Label Text="{Binding User.Phone}" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <!--  Account Section  -->
+                <StackLayout Margin="0,20,0,0" Padding="15,0">
+                    <Label
+                        Margin="0,0,0,3"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="Account"
+                        TextColor="DimGray" />
+
+                    <FlexLayout
+                        Margin="0,8,0,0"
+                        AlignItems="Center"
+                        Direction="Row"
+                        HeightRequest="20"
+                        IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}"
+                        JustifyContent="SpaceBetween">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Sign in"
+                            TextColor="Black">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LoginCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Image
+                            Aspect="AspectFit"
+                            Source="login.svg"
+                            WidthRequest="24">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LoginCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                        <FlexLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding LoginCommand}" />
+                        </FlexLayout.GestureRecognizers>
+                    </FlexLayout>
+
+                    <FlexLayout
+                        Margin="0,8,0,0"
+                        AlignItems="Center"
+                        Direction="Row"
+                        HeightRequest="20"
+                        IsVisible="{Binding IsUserLoggedIn}"
+                        JustifyContent="SpaceBetween">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Sign out"
+                            TextColor="Black">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LogoutCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Image
+                            Aspect="AspectFit"
+                            Source="logout.svg"
+                            WidthRequest="24">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LogoutCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                        <FlexLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding LogoutCommand}" />
+                        </FlexLayout.GestureRecognizers>
+                    </FlexLayout>
+
+                    <FlexLayout
+                        Margin="0,15,0,0"
+                        AlignItems="Center"
+                        Direction="Row"
+                        HeightRequest="20"
+                        IsVisible="{Binding IsUserLoggedIn}"
+                        JustifyContent="SpaceBetween">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Delete account"
+                            TextColor="Red" />
+
+                        <Image
+                            Aspect="AspectFit"
+                            Source="delete_red.svg"
+                            WidthRequest="24" />
+                        <FlexLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding DeleteAccountCommand}" />
+                        </FlexLayout.GestureRecognizers>
+                    </FlexLayout>
+                </StackLayout>
+
+                <!--  About Section  -->
+                <StackLayout Margin="0,20,0,0" Padding="15,0">
+                    <Label
+                        Margin="0,0,0,3"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="About the app"
+                        TextColor="DimGray" />
+
+                    <FlexLayout
+                        Margin="0,8,0,0"
+                        AlignItems="Center"
+                        Direction="Row"
+                        HeightRequest="20"
+                        JustifyContent="SpaceBetween">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Fake Store API"
+                            TextColor="Black">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenFakeStoreApiCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Image
+                            Aspect="AspectFit"
+                            Source="arrow_next_small.svg"
+                            WidthRequest="24">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenFakeStoreApiCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                        <FlexLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenFakeStoreApiCommand}" />
+                        </FlexLayout.GestureRecognizers>
+                    </FlexLayout>
+
+                    <FlexLayout
+                        Margin="0,15,0,0"
+                        AlignItems="Center"
+                        Direction="Row"
+                        HeightRequest="20"
+                        JustifyContent="SpaceBetween">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Master Thesis (Croatian)"
+                            TextColor="Black">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Image
+                            Aspect="AspectFit"
+                            Source="arrow_next_small.svg"
+                            WidthRequest="24">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                        <FlexLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />
+                        </FlexLayout.GestureRecognizers>
+                    </FlexLayout>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+
+        <!--  Loading Indicator  -->
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            HorizontalOptions="CenterAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+    </Grid>
+</ContentPage>

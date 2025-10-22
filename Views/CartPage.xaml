@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiStoreApp.Views.CartPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+    xmlns:converters="clr-namespace:MauiStoreApp.Converters"
+    xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
+    xmlns:model="clr-namespace:MauiStoreApp.Models"
+    xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
+    xmlns:viewmodel="clr-namespace:MauiStoreApp.ViewModels"
+    BackgroundColor="White">
+
+    <Shell.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="46" />
+            </Grid.ColumnDefinitions>
+
+            <!--  activity indicator  -->
+            <ActivityIndicator
+                Grid.Column="0"
+                HeightRequest="18"
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsBusyWithCartModification}"
+                VerticalOptions="Center"
+                WidthRequest="25"
+                Color="White" />
+
+            <!--  title in the middle  -->
+            <Label
+                Grid.Column="1"
+                FontAttributes="Bold"
+                FontFamily="AstoreEczarSemiBold"
+                FontSize="20"
+                HorizontalOptions="CenterAndExpand"
+                Text="Cart"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" />
+
+            <!--  delete button  -->
+            <ImageButton
+                Grid.Column="2"
+                Padding="5"
+                Command="{Binding DeleteCartCommand}"
+                HeightRequest="46"
+                HorizontalOptions="Center"
+                IsVisible="{Binding CartItems.Count, Converter={StaticResource IntToBoolConverter}}"
+                Source="delete_white.svg"
+                WidthRequest="46" />
+        </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FirstLetterUppercaseConverter x:Key="FirstLetterUppercaseConverter" />
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <converters:IntToBoolInvertedConverter x:Key="IntToBoolInvertedConverter" />
+            <toolkit:IntToBoolConverter x:Key="IntToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <viewmodel:CartViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior Command="{Binding InitCommand}" EventName="NavigatedTo" />
+    </ContentPage.Behaviors>
+
+    <!--  page wrapper  -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <!--  if user is logged in  -->
+        <Grid IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout
+                Grid.Row="0"
+                Padding="10"
+                IsVisible="{Binding IsUserLoggedIn}">
+
+                <!--  CART ITEMS  -->
+                <CollectionView
+                    IsVisible="{Binding CartItems.Count, Converter={StaticResource IntToBoolConverter}}"
+                    ItemsSource="{Binding CartItems}"
+                    VerticalOptions="FillAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:CartItemDetail">
+                            <Frame
+                                Margin="0,5"
+                                Padding="5"
+                                BackgroundColor="#F5F6F4"
+                                BorderColor="Transparent"
+                                CornerRadius="20">
+                                <Grid Padding="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Frame
+                                        Grid.Column="0"
+                                        Margin="10,10,0,0"
+                                        Padding="9,8"
+                                        BackgroundColor="White"
+                                        BorderColor="Transparent"
+                                        CornerRadius="15"
+                                        HorizontalOptions="StartAndExpand"
+                                        VerticalOptions="StartAndExpand">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Grid.Column="0"
+                                                Padding="0"
+                                                FontFamily="AstoreEczarSemiBold"
+                                                FontSize="14"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Product.Category, Converter={StaticResource FirstLetterUppercaseConverter}}"
+                                                ZIndex="10" />
+                                            <Image
+                                                Grid.Column="1"
+                                                HeightRequest="22"
+                                                HorizontalOptions="End"
+                                                Source="arrow_next_small.svg"
+                                                VerticalOptions="Center"
+                                                WidthRequest="22" />
+                                        </Grid>
+                                    </Frame>
+
+                                    <Label
+                                        Grid.Column="0"
+                                        Margin="10,45,0,0"
+                                        Padding="2,10,0,0"
+                                        FontAttributes="Bold"
+                                        FontFamily="AstoreEczarSemiBold"
+                                        FontSize="14"
+                                        LineBreakMode="WordWrap"
+                                        MaxLines="2"
+                                        Text="{Binding Product.Title}" />
+
+                                    <Grid Margin="15,100,0,0" HorizontalOptions="Start">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="38" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--  Minus Icon  -->
+                                        <ImageButton
+                                            Grid.Column="0"
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CartViewModel}}, Path=DecreaseProductQuantityCommand}"
+                                            CommandParameter="{Binding Product}"
+                                            HeightRequest="20"
+                                            Source="minus.svg"
+                                            VerticalOptions="Center"
+                                            WidthRequest="20" />
+
+                                        <!--  Quantity  -->
+                                        <Frame
+                                            Grid.Column="1"
+                                            Margin="8,0"
+                                            Padding="7"
+                                            BackgroundColor="White"
+                                            BorderColor="Transparent"
+                                            CornerRadius="6"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                Padding="0"
+                                                FontFamily="AstoreEczarSemiBold"
+                                                FontSize="14"
+                                                HorizontalTextAlignment="Center"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Quantity, StringFormat='{0}'}"
+                                                VerticalTextAlignment="Center" />
+                                        </Frame>
+
+                                        <!--  Plus Icon  -->
+                                        <ImageButton
+                                            Grid.Column="2"
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CartViewModel}}, Path=IncreaseProductQuantityCommand}"
+                                            CommandParameter="{Binding Product}"
+                                            HeightRequest="20"
+                                            Source="plus.svg"
+                                            VerticalOptions="Center"
+                                            WidthRequest="20" />
+                                    </Grid>
+
+
+
+
+                                    <!--  Product Image  -->
+                                    <Frame
+                                        Grid.Column="1"
+                                        Margin="5,0,0,0"
+                                        Padding="5"
+                                        BackgroundColor="White"
+                                        BorderColor="White"
+                                        CornerRadius="20">
+                                        <Grid>
+                                            <Image
+                                                Margin="15"
+                                                Aspect="AspectFit"
+                                                HeightRequest="90"
+                                                Source="{Binding Product.Image}"
+                                                WidthRequest="90" />
+
+                                            <!--  Product Price Label  -->
+                                            <Frame
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="0,4,4,0"
+                                                Padding="5"
+                                                BackgroundColor="#E7B944"
+                                                BorderColor="Transparent"
+                                                CornerRadius="10"
+                                                HorizontalOptions="End"
+                                                IsClippedToBounds="True"
+                                                VerticalOptions="Start">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding Product.Price, StringFormat='€{0:F2}'}"
+                                                    TextColor="White"
+                                                    VerticalOptions="Center" />
+                                            </Frame>
+                                        </Grid>
+                                    </Frame>
+
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!--  if cart is empty  -->
+                <StackLayout
+                    Grid.Row="0"
+                    Padding="10"
+                    IsVisible="{Binding CartItems.Count, Converter={StaticResource IntToBoolInvertedConverter}}"
+                    VerticalOptions="CenterAndExpand">
+                    <Image
+                        Margin="0,0,0,45"
+                        HorizontalOptions="Center"
+                        Source="empty_ghost.svg"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Margin="0,5"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="Boo!"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Margin="0,5"
+                        HorizontalOptions="Center"
+                        Text="Your cart is empty."
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Button
+                        Margin="0,45"
+                        Command="{Binding GoToRouteCommand}"
+                        CommandParameter="HomePage"
+                        CornerRadius="20"
+                        HorizontalOptions="Center"
+                        Text="Browse products"
+                        VerticalOptions="Center"
+                        WidthRequest="155" />
+                </StackLayout>
+            </StackLayout>
+
+            <!--  if user is not logged in  -->
+            <StackLayout
+                Grid.Row="0"
+                Padding="10"
+                IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}"
+                VerticalOptions="CenterAndExpand">
+                <Image
+                    Margin="0,0,0,45"
+                    HorizontalOptions="Center"
+                    Source="not_logged_in.svg"
+                    VerticalOptions="Center" />
+
+                <Label
+                    Margin="0,5"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="Center"
+                    Text="You are not logged in"
+                    VerticalOptions="Center" />
+
+                <Label
+                    Margin="0,5"
+                    HorizontalOptions="Center"
+                    Text="Please log in order to see your cart."
+                    TextColor="Gray"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,45"
+                    Command="{Binding GoToLoginPageCommand}"
+                    CornerRadius="20"
+                    HorizontalOptions="Center"
+                    Text="Sign in"
+                    VerticalOptions="Center"
+                    WidthRequest="150" />
+
+            </StackLayout>
+        </Grid>
+
+        <!--  Activity Indicator for loading status  -->
+        <ActivityIndicator
+            HorizontalOptions="CenterAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+    </Grid>
+</ContentPage>
