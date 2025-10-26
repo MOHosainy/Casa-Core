@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using MauiStoreApp.Models;
 using MauiStoreApp.Services;
 using MauiStoreApp.Views;
+using System.Linq; // تأكد إنها موجودة
 
 namespace MauiStoreApp.ViewModels
 {
@@ -77,23 +78,62 @@ namespace MauiStoreApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Gets the products.
-        /// </summary>
+
+        //private async Task GetProductsAsync()
+        //{
+        //    if (IsBusy)
+        //    {
+        //        return;
+        //    }
+
+        //    try
+        //    {
+        //        IsBusy = true;
+
+        //        var products = await _productService.GetProductsAsync();
+        //        Products.Clear();
+        //        foreach (var product in products)
+        //        {
+        //            Products.Add(product);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine($"Unable to get products: {ex.Message}");
+        //        await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
+        //    }
+        //    finally
+        //    {
+        //        IsBusy = false;
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
         private async Task GetProductsAsync()
         {
             if (IsBusy)
-            {
                 return;
-            }
 
             try
             {
                 IsBusy = true;
 
                 var products = await _productService.GetProductsAsync();
+                _allProducts = products.ToList();
+
                 Products.Clear();
-                foreach (var product in products)
+                foreach (var product in _allProducts)
                 {
                     Products.Add(product);
                 }
@@ -108,6 +148,19 @@ namespace MauiStoreApp.ViewModels
                 IsBusy = false;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Handles the product tapped event.
@@ -150,5 +203,51 @@ namespace MauiStoreApp.ViewModels
 
             await Shell.Current.GoToAsync($"{nameof(CategoryPage)}", true, navigationParameter);
         }
+
+
+
+
+
+
+
+
+
+
+private string _searchText;
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetProperty(ref _searchText, value))
+            {
+                FilterProducts();
+            }
+        }
     }
+
+    private List<Product> _allProducts = new(); // الأصلية من الـ API
+
+    private void FilterProducts()
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            // رجّع كل المنتجات
+            Products.Clear();
+            foreach (var item in _allProducts)
+                Products.Add(item);
+        }
+        else
+        {
+            var filtered = _allProducts
+                .Where(p => p.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            Products.Clear();
+            foreach (var item in filtered)
+                Products.Add(item);
+        }
+    }
+
+}
 }

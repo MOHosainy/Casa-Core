@@ -3,6 +3,8 @@ using MauiStoreApp.Services;
 using MauiStoreApp.ViewModels;
 using MauiStoreApp.Views;
 using Microsoft.Extensions.Logging;
+using MauiStoreApp.CustomControls.Borderless; // لازم تضيفه فوق كمان
+using Microsoft.Maui.Handlers;
 
 namespace MauiStoreApp
 {
@@ -19,6 +21,31 @@ namespace MauiStoreApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("astore-eczar-semi-bold.ttf", "astore-eczar-semi-bold");
                 }).UseMauiCommunityToolkit();
+
+#if ANDROID
+            EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
+            {
+                if (view is BorderlessEntry)
+                {
+                    handler.PlatformView.Background = null;
+                    handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+                }
+            });
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             builder.Services.AddSingleton<BaseService>();
             builder.Services.AddSingleton<ProductService>();

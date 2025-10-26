@@ -3,6 +3,7 @@
     x:Class="MauiStoreApp.Views.LoginPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:BorderlessControls="clr-namespace:MauiStoreApp.CustomControls.Borderless"
     xmlns:converters="clr-namespace:MauiStoreApp.Converters"
     xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
     xmlns:model="clr-namespace:MauiStoreApp.Models"
@@ -38,7 +39,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackLayout
@@ -47,43 +48,134 @@
             Padding="20"
             Spacing="20">
 
-            <HorizontalStackLayout Margin="0,0,0,20">
-                <Label
-                    Style="{StaticResource LabelStyle}"
-                    Text="Welcome"
-                    TextColor="{StaticResource Primary}"
-                    VerticalOptions="Center" />
-                <Label
+            <Label
+                HorizontalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource LabelStyle}"
+                Text="Welcome For You In Our Store"
+                TextColor="{StaticResource Primary}"
+                VerticalOptions="Center" />
+            <!--<Label
                     Style="{StaticResource LabelStyle}"
                     Text=" back!"
-                    VerticalOptions="Center" />
-            </HorizontalStackLayout>
+                    VerticalOptions="Center" />-->
 
-            <Entry
+            <!--<Entry
                 FontSize="Small"
                 Placeholder="Username"
                 Style="{StaticResource EntryStyle}"
-                Text="{Binding Username}" />
+                Text="{Binding Username}" />-->
+
+
+            <Border
+                Padding="10"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 18">
+                <BorderlessControls:BorderlessEntry
+                    BackgroundColor="Transparent"
+                    FontSize="16"
+                    HeightRequest="40"
+                    Placeholder="Search products..."
+                    Text="{Binding Username}"
+                    TextColor="{StaticResource Black}" />
+
+            </Border>
+
+
+
 
             <AbsoluteLayout HeightRequest="50">
-                <Entry
+                <!--<Entry
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All"
                     FontSize="Small"
                     IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
                     Placeholder="Password"
                     Style="{StaticResource EntryStyle}"
-                    Text="{Binding Password}" />
+                    Text="{Binding Password}" />-->
 
-                <Image
-                    AbsoluteLayout.LayoutBounds="0.98,0.5,21,21"
-                    AbsoluteLayout.LayoutFlags="PositionProportional"
-                    BackgroundColor="Transparent"
-                    Source="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordIconConverter}}">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
-                    </Image.GestureRecognizers>
-                </Image>
+
+                <!--<Border
+                    Padding="10"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 18">
+
+                    <Grid>
+
+                        <BorderlessControls:BorderlessEntry
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            FontSize="Small"
+                            HeightRequest="40"
+                            IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
+                            Placeholder="Password"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding Password}"
+                            TextColor="{StaticResource Black}" />
+
+                        <Image
+                            AbsoluteLayout.LayoutBounds="0.98,0.5,21,21"
+                            AbsoluteLayout.LayoutFlags="PositionProportional"
+                            BackgroundColor="Transparent"
+                            Source="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordIconConverter}}">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                    </Grid>
+
+
+                </Border>-->
+
+
+
+
+                <Border
+                    Padding="0"
+                    BackgroundColor="White"
+                    HeightRequest="50"
+                    StrokeShape="RoundRectangle 18">
+
+                    <Grid
+                        Padding="10,0"
+                        ColumnDefinitions="*,Auto"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Center"
+                        WidthRequest="370">
+
+                        <!--  🟢 مربع الباسورد  -->
+                        <BorderlessControls:BorderlessEntry
+                            Grid.Column="0"
+                            BackgroundColor="Transparent"
+                            FontSize="16"
+                            HorizontalOptions="FillAndExpand"
+                            IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
+                            Placeholder="Password"
+                            Text="{Binding Password}"
+                            TextColor="{StaticResource Black}"
+                            VerticalOptions="Center" />
+
+                        <!--  👁️ أيقونة إظهار/إخفاء  -->
+                        <Image
+                            Grid.Column="1"
+                            Margin="5,0"
+                            HeightRequest="24"
+                            HorizontalOptions="End"
+                            Source="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordIconConverter}}"
+                            VerticalOptions="Center"
+                            WidthRequest="24">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+                </Border>
+
+
+
+
+
             </AbsoluteLayout>
 
             <Label

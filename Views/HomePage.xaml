@@ -2,6 +2,7 @@
     x:Class="MauiStoreApp.Views.HomePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:BorderlessControls="clr-namespace:MauiStoreApp.CustomControls.Borderless"
     xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
     xmlns:converters="clr-namespace:MauiStoreApp.Converters"
     xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
@@ -32,7 +33,7 @@
             VerticalOptions="Center">
             <Label.FormattedText>
                 <FormattedString>
-                    <Span Text="CASA CORE" TextColor="White" />
+                    <Span Text="Our Store" TextColor="White" />
                 </FormattedString>
             </Label.FormattedText>
         </Label>
@@ -57,12 +58,11 @@
                 VerticalOptions="Center" />
 
             <!--  Search Bar Frame  -->
-            <Frame
+            <Border
                 Margin="30,-20,30,0"
                 Padding="10"
                 BackgroundColor="White"
-                BorderColor="Transparent"
-                CornerRadius="20">
+                StrokeShape="RoundRectangle 18">
                 <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                     <Image
                         Aspect="AspectFit"
@@ -70,14 +70,37 @@
                         Source="search.svg"
                         VerticalOptions="Center"
                         WidthRequest="20" />
-                    <Label
-                        Padding="20,0"
+                    <!--<Label
+                        Padding="0,0"
                         HorizontalOptions="StartAndExpand"
                         Text="Search products"
                         TextColor="Gray"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center" />-->
+
+
+                    <!--<SearchBar
+                        BackgroundColor="Transparent"
+                        FontSize="14"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Search products..."
+                        PlaceholderColor="Gray"
+                        Text="{Binding SearchText, Mode=TwoWay}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />-->
+
+
+                    <BorderlessControls:BorderlessEntry
+                        BackgroundColor="Transparent"
+                        FontSize="16"
+                        HeightRequest="40"
+                        Placeholder="Search products..."
+                        Text="{Binding SearchText, Mode=TwoWay}"
+                        TextColor="{StaticResource Black}" />
+
+
+
                 </StackLayout>
-            </Frame>
+            </Border>
         </StackLayout>
 
         <!--  ScrollView  -->
