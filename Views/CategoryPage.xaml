@@ -8,9 +8,10 @@
     xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
     xmlns:model="clr-namespace:MauiStoreApp.Models"
     xmlns:modelroot="clr-namespace:MauiStoreApp.Models"
+    xmlns:resx="clr-namespace:OURSTORE.Localization"
     xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
     x:DataType="local:CategoryPageViewModel"
-    BackgroundColor="#F4F3F4">
+    BackgroundColor="{StaticResource babublue}">
 
 
     <Shell.TitleView>
@@ -23,19 +24,20 @@
             <!--  title in the middle  -->
             <Label
                 Grid.Column="0"
+                Margin="0,0,40,0"
                 FontAttributes="Bold"
                 FontFamily="AstoreEczarSemiBold"
                 FontSize="20"
                 HorizontalOptions="CenterAndExpand"
                 Text="{Binding Category.Name, Converter={StaticResource FirstLetterUppercaseConverter}}"
-                TextColor="White"
+                TextColor="{StaticResource KHly}"
                 VerticalOptions="CenterAndExpand" />
 
             <!--  right button placeholder  -->
-            <Button
+            <!--<Button
                 Grid.Column="1"
                 HorizontalOptions="End"
-                Text="" />
+                Text="" />-->
         </Grid>
     </Shell.TitleView>
 
@@ -64,11 +66,11 @@
                     Grid.Row="0"
                     Margin="30,20,20,5"
                     FontAttributes="Bold"
-                    FontSize="18"
+                    FontSize="20"
                     HorizontalOptions="Start"
                     IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
                     Text="{Binding Products.Count, Converter={StaticResource FirstLetterUppercaseConverter}, StringFormat='{0} products'}"
-                    TextColor="Black" />
+                    TextColor="{StaticResource KHly}" />
 
                 <!--  Sort Button  -->
                 <FlexLayout
@@ -84,29 +86,37 @@
                         Margin="0,2,0,0"
                         Orientation="Horizontal"
                         Spacing="5">
-                        <Label
-                            FontAttributes="Bold"
-                            Text="Sort by:"
-                            TextColor="DimGray" />
+
 
                         <!--  text  -->
-                        <Label FontAttributes="Bold" TextColor="{StaticResource Primary}">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            TextColor="{StaticResource KHly}">
                             <Label.Triggers>
                                 <DataTrigger
                                     Binding="{Binding SortOrder}"
                                     TargetType="Label"
                                     Value="asc">
-                                    <Setter Property="Text" Value="Price ascending" />
+
+                                    <Setter Property="Text" Value="{x:Static resx:AppResources.PriceAscending}" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding SortOrder}"
                                     TargetType="Label"
                                     Value="desc">
-                                    <Setter Property="Text" Value="Price descending" />
+                                    <Setter Property="Text" Value="{x:Static resx:AppResources.PriceDescending}" />
                                 </DataTrigger>
                             </Label.Triggers>
                         </Label>
 
+
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="{x:Static resx:AppResources.SortBy}"
+                            TextColor="{StaticResource KHly}" />
                         <!--  arrow  -->
                         <Image
                             Margin="0,-4,0,0"
@@ -206,8 +216,7 @@
                                         HeightRequest="35"
                                         LineBreakMode="WordWrap"
                                         MaxLines="2"
-                                        Text="{Binding Title}"
-                                        TextColor="#000" />
+                                        Text="{Binding Title}" />
 
                                     <!--  price  -->
                                     <Label

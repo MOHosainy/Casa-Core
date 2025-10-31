@@ -7,9 +7,10 @@
     xmlns:converters="clr-namespace:MauiStoreApp.Converters"
     xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
     xmlns:model="clr-namespace:MauiStoreApp.Models"
+    xmlns:resx="clr-namespace:OURSTORE.Localization"
     xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
     xmlns:viewmodel="clr-namespace:MauiStoreApp.ViewModels"
-    BackgroundColor="White">
+    BackgroundColor="{StaticResource babublue}">
 
     <Shell.TitleView>
         <Grid HorizontalOptions="FillAndExpand">
@@ -36,8 +37,8 @@
                 FontFamily="AstoreEczarSemiBold"
                 FontSize="20"
                 HorizontalOptions="CenterAndExpand"
-                Text="Cart"
-                TextColor="White"
+                Text="{x:Static resx:AppResources.Cart}"
+                TextColor="{StaticResource KHly}"
                 VerticalOptions="CenterAndExpand" />
 
             <!--  delete button  -->
@@ -97,7 +98,7 @@
                             <Frame
                                 Margin="0,5"
                                 Padding="5"
-                                BackgroundColor="#F5F6F4"
+                                BackgroundColor="{StaticResource KHly}"
                                 BorderColor="Transparent"
                                 CornerRadius="20">
                                 <Grid Padding="5">
@@ -127,6 +128,7 @@
                                                 FontSize="14"
                                                 LineBreakMode="WordWrap"
                                                 Text="{Binding Product.Category, Converter={StaticResource FirstLetterUppercaseConverter}}"
+                                                TextColor="{StaticResource KHly}"
                                                 ZIndex="10" />
                                             <Image
                                                 Grid.Column="1"
@@ -147,7 +149,8 @@
                                         FontSize="14"
                                         LineBreakMode="WordWrap"
                                         MaxLines="2"
-                                        Text="{Binding Product.Title}" />
+                                        Text="{Binding Product.Title}"
+                                        TextColor="{StaticResource babublue}" />
 
                                     <Grid Margin="15,100,0,0" HorizontalOptions="Start">
                                         <Grid.ColumnDefinitions>
@@ -224,7 +227,6 @@
                                                 Grid.Column="0"
                                                 Margin="0,4,4,0"
                                                 Padding="5"
-                                                BackgroundColor="#E7B944"
                                                 BorderColor="Transparent"
                                                 CornerRadius="10"
                                                 HorizontalOptions="End"

@@ -9,4 +9,8 @@ public partial class ProfilePage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+
+
+
 }

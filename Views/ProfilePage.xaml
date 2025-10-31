@@ -8,7 +8,8 @@
     xmlns:model="clr-namespace:MauiStoreApp.Models"
     xmlns:modelroot="clr-namespace:MauiStoreApp.Models"
     xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
-    x:DataType="local:ProfilePageViewModel">
+    x:DataType="local:ProfilePageViewModel"
+    BackgroundColor="{StaticResource babublue}">
 
     <Shell.TitleView>
         <Grid HorizontalOptions="FillAndExpand">
@@ -25,14 +26,14 @@
                 FontSize="20"
                 HorizontalOptions="CenterAndExpand"
                 Text="My account"
-                TextColor="White"
+                TextColor="{StaticResource KHly}"
                 VerticalOptions="CenterAndExpand" />
 
             <!--  right button placeholder  -->
-            <Button
+            <!--<Button
                 Grid.Column="1"
                 HorizontalOptions="End"
-                Text="" />
+                Text="" />-->
         </Grid>
     </Shell.TitleView>
 
@@ -63,7 +64,7 @@
                 IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
                 <Frame
                     Margin="-90,-75,-5,0"
-                    BackgroundColor="Transparent"
+                    BackgroundColor="{StaticResource KHly}"
                     BorderColor="Transparent"
                     CornerRadius="120"
                     HeightRequest="180"
@@ -74,13 +75,14 @@
                     <FlexLayout
                         Margin="80,55,0,0"
                         AlignItems="Center"
+                        BackgroundColor="{StaticResource KHly}"
                         Direction="Row">
 
                         <!--  Avatar with Initials  -->
                         <Frame
                             Margin="8"
                             Padding="0"
-                            BackgroundColor="#689F38"
+                            BackgroundColor="{StaticResource babublue}"
                             BorderColor="White"
                             CornerRadius="30"
                             HasShadow="True"
@@ -88,10 +90,11 @@
                             WidthRequest="55"
                             ZIndex="2">
                             <Label
+                                FontAttributes="Bold"
                                 FontSize="20"
                                 HorizontalOptions="Center"
                                 Text="{Binding User.AvatarInitials}"
-                                TextColor="White"
+                                TextColor="{StaticResource KHly}"
                                 VerticalOptions="Center" />
                         </Frame>
 
@@ -107,7 +110,7 @@
                                 FontSize="20"
                                 HorizontalOptions="Center"
                                 Text="{Binding User.FullName}"
-                                TextColor="#FFF" />
+                                TextColor="{StaticResource babublue}" />
 
                             <FlexLayout AlignItems="Center" Direction="Row">
 
@@ -126,17 +129,12 @@
                                     HeightRequest="20"
                                     HorizontalOptions="StartAndExpand"
                                     Text="{Binding User.Address.CityCapitalized}"
-                                    TextColor="#FFF" />
+                                    TextColor="{StaticResource babublue}" />
                             </FlexLayout>
                         </StackLayout>
                     </FlexLayout>
 
-                    <Frame.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Offset="0.0" Color="{StaticResource Primary}" />
-                            <GradientStop Offset="1.0" Color="{StaticResource Primary}" />
-                        </LinearGradientBrush>
-                    </Frame.Background>
+
                 </Frame>
 
                 <!--  Addresses Section  -->
@@ -144,12 +142,12 @@
                     Margin="0,20,0,0"
                     Padding="15,0"
                     IsVisible="{Binding IsUserLoggedIn}">
-                    <Label
+                    <!--<Label
                         FontAttributes="Bold"
                         FontSize="Small"
                         Text="Addresses"
-                        TextColor="DimGray" />
-                    <Frame
+                        TextColor="{StaticResource KHly}" />-->
+                    <!--<Frame
                         Margin="0,5"
                         Padding="10"
                         BackgroundColor="#FFF7F3"
@@ -160,17 +158,17 @@
                             <Label Text="{Binding User.Address.CityAndZipcode}" />
                             <Label Text="{Binding User.Phone}" />
                         </StackLayout>
-                    </Frame>
+                    </Frame>-->
                 </StackLayout>
 
                 <!--  Account Section  -->
                 <StackLayout Margin="0,20,0,0" Padding="15,0">
-                    <Label
+                    <!--<Label
                         Margin="0,0,0,3"
                         FontAttributes="Bold"
                         FontSize="Small"
                         Text="Account"
-                        TextColor="DimGray" />
+                        TextColor="DimGray" />-->
 
                     <FlexLayout
                         Margin="0,8,0,0"
@@ -259,12 +257,12 @@
 
                 <!--  About Section  -->
                 <StackLayout Margin="0,20,0,0" Padding="15,0">
-                    <Label
+                    <!--<Label
                         Margin="0,0,0,3"
                         FontAttributes="Bold"
                         FontSize="Small"
                         Text="About the app"
-                        TextColor="DimGray" />
+                        TextColor="DimGray" />-->
 
                     <FlexLayout
                         Margin="0,8,0,0"
@@ -272,7 +270,7 @@
                         Direction="Row"
                         HeightRequest="20"
                         JustifyContent="SpaceBetween">
-                        <Label
+                        <!--<Label
                             FontAttributes="Bold"
                             FontSize="17"
                             Text="Fake Store API"
@@ -280,15 +278,15 @@
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding OpenFakeStoreApiCommand}" />
                             </Label.GestureRecognizers>
-                        </Label>
-                        <Image
+                        </Label>-->
+                        <!--<Image
                             Aspect="AspectFit"
                             Source="arrow_next_small.svg"
                             WidthRequest="24">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding OpenFakeStoreApiCommand}" />
                             </Image.GestureRecognizers>
-                        </Image>
+                        </Image>-->
 
                         <FlexLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenFakeStoreApiCommand}" />
@@ -301,7 +299,7 @@
                         Direction="Row"
                         HeightRequest="20"
                         JustifyContent="SpaceBetween">
-                        <Label
+                        <!--<Label
                             FontAttributes="Bold"
                             FontSize="17"
                             Text="Master Thesis (Croatian)"
@@ -309,15 +307,15 @@
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />
                             </Label.GestureRecognizers>
-                        </Label>
-                        <Image
+                        </Label>-->
+                        <!--<Image
                             Aspect="AspectFit"
                             Source="arrow_next_small.svg"
                             WidthRequest="24">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />
                             </Image.GestureRecognizers>
-                        </Image>
+                        </Image>-->
 
                         <FlexLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />

@@ -8,13 +8,21 @@
     xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
     xmlns:model="clr-namespace:MauiStoreApp.Models"
     xmlns:modelroot="clr-namespace:MauiStoreApp.Models"
+    xmlns:resx="clr-namespace:OURSTORE.Localization"
     xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
     x:DataType="local:LoginViewModel"
-    BackgroundColor="#FFF"
+    BackgroundColor="{StaticResource babublue}"
     Shell.NavBarIsVisible="True">
+
+
+
+
+
 
     <ContentPage.Resources>
         <ResourceDictionary>
+
+
             <Style x:Key="LabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="FontAttributes" Value="Bold" />
@@ -28,11 +36,14 @@
                 <Setter Property="FontSize" Value="18" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="BackgroundColor" Value="#E7B844" />
+                <!--<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />-->
+
                 <Setter Property="CornerRadius" Value="20" />
                 <Setter Property="Margin" Value="20" />
             </Style>
             <converters:BoolToPasswordIconConverter x:Key="BoolToPasswordIconConverter" />
+            <converters:LanguageButtonVisibilityConverter x:Key="LanguageButtonVisibilityConverter" />
+
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -48,26 +59,46 @@
             Padding="20"
             Spacing="20">
 
+
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+
+                <!--  زر العربية  -->
+                <Button
+                    Grid.Column="0"
+                    Margin="10,0"
+                    BackgroundColor="{StaticResource KHly}"
+                    Command="{Binding ChangeLanguageCommand}"
+                    CommandParameter="ar"
+                    FontAttributes="Bold"
+                    FontSize="17"
+                    IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='ar'}"
+                    Text="العربية" />
+
+                <!--  زر الإنجليزية  -->
+                <Button
+                    Grid.Column="1"
+                    Margin="10,0"
+                    BackgroundColor="{StaticResource KHly}"
+                    Command="{Binding ChangeLanguageCommand}"
+                    CommandParameter="en"
+                    FontAttributes="Bold"
+                    FontSize="17"
+                    IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='en'}"
+                    Text="English" />
+
+            </HorizontalStackLayout>
+
             <Label
                 HorizontalOptions="CenterAndExpand"
                 HorizontalTextAlignment="Center"
-                Style="{StaticResource LabelStyle}"
-                Text="Welcome For You In Our Store"
-                TextColor="{StaticResource Primary}"
+                Text="{x:Static resx:AppResources.WelcomeToOurFashionWorld}"
+                TextColor="{StaticResource KHly}"
                 VerticalOptions="Center" />
-            <!--<Label
-                    Style="{StaticResource LabelStyle}"
-                    Text=" back!"
-                    VerticalOptions="Center" />-->
-
-            <!--<Entry
-                FontSize="Small"
-                Placeholder="Username"
-                Style="{StaticResource EntryStyle}"
-                Text="{Binding Username}" />-->
 
 
             <Border
+                Grid.Row="1"
                 Padding="10"
                 BackgroundColor="White"
                 StrokeShape="RoundRectangle 18">
@@ -75,7 +106,7 @@
                     BackgroundColor="Transparent"
                     FontSize="16"
                     HeightRequest="40"
-                    Placeholder="Search products..."
+                    Placeholder="{x:Static resx:AppResources.UserName}"
                     Text="{Binding Username}"
                     TextColor="{StaticResource Black}" />
 
@@ -83,128 +114,82 @@
 
 
 
+            <Border
+                Padding="0"
+                BackgroundColor="White"
+                HeightRequest="50"
+                StrokeShape="RoundRectangle 18">
 
-            <AbsoluteLayout HeightRequest="50">
-                <!--<Entry
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All"
-                    FontSize="Small"
-                    IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
-                    Placeholder="Password"
-                    Style="{StaticResource EntryStyle}"
-                    Text="{Binding Password}" />-->
+                <Grid
+                    Padding="10,0"
+                    ColumnDefinitions="*,Auto"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center">
 
-
-                <!--<Border
-                    Padding="10"
-                    BackgroundColor="White"
-                    StrokeShape="RoundRectangle 18">
-
-                    <Grid>
-
-                        <BorderlessControls:BorderlessEntry
-                            AbsoluteLayout.LayoutBounds="0,0,1,1"
-                            AbsoluteLayout.LayoutFlags="All"
-                            FontSize="Small"
-                            HeightRequest="40"
-                            IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
-                            Placeholder="Password"
-                            Style="{StaticResource EntryStyle}"
-                            Text="{Binding Password}"
-                            TextColor="{StaticResource Black}" />
-
-                        <Image
-                            AbsoluteLayout.LayoutBounds="0.98,0.5,21,21"
-                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                            BackgroundColor="Transparent"
-                            Source="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordIconConverter}}">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
-                            </Image.GestureRecognizers>
-                        </Image>
-
-                    </Grid>
-
-
-                </Border>-->
-
-
-
-
-                <Border
-                    Padding="0"
-                    BackgroundColor="White"
-                    HeightRequest="50"
-                    StrokeShape="RoundRectangle 18">
-
-                    <Grid
-                        Padding="10,0"
-                        ColumnDefinitions="*,Auto"
+                    <!--  🟢 مربع الباسورد  -->
+                    <BorderlessControls:BorderlessEntry
+                        Grid.Column="0"
+                        BackgroundColor="Transparent"
+                        FontSize="16"
                         HorizontalOptions="FillAndExpand"
+                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
+                        Placeholder="{x:Static resx:AppResources.Password}"
+                        Text="{Binding Password}"
+                        TextColor="{StaticResource Black}"
+                        VerticalOptions="Center" />
+
+                    <!--  👁️ أيقونة إظهار/إخفاء  -->
+                    <Image
+                        Grid.Column="1"
+                        Margin="5,0"
+                        HeightRequest="24"
+                        HorizontalOptions="End"
+                        Source="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordIconConverter}}"
                         VerticalOptions="Center"
-                        WidthRequest="370">
-
-                        <!--  🟢 مربع الباسورد  -->
-                        <BorderlessControls:BorderlessEntry
-                            Grid.Column="0"
-                            BackgroundColor="Transparent"
-                            FontSize="16"
-                            HorizontalOptions="FillAndExpand"
-                            IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
-                            Placeholder="Password"
-                            Text="{Binding Password}"
-                            TextColor="{StaticResource Black}"
-                            VerticalOptions="Center" />
-
-                        <!--  👁️ أيقونة إظهار/إخفاء  -->
-                        <Image
-                            Grid.Column="1"
-                            Margin="5,0"
-                            HeightRequest="24"
-                            HorizontalOptions="End"
-                            Source="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordIconConverter}}"
-                            VerticalOptions="Center"
-                            WidthRequest="24">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Grid>
-                </Border>
+                        WidthRequest="24">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+            </Border>
 
 
 
 
 
-            </AbsoluteLayout>
 
-            <Label
-                FontAttributes="Bold"
-                FontSize="15"
-                HorizontalOptions="Center"
-                Text="Forgot password?"
-                TextColor="#7F7F7F" />
+
 
             <Button
                 Margin="0"
+                BackgroundColor="{StaticResource KHly}"
                 Command="{Binding LoginCommand}"
                 CornerRadius="5"
                 HeightRequest="50"
                 HorizontalOptions="FillAndExpand"
-                Style="{StaticResource ButtonStyle}"
-                Text="Login" />
-
+                Text="{x:Static resx:AppResources.Login}" />
             <!--  no account  -->
             <HorizontalStackLayout Margin="0,0,0,20" HorizontalOptions="Center">
-                <Label
+                <!--<Label
                     Style="{StaticResource LabelStyle}"
-                    Text="No account?"
-                    VerticalOptions="Center" />
+                    Text="{x:Static resx:AppResources.NoAccount}"
+                    TextColor="{StaticResource KHly}"
+                    VerticalOptions="Center" />-->
+
+
+
                 <Label
-                    Style="{StaticResource LabelStyle}"
-                    Text=" Register!"
-                    TextColor="{StaticResource Primary}"
-                    VerticalOptions="Center" />
+                    Text="{x:Static resx:AppResources.Register}"
+                    TextColor="{StaticResource KHly}"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+
+
             </HorizontalStackLayout>
         </StackLayout>
     </Grid>
