@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="MauiStoreApp.Views.RegisterPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -76,9 +77,9 @@
                         IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolConverter}}"
                         Placeholder="{x:Static resx:AppResources.Password}"
                         Text="{Binding Password}"
-                        TextColor="{StaticResource Black}" />
-
-                    <!--  👁️ أيقونة إظهار/إخفاء  -->
+                        TextColor="{StaticResource Black}" />-->
+<!--  👁️ أيقونة إظهار/إخفاء  -->
+<!--
                     <Image
                         Grid.Column="1"
                         Margin="5,0"
@@ -117,9 +118,9 @@
                         IsPassword="{Binding IsConfirmPasswordVisible, Converter={StaticResource InverseBoolConverter}}"
                         Placeholder="{x:Static resx:AppResources.ConfirmPassword}"
                         Text="{Binding ConfirmPassword}"
-                        TextColor="{StaticResource Black}" />
-
-                    <!--  👁️ أيقونة إظهار/إخفاء  -->
+                        TextColor="{StaticResource Black}" />-->
+<!--  👁️ أيقونة إظهار/إخفاء  -->
+<!--
                     <Image
                         Grid.Column="1"
                         Margin="5,0"
@@ -136,17 +137,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
             <Button
                 BackgroundColor="{StaticResource KHly}"
                 Command="{Binding RegisterCommand}"
@@ -159,6 +149,71 @@
                     <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
                 </Label.GestureRecognizers>
             </Label>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ContentPage
+    x:Class="MauiStoreApp.Views.RegisterPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:MauiStoreApp.ViewModels">
+
+    <ContentPage.BindingContext>
+        <viewmodels:RegisterViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="15">
+            <Label
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="تسجيل حساب جديد" />
+            <Entry Placeholder="اسم المستخدم" Text="{Binding Username}" />
+            <Entry
+                IsPassword="True"
+                Placeholder="كلمة المرور"
+                Text="{Binding Password}" />
+            <Button
+                BackgroundColor="#2196F3"
+                Command="{Binding RegisterCommand}"
+                Text="تسجيل"
+                TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

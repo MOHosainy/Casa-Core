@@ -11,18 +11,6 @@ public partial class LoginPage : ContentPage
 		BindingContext = viewModel;
 	}
 
-    //private void OnChangeLanguageClicked(object sender, EventArgs e)
-    //{
-    //    // ????? ???????
-    //    var current = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
-    //    // ??????? ??? "ar" ? "en"
-    //    var newCulture = current == "ar" ? "en" : "ar";
-    //    App.LocalizationResourceManager.SetCulture(newCulture);
-
-    //    // ????? ????? ?????? ?????? ??????
-    //    Application.Current.MainPage = new AppShell();
-    //}
 
 
 

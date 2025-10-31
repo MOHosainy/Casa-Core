@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<!--<ContentPage
     x:Class="MauiStoreApp.Views.LoginPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -35,8 +35,9 @@
             <Style x:Key="ButtonStyle" TargetType="Button">
                 <Setter Property="FontSize" Value="18" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="TextColor" Value="White" />
-                <!--<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />-->
+                <Setter Property="TextColor" Value="White" />-->
+<!--<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />-->
+<!--
 
                 <Setter Property="CornerRadius" Value="20" />
                 <Setter Property="Margin" Value="20" />
@@ -61,9 +62,9 @@
 
 
 
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
-
-                <!--  زر العربية  -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">-->
+<!--  زر العربية  -->
+<!--
                 <Button
                     Grid.Column="0"
                     Margin="10,0"
@@ -73,9 +74,9 @@
                     FontAttributes="Bold"
                     FontSize="17"
                     IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='ar'}"
-                    Text="العربية" />
-
-                <!--  زر الإنجليزية  -->
+                    Text="العربية" />-->
+<!--  زر الإنجليزية  -->
+<!--
                 <Button
                     Grid.Column="1"
                     Margin="10,0"
@@ -124,9 +125,9 @@
                     Padding="10,0"
                     ColumnDefinitions="*,Auto"
                     HorizontalOptions="FillAndExpand"
-                    VerticalOptions="Center">
-
-                    <!--  🟢 مربع الباسورد  -->
+                    VerticalOptions="Center">-->
+<!--  🟢 مربع الباسورد  -->
+<!--
                     <BorderlessControls:BorderlessEntry
                         Grid.Column="0"
                         BackgroundColor="Transparent"
@@ -136,9 +137,9 @@
                         Placeholder="{x:Static resx:AppResources.Password}"
                         Text="{Binding Password}"
                         TextColor="{StaticResource Black}"
-                        VerticalOptions="Center" />
-
-                    <!--  👁️ أيقونة إظهار/إخفاء  -->
+                        VerticalOptions="Center" />-->
+<!--  👁️ أيقونة إظهار/إخفاء  -->
+<!--
                     <Image
                         Grid.Column="1"
                         Margin="5,0"
@@ -168,14 +169,16 @@
                 CornerRadius="5"
                 HeightRequest="50"
                 HorizontalOptions="FillAndExpand"
-                Text="{x:Static resx:AppResources.Login}" />
-            <!--  no account  -->
-            <HorizontalStackLayout Margin="0,0,0,20" HorizontalOptions="Center">
-                <!--<Label
+                Text="{x:Static resx:AppResources.Login}" />-->
+<!--  no account  -->
+<!--
+            <HorizontalStackLayout Margin="0,0,0,20" HorizontalOptions="Center">-->
+<!--<Label
                     Style="{StaticResource LabelStyle}"
                     Text="{x:Static resx:AppResources.NoAccount}"
                     TextColor="{StaticResource KHly}"
                     VerticalOptions="Center" />-->
+<!--
 
 
 
@@ -193,4 +196,72 @@
             </HorizontalStackLayout>
         </StackLayout>
     </Grid>
+</ContentPage>-->
+<ContentPage
+    x:Class="MauiStoreApp.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:resx="clr-namespace:OURSTORE.Localization"
+    xmlns:viewmodels="clr-namespace:MauiStoreApp.ViewModels">
+
+    <ContentPage.BindingContext>
+        <viewmodels:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="15">
+            <Label
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="تسجيل الدخول" />
+            <Entry Placeholder="اسم المستخدم" Text="{Binding Username}" />
+            <Entry
+                IsPassword="True"
+                Placeholder="كلمة المرور"
+                Text="{Binding Password}" />
+            <Button
+                BackgroundColor="#2196F3"
+                Command="{Binding LoginCommand}"
+                Text="دخول"
+                TextColor="White" />
+
+
+
+
+
+
+            <HorizontalStackLayout Margin="0,0,0,20" HorizontalOptions="Center">
+                <Label
+                    Style="{StaticResource LabelStyle}"
+                    Text="{x:Static resx:AppResources.NoAccount}"
+                    TextColor="{StaticResource KHly}"
+                    VerticalOptions="Center" />
+
+
+
+                <Label
+                    Text="{x:Static resx:AppResources.Register}"
+                    TextColor="{StaticResource KHly}"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+
+
+            </HorizontalStackLayout>
+
+
+
+
+
+
+
+
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
