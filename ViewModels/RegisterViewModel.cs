@@ -1,200 +1,70 @@
 ﻿
-//using System.Threading.Tasks;
-//using System.Windows.Input;
+
 //using CommunityToolkit.Mvvm.ComponentModel;
 //using CommunityToolkit.Mvvm.Input;
+//using MauiStoreApp.Models;
+//using MauiStoreApp.Services;
+//using OURSTORE.Models;
+//using System.Net.Http.Json;
 
 //namespace MauiStoreApp.ViewModels
 //{
-//    public partial class RegisterViewModel : ObservableObject
+//    public partial class RegisterViewModel : BaseViewModel
 //    {
-//        [ObservableProperty] private string username;
-//        [ObservableProperty] private string email;
-//        [ObservableProperty] private string password;
 
-//        [ObservableProperty]
-//        private bool isPasswordVisible;
+//        private readonly AuthService _authService;
 
-//        [ObservableProperty] private string confirmPassword;
-
-
-//        public bool IsPasswordHidden => !IsPasswordVisible;
-//        [ObservableProperty] private bool isConfirmPasswordVisible;
-
-//        public ICommand RegisterCommand => new AsyncRelayCommand(RegisterAsync);
-//        public ICommand GoToLoginCommand => new AsyncRelayCommand(GoToLoginAsync);
+//        [ObservableProperty] string username;
+//        [ObservableProperty] string email;
+//        [ObservableProperty] string password;
 
 
 //        public RegisterViewModel()
 //        {
-//            IsPasswordVisible = false; // الافتراضي مخفي
-//            IsConfirmPasswordVisible = false;
+//            _authService = new AuthService();
 //        }
+
+
+
 
 
 //        [RelayCommand]
-//        private void TogglePasswordVisibility()
+//        public async Task Register()
 //        {
-//            IsPasswordVisible = !IsPasswordVisible;
-//            OnPropertyChanged(nameof(IsPasswordHidden));
-//        }
-
-
-//        [RelayCommand]
-//        private void ToggleConfirmPasswordVisibility()
-//        {
-//            IsConfirmPasswordVisible = !IsConfirmPasswordVisible;
-//        }
-
-
-//        private async Task RegisterAsync()
-//        {
-//            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password)
-
-//                 ||
-//                string.IsNullOrWhiteSpace(ConfirmPassword)
-//                )
-//            {
-//                await Shell.Current.DisplayAlert("خطأ", "من فضلك ادخل الإيميل وكلمة المرور", "تمام");
+//            if (IsBusy)
 //                return;
-//            }
 
-//            if (Password != ConfirmPassword)
-//            {
-//                await Shell.Current.DisplayAlert("خطأ", "كلمة المرور وتأكيدها غير متطابقين", "تمام");
-//                return;
-//            }
-
-
-
-//            // ✅ احفظ بيانات المستخدم المسجل مؤقتًا
-//            await SecureStorage.Default.SetAsync("registered_email", Email);
-//            await SecureStorage.Default.SetAsync("registered_password", Password);
-
-//            await Shell.Current.DisplayAlert("تم التسجيل", "تم إنشاء الحساب بنجاح ✅", "تسجيل الدخول");
-
-//            // بعد التسجيل ينتقل لصفحة اللوجين
-//            await Shell.Current.GoToAsync("//LoginPage");
-//        }
-
-//        private async Task GoToLoginAsync()
-//        {
-//            await Shell.Current.GoToAsync("//LoginPage");
-//        }
-//    }
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//using System.Text;
-//using System.Text.Json;
-//using System.Windows.Input;
-//using CommunityToolkit.Mvvm.ComponentModel;
-//using CommunityToolkit.Mvvm.Input;
-//using OURSTORE.Models;
-//using YourApp.ViewModels;
-
-//namespace YourApp.ViewModels
-//{
-//    public partial class RegisterViewModel : ObservableObject
-//    {
-//        [ObservableProperty] private string username;
-//        [ObservableProperty] private string password;
-
-//        public ICommand RegisterCommand => new AsyncRelayCommand(RegisterAsync);
-
-//        private async Task RegisterAsync()
-//        {
-//            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
-//            {
-//                await Shell.Current.DisplayAlert("خطأ", "من فضلك أدخل اسم المستخدم وكلمة المرور", "تم");
-//                return;
-//            }
+//            IsBusy = true;
 
 //            try
 //            {
-//                var user = new UserModel
+//                var newUser = new UserModel
 //                {
-//                    Username = Username,
-//                    Password = Password
+//                    username = Username,
+//                    email = Email,
+//                    password = Password
 //                };
 
-//                var json = JsonSerializer.Serialize(user);
-//                var content = new StringContent(json, Encoding.UTF8, "application/json");
+//                var success = await _authService.RegisterAsync(newUser);
 
-//                using var client = new HttpClient();
-//                var response = await client.PostAsync("https://fakestoreapi.com/users", content);
-
-//                if (response.IsSuccessStatusCode)
+//                if (success)
 //                {
-//                    await Shell.Current.DisplayAlert("تم التسجيل ✅", "تم إنشاء الحساب بنجاح", "تسجيل الدخول");
-//                    await Shell.Current.GoToAsync("//LoginPage");
+//                    await Shell.Current.DisplayAlert("تم", "تم إنشاء الحساب بنجاح ✅", "موافق");
+//                    await Shell.Current.GoToAsync($"//LoginPage");
 //                }
 //                else
 //                {
-//                    await Shell.Current.DisplayAlert("خطأ", "فشل إنشاء الحساب، حاول مرة أخرى", "تم");
+//                    await Shell.Current.DisplayAlert("خطأ", "فشل التسجيل، حاول مرة أخرى.", "حسناً");
 //                }
 //            }
-//            catch (Exception ex)
+//            finally
 //            {
-//                await Shell.Current.DisplayAlert("خطأ", ex.Message, "تم");
+//                IsBusy = false;
 //            }
 //        }
 //    }
+
 //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -233,60 +103,46 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MauiStoreApp.Models;
 using MauiStoreApp.Services;
-using OURSTORE.Models;
-using System.Net.Http.Json;
 
 namespace MauiStoreApp.ViewModels
 {
     public partial class RegisterViewModel : BaseViewModel
     {
+        private readonly AuthService _authService;
 
-        
-            [ObservableProperty]
-            string username;
+        [ObservableProperty] string email;
+        [ObservableProperty] string password;
 
-            [ObservableProperty]
-            string password;
+        public RegisterViewModel()
+        {
+            _authService = new AuthService();
+        }
 
-            [RelayCommand]
-            public async Task Register()
+        [RelayCommand]
+        public async Task Register()
+        {
+            if (IsBusy) return;
+            IsBusy = true;
+
+            try
             {
-                if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+                var success = await _authService.RegisterAsync(Email, Password);
+
+                if (success)
                 {
-                    await App.Current.MainPage.DisplayAlert("خطأ", "أدخل اسم المستخدم وكلمة المرور", "حسناً");
-                    return;
+                    await Shell.Current.DisplayAlert("تم ✅", "تم إنشاء الحساب بنجاح!", "موافق");
+                    await Shell.Current.GoToAsync("//LoginPage");
                 }
-
-                try
+                else
                 {
-                    var user = new UserModel
-                    {
-                        Username = Username,
-                        Password = Password
-                    };
-
-                    using var client = new HttpClient();
-                    var response = await client.PostAsJsonAsync("https://fakestoreapi.com/users", user);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        await SecureStorage.Default.SetAsync("username", Username);
-                        await SecureStorage.Default.SetAsync("password", Password);
-
-                        await App.Current.MainPage.DisplayAlert("تم التسجيل", "يمكنك الآن تسجيل الدخول", "تمام");
-                        await Shell.Current.GoToAsync("//LoginPage");
-                    }
-                    else
-                    {
-                        await App.Current.MainPage.DisplayAlert("خطأ", "حدث خطأ أثناء التسجيل", "حسناً");
-                    }
+                    await Shell.Current.DisplayAlert("خطأ ❌", "حدث خطأ أثناء التسجيل", "حسناً");
                 }
-                catch (Exception ex)
-                {
-                    await App.Current.MainPage.DisplayAlert("خطأ", ex.Message, "حسناً");
-                }
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }
+}

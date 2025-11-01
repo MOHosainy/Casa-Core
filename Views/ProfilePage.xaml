@@ -108,7 +108,7 @@
                                 FontAttributes="Bold"
                                 FontSize="20"
                                 HorizontalOptions="Center"
-                                Text="{Binding Username}"
+                                Text="{Binding Email}"
                                 TextColor="{StaticResource babublue}" />
 
                             <FlexLayout AlignItems="Center" Direction="Row">

@@ -296,7 +296,8 @@ namespace MauiStoreApp.ViewModels
             var result = await Shell.Current.DisplayAlert("Logout", "Are you sure you want to log out?", "Yes", "No");
             if (result)
             {
-                _authService.IsUserLoggedIn = false;
+                //_authService.IsUserLoggedIn = false;
+                await _authService.LogoutAsync();
                 SecureStorage.Remove("username");
                 SecureStorage.Remove("userId");
                 SecureStorage.Remove("token");
