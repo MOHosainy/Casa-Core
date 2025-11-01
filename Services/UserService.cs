@@ -40,7 +40,12 @@ namespace MauiStoreApp.Services
             if (response != null && response.IsSuccessStatusCode)
             {
                 // Log the user out after successful deletion
+                //_authService.IsUserLoggedIn = false;
+                //_authService.IsUserLoggedIn();
+
                 _authService.IsUserLoggedIn = false;
+
+
                 return true;
             }
 

@@ -1,83 +1,59 @@
-﻿using System.Text;
-using System.Text.Json;
-using MauiStoreApp.Models;
+﻿using Supabase;
+using Supabase.Gotrue;
+using System.Threading.Tasks;
 
 namespace MauiStoreApp.Services
 {
-    /// <summary>
-    /// This class is responsible for authenticating the user and storing the token and userId in secure storage.
-    /// </summary>
-    public class AuthService : BaseService
+
+
+
+
+    public class AuthService
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AuthService"/> class.
-        /// </summary>
+        private readonly Supabase.Client _client;
+
+        public bool IsUserLoggedIn { get;  set; }  // ✅ دي خاصية نستخدمها للمتابعة المنطقية
+
         public AuthService()
         {
+            var url = "https://phbarflogerpotdqiwrp.supabase.co";
+            var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBoYmFyZmxvZ2VycG90ZHFpd3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5NDY1NjksImV4cCI6MjA3NzUyMjU2OX0.FUC7B6BJFWcFl-w2I2CLjkLb3YyCVzlCrR9tKEdyJ5M";
+            _client = new Supabase.Client(url, key);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the user is logged in.
-        /// </summary>
-        /// <remarks>
-        /// Checks if the token is stored in secure storage. If set to false, removes the token and userId from secure storage.
-        /// </remarks>
-        public bool IsUserLoggedIn
+        public async Task<bool> RegisterAsync(string email, string password)
         {
-            get
+            try
             {
-                var token = SecureStorage.GetAsync("token").Result;
-                return !string.IsNullOrEmpty(token);
+                var session = await _client.Auth.SignUp(email, password);
+                IsUserLoggedIn = session?.User != null;
+                return IsUserLoggedIn;
             }
-
-            set
+            catch
             {
-                if (!value)
-                {
-                    // remove token and userId from secure storage if IsUserLoggedIn is set to false
-                    SecureStorage.Remove("token");
-                    SecureStorage.Remove("userId");
-                }
+                return false;
             }
         }
 
-        /// <summary>
-        /// Logs the user in.
-        /// </summary>
-        /// <param name="username">The username of the user.</param>
-        /// <param name="password">The password of the user.</param>
-        /// <returns>A task of type <see cref="LoginResponse"/>.</returns>
-        public async Task<LoginResponse> LoginAsync(string username, string password)
+        public async Task<bool> LoginAsync(string email, string password)
         {
-            var request = new LoginRequest
+            try
             {
-                Username = username,
-                Password = password,
-            };
-
-            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync("auth/login", content);
-
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseContent);
-
-            // fetch all users
-            var usersResponse = await _httpClient.GetAsync("users");
-            usersResponse.EnsureSuccessStatusCode();
-            var usersResponseContent = await usersResponse.Content.ReadAsStringAsync();
-            var users = JsonSerializer.Deserialize<List<User>>(usersResponseContent);
-
-            // find the matching user and set the UserId in LoginResponse
-            var user = users.FirstOrDefault(u => u.Username == username);
-            if (user != null)
-            {
-                loginResponse.UserId = user.Id;
+                var session = await _client.Auth.SignIn(email, password);
+                IsUserLoggedIn = session?.User != null;
+                return IsUserLoggedIn;
             }
+            catch
+            {
+                return false;
+            }
+        }
 
-            return loginResponse;
+        public async Task LogoutAsync()
+        {
+            await _client.Auth.SignOut();
+            IsUserLoggedIn = false; // ✅ بمجرد تسجيل الخروج نغير القيمة
         }
     }
+
 }

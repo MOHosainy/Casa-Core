@@ -1,7 +1,181 @@
-﻿
-using System.Diagnostics;
-using System.Globalization;
-using System.Windows.Input;
+﻿//using System.Diagnostics;
+//using System.Globalization;
+//using System.Net.Http.Json;
+//using System.Windows.Input;
+//using CommunityToolkit.Mvvm.ComponentModel;
+//using CommunityToolkit.Mvvm.Input;
+//using MauiStoreApp.Models;
+//using MauiStoreApp.Services;
+//using MauiStoreApp.Views;
+
+//namespace MauiStoreApp.ViewModels
+//{
+//    public partial class LoginViewModel 
+
+//        : BaseViewModel
+
+//    {
+//        private readonly AuthService _authService;
+//        [ObservableProperty] string username;
+//        [ObservableProperty] string password;
+
+
+//        public LoginViewModel()
+//        {
+//            _authService = new AuthService();
+//        }
+
+//        [RelayCommand]
+//        private async Task GoToRegisterPage()
+//        {
+//            // لازم تستخدم Navigation
+//            await Shell.Current.GoToAsync(nameof(RegisterPage));
+//        }
+
+
+
+
+
+//        //[RelayCommand]
+//        //private async Task GoToRegister()
+//        //{
+//        //    await Shell.Current.GoToAsync(nameof(RegisterPage));
+//        //}
+
+
+
+
+
+//        //public LoginViewModel()
+//        //{
+//        //    _authService = new AuthService();
+//        //    LoginCommand = new Command(async () => await LoginAsync());
+//        //    GoToRegisterCommand = new Command(async () => await GoToRegisterPage());
+
+//        //}
+
+
+//        [RelayCommand]
+//        private async Task LoginAsync()
+//        {
+//            if (IsBusy) return;
+//            IsBusy = true;
+
+//            try
+//            {
+//                var result = await _authService.LoginAsync(Username, Password);
+
+//                if (result != null)
+//                {
+//                    // ✅ لو نجح اللوجين، ندخله على الصفحة الرئيسية
+//                    await Shell.Current.GoToAsync("//HomePage");
+//                }
+//                else
+//                {
+//                    await Application.Current.MainPage.DisplayAlert("خطأ", "اسم المستخدم أو كلمة المرور غير صحيحة", "حسنًا");
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                await Application.Current.MainPage.DisplayAlert("خطأ", ex.Message, "موافق");
+//            }
+//            finally
+//            {
+//                IsBusy = false;
+//            }
+//        }
+
+
+
+//        //[RelayCommand]
+//        //private async Task GoToRegister()
+//        //{
+//        //    await Shell.Current.GoToAsync(nameof(RegisterPage));
+//        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        //public ICommand GoToRegisterCommand { get; }
+
+//        //public LoginViewModel()
+//        //{
+//        //    GoToRegisterCommand = new Command(async () => await GoToRegisterPage());
+//        //}
+
+
+
+
+//        //[RelayCommand]
+//        //public async Task Login()
+//        //{
+//        //    if (IsBusy)
+//        //        return;
+
+//        //    IsBusy = true;
+
+//        //    try
+//        //    {
+//        //        var loginResponse = await _authService.LoginAsync(Username, Password);
+
+//        //        if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.Token))
+//        //        {
+//        //            await Shell.Current.DisplayAlert("تم", "تم تسجيل الدخول بنجاح ✅", "موافق");
+//        //            await Shell.Current.GoToAsync("//HomePage");
+//        //        }
+//        //        else
+//        //        {
+//        //            await Shell.Current.DisplayAlert("خطأ", "اسم المستخدم أو كلمة المرور غير صحيحة ❌", "حسناً");
+//        //        }
+//        //    }
+//        //    finally
+//        //    {
+//        //        IsBusy = false;
+//        //    }
+//        //}
+
+
+
+//    }
+
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiStoreApp.Services;
@@ -13,138 +187,53 @@ namespace MauiStoreApp.ViewModels
     {
         private readonly AuthService _authService;
 
-        [ObservableProperty]
-        string username;
-
-        [ObservableProperty]
-        string password;
-
-        [ObservableProperty]
-        bool isPasswordVisible;
-
-
-
-
-        [ObservableProperty]
-        string currentLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
-
-
-        public LoginViewModel(AuthService authService)
-        {
-            _authService = authService;
-
-            //_authService = new AuthService(); // dummy service لو مش موجود
-
-            // تعيين اللغة المحفوظة أو الإنجليزية افتراضيًا
-            CurrentLang = Preferences.Get("AppLanguage", "en");
-        }
-
-
-
-        [RelayCommand]
-        private void ChangeLanguage(string lang)
-        {
-            if (string.IsNullOrEmpty(lang) || lang == CurrentLang)
-                return;
-
-            CurrentLang = lang;
-            Preferences.Set("AppLanguage", lang);
-
-            // تحديث الثقافة في التطبيق
-            App.LocalizationResourceManager.SetCulture(lang); // ✅ هنا يجب أن يكون string
-
-            // تحديث الخاصية
-            //CurrentLang = lang;
-
-            // إعادة تحميل الصفحة الرئيسية أو الـ Shell
-            Application.Current.MainPage = new AppShell();
-        }
-
-
+        [ObservableProperty] string email;
+        [ObservableProperty] string password;
 
         public LoginViewModel()
         {
-            // dummy service لو مش متاح
             _authService = new AuthService();
         }
 
-       
 
-      
+        //public ICommand GoToRegisterCommand { get; }
+        
+        
+        [RelayCommand]
 
-
-
-        public ICommand GoToRegisterCommand => new Command(async () =>
+        private async Task GoToRegister()
         {
             await Shell.Current.GoToAsync(nameof(RegisterPage));
-        });
+        }
+
+
+
 
 
         [RelayCommand]
         public async Task Login()
         {
-            if (IsBusy)
-                return;
+            if (IsBusy) return;
+            IsBusy = true;
 
             try
             {
-                IsBusy = true;
+                var success = await _authService.LoginAsync(Email, Password);
 
-                if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+                if (success)
                 {
-                    await App.Current.MainPage.DisplayAlert("خطأ", "من فضلك ادخل الإيميل وكلمة المرور", "حسناً");
-                    return;
-                }
-
-                // ✅ جِب بيانات المستخدم المسجل مسبقًا (لو فيه)
-                var savedEmail = await SecureStorage.Default.GetAsync("registered_email");
-                var savedPassword = await SecureStorage.Default.GetAsync("registered_password");
-
-                // ✅ السماح بالدخول إذا:
-                // 1. استخدم الإيميل والباسورد المسجلين
-                // 2. أو استخدم الإيميل الافتراضي (مثلاً admin@example.com)
-                if ((Username == savedEmail && Password == savedPassword) ||
-                    (Username == "admin@example.com" && Password == "1234"))
-                {
-                    await SecureStorage.Default.SetAsync("token", "dummy_token_123");
-                    await SecureStorage.Default.SetAsync("userId", "1");
-
-                    var toast = CommunityToolkit.Maui.Alerts.Toast.Make(
-                        "تم تسجيل الدخول بنجاح ✅",
-                        CommunityToolkit.Maui.Core.ToastDuration.Short,
-                        14);
-
-                    await toast.Show();
-
-                    await Shell.Current.GoToAsync("//MainTabs");
+                    await Shell.Current.DisplayAlert("تم ✅", "تم تسجيل الدخول بنجاح", "موافق");
+                    await Shell.Current.GoToAsync("//HomePage");
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("خطأ", "البريد الإلكتروني أو كلمة المرور غير صحيحة", "حسناً");
+                    await Shell.Current.DisplayAlert("خطأ ❌", "بيانات الدخول غير صحيحة", "حسناً");
                 }
-            }
-            catch (Exception ex)
-            {
-                await App.Current.MainPage.DisplayAlert("خطأ", ex.Message, "حسناً");
             }
             finally
             {
                 IsBusy = false;
             }
-        }
-
-
-
-
-
-
-
-
-        [RelayCommand]
-        public void TogglePasswordVisibility()
-        {
-            IsPasswordVisible = !IsPasswordVisible;
         }
     }
 }

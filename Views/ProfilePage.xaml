@@ -93,7 +93,7 @@
                                 FontAttributes="Bold"
                                 FontSize="20"
                                 HorizontalOptions="Center"
-                                Text="{Binding User.AvatarInitials}"
+                                Text="{Binding AvatarInitial}"
                                 TextColor="{StaticResource KHly}"
                                 VerticalOptions="Center" />
                         </Frame>
@@ -102,14 +102,13 @@
                             HorizontalOptions="Center"
                             Spacing="5"
                             VerticalOptions="Center">
-
                             <!--  Name  -->
                             <Label
                                 Margin="0,0,0,3"
                                 FontAttributes="Bold"
                                 FontSize="20"
                                 HorizontalOptions="Center"
-                                Text="{Binding User.FullName}"
+                                Text="{Binding Email}"
                                 TextColor="{StaticResource babublue}" />
 
                             <FlexLayout AlignItems="Center" Direction="Row">
