@@ -85,6 +85,18 @@ namespace MauiStoreApp.ViewModels
             }
         }
 
+        [RelayCommand]
+       
+
+
+
+
+
+
+
+
+
+
         private async Task GetCrossSellProductsAsync()
         {
             if (IsBusy || Product == null)
@@ -158,42 +170,123 @@ namespace MauiStoreApp.ViewModels
                 Title = product.Title,
                 Text = "Hey, check out this product I found on AStore!",
             });
+
+
+
+
+
+
+
+
+
+        //[RelayCommand]
+        //private async Task AddToCart(Product product)
+        //{
+        //    if (IsBusy) return;
+        //    if (product == null) return;
+
+        //    try
+        //    {
+        //        _cartService.AddProductToCart(product);
+
         }
 
         /// <summary>
         /// Adds the product to the cart.
         /// </summary>
         /// <param name="product">The product to add to the cart.</param>
+        //[RelayCommand]
+
+
+
         [RelayCommand]
-        private async Task AddToCart(Product product)
+        public async Task AddToCart(Product product)
         {
-            if (IsBusy)
-            {
-                return;
-            }
+            if (product == null) return;
 
-            try
-            {
-                if (product == null)
-                {
-                    return;
-                }
+            _cartService.AddProductToCart(product);
 
-                _cartService.AddProductToCart(product);
+            await Shell.Current.GoToAsync("//MainTabs/CartPage");
+            //await Shell.Current.GoToAsync("CartPage");
 
-                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-                string infoText = "Product successfully added to cart.";
-                ToastDuration duration = ToastDuration.Short;
-                var toast = Toast.Make(infoText, duration);
-
-                await toast.Show(cancellationTokenSource.Token);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Unable to add product to cart: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "Failed to add product to cart.", "OK");
-            }
+            var toast = Toast.Make("✅ Product added to cart", ToastDuration.Short);
+            await toast.Show();
         }
+
+
+
+        //        var toast = Toast.Make("Product successfully added to cart.", ToastDuration.Short);
+        //        await toast.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine($"Unable to add product to cart: {ex.Message}");
+        //        await Shell.Current.DisplayAlert("Error", "Failed to add product to cart.", "OK");
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //private async Task AddToCart(Product product)
+        //{
+        //    if (IsBusy) return;
+        //    if (product == null) return;
+
+        //    try
+        //    {
+        //        // ensure cartService available
+        //        if (_cartService == null)
+        //        {
+        //            // create fallback instance (this depends on your DI)
+        //            // try to re-create with a new ProductService so AddProductToCart doesn't throw
+        //            // (you may replace with DI resolved instance in your app)
+        //            // _cartService = new CartService(new ProductService()); // cannot assign to readonly
+        //        }
+
+        //        // Add locally
+        //        _cartService?.AddProductToCart(product);
+
+        //        // notify user
+        //        var toast = Toast.Make("Product successfully added to cart.", ToastDuration.Short);
+        //        await toast.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine($"Unable to add product to cart: {ex.Message}");
+        //        await Shell.Current.DisplayAlert("Error", "Failed to add product to cart.", "OK");
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

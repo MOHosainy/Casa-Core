@@ -10,6 +10,7 @@ namespace MauiStoreApp.Services
         private readonly ProductService _productService;
         private List<CartItemDetail> _cartItems = new List<CartItemDetail>(); // Internal cart items collection
         private int? cartId = null;
+        public event Action CartUpdated;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CartService"/> class.
@@ -85,73 +86,134 @@ namespace MauiStoreApp.Services
         /// Adds a product to the current cart or updates its quantity if it already exists in the cart.
         /// </summary>
         /// <param name="product">The instance of the product to be added to the cart.</param>
+        //public void AddProductToCart(Product product)
+        //{
+        //    var existingCartItem = _cartItems.FirstOrDefault(item => item.Product.Id == product.Id);
+
+        //    if (existingCartItem != null)
+        //    {
+        //        existingCartItem.Quantity++;
+        //    }
+        //    else
+        //    {
+        //        _cartItems.Add(new CartItemDetail
+        //        {
+        //            Product = product,
+        //            Quantity = 1
+        //        });
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Increases the quantity of a specific product in the cart by 1.
+        ///// </summary>
+        ///// <param name="productId">The ID of the product whose quantity is to be increased.</param>
+        ///// <exception cref="ArgumentNullException">Thrown when productId is null.</exception>
+        ///// <exception cref="ArgumentException">Thrown when product is not found in the cart.</exception>
+        //public void IncreaseProductQuantity(int? productId)
+        //{
+        //    if (!productId.HasValue)
+        //    {
+        //        throw new ArgumentNullException(nameof(productId), "Product ID cannot be null.");
+        //    }
+
+        //    var existingCartItem = _cartItems.FirstOrDefault(item => item.Product.Id == productId.Value);
+
+        //    if (existingCartItem == null)
+        //    {
+        //        throw new ArgumentException($"Product with ID {productId.Value} is not in the cart.");
+        //    }
+
+        //    existingCartItem.Quantity++;
+        //}
+
+        ///// <summary>
+        ///// Decreases the quantity of a specific product in the cart by 1. Removes the product from the cart if the quantity reaches 0.
+        ///// </summary>
+        ///// <param name="productId">The ID of the product whose quantity is to be decreased.</param>
+        ///// <exception cref="ArgumentNullException">Thrown when productId is null.</exception>
+        ///// <exception cref="ArgumentException">Thrown when product is not found in the cart.</exception>
+        //public void DecreaseProductQuantity(int? productId)
+        //{
+        //    if (!productId.HasValue)
+        //    {
+        //        throw new ArgumentNullException(nameof(productId), "Product ID cannot be null.");
+        //    }
+
+        //    var existingCartItem = _cartItems.FirstOrDefault(item => item.Product.Id == productId.Value);
+
+        //    if (existingCartItem == null)
+        //    {
+        //        throw new ArgumentException($"Product with ID {productId.Value} is not in the cart.");
+        //    }
+
+        //    existingCartItem.Quantity--;
+
+        //    if (existingCartItem.Quantity <= 0)
+        //    {
+        //        _cartItems.Remove(existingCartItem);
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public void AddProductToCart(Product product)
         {
             var existingCartItem = _cartItems.FirstOrDefault(item => item.Product.Id == product.Id);
 
             if (existingCartItem != null)
-            {
                 existingCartItem.Quantity++;
-            }
             else
-            {
-                _cartItems.Add(new CartItemDetail
-                {
-                    Product = product,
-                    Quantity = 1
-                });
-            }
+                _cartItems.Add(new CartItemDetail { Product = product, Quantity = 1 });
+
+            CartUpdated?.Invoke();
         }
 
-        /// <summary>
-        /// Increases the quantity of a specific product in the cart by 1.
-        /// </summary>
-        /// <param name="productId">The ID of the product whose quantity is to be increased.</param>
-        /// <exception cref="ArgumentNullException">Thrown when productId is null.</exception>
-        /// <exception cref="ArgumentException">Thrown when product is not found in the cart.</exception>
         public void IncreaseProductQuantity(int? productId)
         {
-            if (!productId.HasValue)
-            {
-                throw new ArgumentNullException(nameof(productId), "Product ID cannot be null.");
-            }
-
-            var existingCartItem = _cartItems.FirstOrDefault(item => item.Product.Id == productId.Value);
-
-            if (existingCartItem == null)
-            {
-                throw new ArgumentException($"Product with ID {productId.Value} is not in the cart.");
-            }
-
+            var existingCartItem = _cartItems.First(i => i.Product.Id == productId.Value);
             existingCartItem.Quantity++;
+
+            CartUpdated?.Invoke();
         }
 
-        /// <summary>
-        /// Decreases the quantity of a specific product in the cart by 1. Removes the product from the cart if the quantity reaches 0.
-        /// </summary>
-        /// <param name="productId">The ID of the product whose quantity is to be decreased.</param>
-        /// <exception cref="ArgumentNullException">Thrown when productId is null.</exception>
-        /// <exception cref="ArgumentException">Thrown when product is not found in the cart.</exception>
         public void DecreaseProductQuantity(int? productId)
         {
-            if (!productId.HasValue)
-            {
-                throw new ArgumentNullException(nameof(productId), "Product ID cannot be null.");
-            }
-
-            var existingCartItem = _cartItems.FirstOrDefault(item => item.Product.Id == productId.Value);
-
-            if (existingCartItem == null)
-            {
-                throw new ArgumentException($"Product with ID {productId.Value} is not in the cart.");
-            }
-
+            var existingCartItem = _cartItems.First(i => i.Product.Id == productId.Value);
             existingCartItem.Quantity--;
 
             if (existingCartItem.Quantity <= 0)
-            {
                 _cartItems.Remove(existingCartItem);
-            }
+
+            CartUpdated?.Invoke();
         }
+
     }
 }

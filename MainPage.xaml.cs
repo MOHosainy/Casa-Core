@@ -145,7 +145,10 @@ namespace MauiStoreApp
                     GetUserBtn.Text = "User 200 OK";
                     GetUserBtn.BackgroundColor = Colors.Green;
 
-                    Console.WriteLine($"User ID: {user.Id}, Name: {user.Name}, Email: {user.Email}");
+                    //Console.WriteLine($"User ID: {user.Id}, Name: {user.Name}, Email: {user.Email}");
+
+                    Console.WriteLine($"User ID: {user.Id}, Username: {user.Username}, Email: {user.Email}");
+
 
                     // delay and then reset the button
                     await Task.Delay(1500);

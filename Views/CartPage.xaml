@@ -63,13 +63,10 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentPage.BindingContext>
-        <viewmodel:CartViewModel />
-    </ContentPage.BindingContext>
 
-    <ContentPage.Behaviors>
+    <!--<ContentPage.Behaviors>
         <behaviors:EventToCommandBehavior Command="{Binding InitCommand}" EventName="NavigatedTo" />
-    </ContentPage.Behaviors>
+    </ContentPage.Behaviors>-->
 
     <!--  page wrapper  -->
     <Grid>
@@ -295,7 +292,7 @@
                 Padding="10"
                 IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}"
                 VerticalOptions="CenterAndExpand">
-                <Image
+                <!--<Image
                     Margin="0,0,0,45"
                     HorizontalOptions="Center"
                     Source="not_logged_in.svg"
@@ -314,16 +311,16 @@
                     HorizontalOptions="Center"
                     Text="Please log in order to see your cart."
                     TextColor="Gray"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center" />-->
 
-                <Button
+                <!--<Button
                     Margin="0,45"
                     Command="{Binding GoToLoginPageCommand}"
                     CornerRadius="20"
                     HorizontalOptions="Center"
                     Text="Sign in"
                     VerticalOptions="Center"
-                    WidthRequest="150" />
+                    WidthRequest="150" />-->
 
             </StackLayout>
         </Grid>

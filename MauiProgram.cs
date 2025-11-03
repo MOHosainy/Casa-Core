@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using MauiStoreApp.Services;
+using Supabase;
 using MauiStoreApp.ViewModels;
 using MauiStoreApp.Views;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,13 @@ namespace MauiStoreApp
 {
     public static class MauiProgram
     {
+        public static Supabase.Client SupabaseClient { get; private set; }
+
+
+        public const string SupabaseUrl = "https://phbarflogerpotdqiwrp.supabase.co";
+        public const string SupabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBoYmFyZmxvZ2VycG90ZHFpd3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5NDY1NjksImV4cCI6MjA3NzUyMjU2OX0.FUC7B6BJFWcFl-w2I2CLjkLb3YyCVzlCrR9tKEdyJ5M";
+
+
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
@@ -34,8 +42,17 @@ namespace MauiStoreApp
 #endif
 
 
-
-
+            SupabaseClient = new Supabase.Client(
+              "https://phbarflogerpotdqiwrp.supabase.co",
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBoYmFyZmxvZ2VycG90ZHFpd3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5NDY1NjksImV4cCI6MjA3NzUyMjU2OX0.FUC7B6BJFWcFl-w2I2CLjkLb3YyCVzlCrR9tKEdyJ5M",
+              new SupabaseOptions
+              {
+                  //AutoRefreshToken = true,
+                  AutoRefreshToken = true,
+                  //PersistSession = true,
+                  //SessionHandler = new Supabase.Session.Options.SessionMemoryHandler() // مهم جدًا
+                  //PersistSession = true
+              });
 
 
 
@@ -53,6 +70,10 @@ namespace MauiStoreApp
             builder.Services.AddSingleton<CartService>();
             builder.Services.AddSingleton<UserService>();
             builder.Services.AddSingleton<AuthService>();
+            //builder.Services.AddSingleton<CartViewModel>();
+
+            builder.Services.AddTransient<CartViewModel>();
+            
             builder.Services.AddSingleton<RecentlyViewedProductsService>();
             builder.Services.AddTransient<HomePageViewModel>();
             builder.Services.AddTransient<HomePage>();
@@ -62,7 +83,6 @@ namespace MauiStoreApp
             builder.Services.AddTransient<CategoryPage>();
             builder.Services.AddTransient<RecentlyViewedPageViewModel>();
             builder.Services.AddTransient<RecentlyViewedPage>();
-            builder.Services.AddTransient<CartViewModel>();
             builder.Services.AddTransient<CartPage>();
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<LoginPage>();

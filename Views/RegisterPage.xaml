@@ -29,6 +29,17 @@
                 TextColor="White" />
 
 
+            <Label
+                Margin="0,10,0,0"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Text="لديك حساب بالفعل؟ تسجيل الدخول"
+                TextColor="Blue">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
 
             <ActivityIndicator
                 HorizontalOptions="Center"

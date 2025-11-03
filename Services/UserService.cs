@@ -43,7 +43,10 @@ namespace MauiStoreApp.Services
                 //_authService.IsUserLoggedIn = false;
                 //_authService.IsUserLoggedIn();
 
-                _authService.IsUserLoggedIn = false;
+                //_authService.IsUserLoggedIn = false;
+
+                await _authService.LogoutAsync();
+
 
 
                 return true;
