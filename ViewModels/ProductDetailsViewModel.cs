@@ -89,14 +89,6 @@ namespace MauiStoreApp.ViewModels
        
 
 
-
-
-
-
-
-
-
-
         private async Task GetCrossSellProductsAsync()
         {
             if (IsBusy || Product == null)
@@ -174,21 +166,6 @@ namespace MauiStoreApp.ViewModels
 
 
 
-
-
-
-
-
-        //[RelayCommand]
-        //private async Task AddToCart(Product product)
-        //{
-        //    if (IsBusy) return;
-        //    if (product == null) return;
-
-        //    try
-        //    {
-        //        _cartService.AddProductToCart(product);
-
         }
 
         /// <summary>
@@ -212,76 +189,6 @@ namespace MauiStoreApp.ViewModels
             var toast = Toast.Make("✅ Product added to cart", ToastDuration.Short);
             await toast.Show();
         }
-
-
-
-        //        var toast = Toast.Make("Product successfully added to cart.", ToastDuration.Short);
-        //        await toast.Show();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine($"Unable to add product to cart: {ex.Message}");
-        //        await Shell.Current.DisplayAlert("Error", "Failed to add product to cart.", "OK");
-        //    }
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //private async Task AddToCart(Product product)
-        //{
-        //    if (IsBusy) return;
-        //    if (product == null) return;
-
-        //    try
-        //    {
-        //        // ensure cartService available
-        //        if (_cartService == null)
-        //        {
-        //            // create fallback instance (this depends on your DI)
-        //            // try to re-create with a new ProductService so AddProductToCart doesn't throw
-        //            // (you may replace with DI resolved instance in your app)
-        //            // _cartService = new CartService(new ProductService()); // cannot assign to readonly
-        //        }
-
-        //        // Add locally
-        //        _cartService?.AddProductToCart(product);
-
-        //        // notify user
-        //        var toast = Toast.Make("Product successfully added to cart.", ToastDuration.Short);
-        //        await toast.Show();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine($"Unable to add product to cart: {ex.Message}");
-        //        await Shell.Current.DisplayAlert("Error", "Failed to add product to cart.", "OK");
-        //    }
-        //}
-
-
-
-
-
-
-
 
 
 
