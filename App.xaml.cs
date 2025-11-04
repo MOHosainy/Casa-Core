@@ -19,6 +19,7 @@ namespace MauiStoreApp
             InitializeComponent();
 
             _authService = authService; // ✅ صح
+            //CartService.Instance.LoadCart();
 
             //authService = authService; // ✅ مهم جداً
             var savedLang = Preferences.Get("AppLanguage", "en");

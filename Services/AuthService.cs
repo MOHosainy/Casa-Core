@@ -26,17 +26,16 @@ namespace MauiStoreApp.Services
         public string CurrentUserEmail { get; private set; }
 
         private const string SessionKey = "supabase_session";
-        //private readonly Supabase.Client _client;
+
+        private readonly CartService _cartService;
 
 
-
-
-
-        public AuthService()
+        public AuthService(CartService cartService)
         {
             var url = "https://phbarflogerpotdqiwrp.supabase.co";
             var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBoYmFyZmxvZ2VycG90ZHFpd3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5NDY1NjksImV4cCI6MjA3NzUyMjU2OX0.FUC7B6BJFWcFl-w2I2CLjkLb3YyCVzlCrR9tKEdyJ5M";
             _supabase = new Supabase.Client(url, key, new SupabaseOptions { AutoConnectRealtime = false });
+            _cartService = cartService;
         }
 
         public async Task<bool> RegisterAsync(string email, string password)
@@ -137,6 +136,12 @@ namespace MauiStoreApp.Services
             SecureStorage.Remove("access_token");
             SecureStorage.Remove("refresh_token");
             SecureStorage.Remove("supabase_session");
+
+
+            await _cartService.ClearCartAsync();
+
+            // 🔄 عمل Refresh للـ UI
+            Application.Current.MainPage = new AppShell();
         }
 
 
@@ -266,5 +271,122 @@ namespace MauiStoreApp.Services
                 CurrentUserEmail = null;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        //public bool IsUserLoggedIn => _currentSession != null;
+
+        //public async Task Logout()
+        //{
+        //    _currentSession = null;
+        //    _currentUser = null;
+
+        //    await SecureStorage.SetAsync("supabase_session", "");
+        //}
+        //public static CartService Instance { get; } = new CartService();
+
+
+        //public async Task Logout()
+        //{
+        //    // Clear session + user
+        //    _currentSession = null;
+        //    _currentUser = null;
+        //    IsUserLoggedIn = false;
+
+        //    // Clear stored session
+        //    SecureStorage.Remove("supabase_session");
+
+        //    // Clear local cart  
+        //    Preferences.Remove("local_cart"); // لو بتخزن محليًا
+        //    CartService.Instance.LoadCart();
+
+
+        //    CartService.Instance.ClearCart();
+
+        //    // 🗑 مسح بيانات المستخدم المحفوظة
+        //    Preferences.Clear();
+
+
+
+
+
+
+        //    //CartService.Instance.ClearCart();
+
+        //    CartService.Instance.ClearCart();   
+        //    // Optionally Reload UI
+        //    Application.Current.MainPage = new AppShell();
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async Task Logout()
+        {
+            // Clear session + user
+            _currentSession = null;
+            _currentUser = null;
+            IsUserLoggedIn = false;
+
+            // 🗑 Clear ONLY login values
+            SecureStorage.Remove("supabase_session");
+            SecureStorage.Remove("userEmail");
+            SecureStorage.Remove("isLoggedIn");
+
+            // 🗑 Clear local cart from storage + memory
+            Preferences.Remove("local_cart");
+            //CartService.Instance.ClearCartMemory(); // ✅ new method
+            //CartService.Instance.LoadCart(); // ✅ reload empty
+            //CartService.Instance.ClearCart();
+
+            // 🔄 Refresh App UI
+            Application.Current.MainPage = new AppShell();
+        }
+
+
+
+
+        //public void ClearCart()
+        //{
+        //    CartItems.Clear();
+        //    SaveCart();
+        //}
+
+
+
     }
 }

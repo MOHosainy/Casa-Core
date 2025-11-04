@@ -200,9 +200,11 @@ namespace MauiStoreApp.ViewModels
 
         //public string CurrentLang { get; private set; }
 
-        public LoginViewModel()
+        public LoginViewModel(AuthService authService)
         {
-            _authService = new AuthService();
+            //_authService = new AuthService();
+            _authService = authService;
+
             ApplyLanguage(CurrentLang);
         }
         [RelayCommand]
@@ -276,6 +278,8 @@ namespace MauiStoreApp.ViewModels
                 IsBusy = true;
 
                 var result = await _authService.LoginAsync(Email, Password);
+                //CartService.Instance.LoadCart();
+
 
 
                 if (!result)
@@ -299,6 +303,21 @@ namespace MauiStoreApp.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+
+
+
+        [ObservableProperty]
+        private bool isPasswordVisible = false;
+
+        public string PasswordEntryText => isPasswordVisible ? "Text" : "Password";
+
+        [RelayCommand]
+        private void TogglePasswordVisibility()
+        {
+            IsPasswordVisible = !IsPasswordVisible;
+            OnPropertyChanged(nameof(PasswordEntryText));
         }
 
 

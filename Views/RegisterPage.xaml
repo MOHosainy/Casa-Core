@@ -3,42 +3,156 @@
     x:Class="MauiStoreApp.Views.RegisterPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:BorderlessControls="clr-namespace:MauiStoreApp.CustomControls.Borderless"
+    xmlns:converters="clr-namespace:MauiStoreApp.Converters"
+    xmlns:resx="clr-namespace:OURSTORE.Localization"
     xmlns:viewmodels="clr-namespace:MauiStoreApp.ViewModels">
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewmodels:RegisterViewModel />
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <converters:BoolToPasswordIconConverter x:Key="BoolToPasswordIconConverter" />
+            <converters:LanguageButtonVisibilityConverter x:Key="LanguageButtonVisibilityConverter" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
 
     <ScrollView>
         <VerticalStackLayout Padding="30" Spacing="15">
             <Label
+                FontAttributes="Bold"
                 FontSize="24"
                 HorizontalOptions="Center"
-                Text="تسجيل حساب جديد" />
+                Text="{x:Static resx:AppResources.CreateAccount}"
+                TextColor="{StaticResource KHly}" />
             <!--<Entry Placeholder="اسم المستخدم" Text="{Binding Username}" />-->
-            <Entry Placeholder="البريد الإلكتروني" Text="{Binding Email}" />
+            <!--<Entry Placeholder="البريد الإلكتروني" Text="{Binding Email}" />-->
 
-            <Entry
-                IsPassword="True"
-                Placeholder="كلمة المرور"
-                Text="{Binding Password}" />
-            <Button
-                BackgroundColor="#2196F3"
-                Command="{Binding RegisterCommand}"
-                Text="تسجيل"
-                TextColor="White" />
 
 
             <Label
+                FontSize="17"
+                HorizontalOptions="End"
+                Text="{x:Static resx:AppResources.Email}"
+                TextColor="{StaticResource KHly}" />
+
+            <Border
+                Grid.Row="1"
+                Padding="10"
+                BackgroundColor="White"
+                Stroke="{StaticResource KHly}"
+                StrokeShape="RoundRectangle 18">
+                <BorderlessControls:BorderlessEntry
+                    BackgroundColor="Transparent"
+                    FontSize="16"
+                    HeightRequest="40"
+                    Placeholder="{x:Static resx:AppResources.Email}"
+                    Text="{Binding Email}"
+                    TextColor="{StaticResource Black}" />
+
+            </Border>
+
+
+
+
+            <Label
+                FontSize="17"
+                HorizontalOptions="End"
+                Text="{x:Static resx:AppResources.Password}"
+                TextColor="{StaticResource KHly}" />
+
+            <Border
+                Grid.Row="1"
+                Padding="10"
+                BackgroundColor="White"
+                Stroke="{StaticResource KHly}"
+                StrokeShape="RoundRectangle 18">
+
+
+
+
+
+
+
+
+
+                <Grid
+                    Padding="10,0"
+                    ColumnDefinitions="*,*"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center">
+
+                    <BorderlessControls:BorderlessEntry
+                        Grid.Column="0"
+                        BackgroundColor="Transparent"
+                        FontSize="16"
+                        HeightRequest="40"
+                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
+                        Placeholder="{x:Static resx:AppResources.Password}"
+                        Text="{Binding Password}"
+                        TextColor="{StaticResource Black}" />
+
+
+
+
+                    <Image
+                        Grid.Column="1"
+                        Margin="35,0"
+                        HeightRequest="24"
+                        HorizontalOptions="Start"
+                        Source="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordIconConverter}}"
+                        VerticalOptions="Center"
+                        WidthRequest="204">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+
+
+                </Grid>
+
+
+
+            </Border>
+
+
+
+
+
+
+
+
+            <!--<Entry
+                IsPassword="True"
+                Placeholder="كلمة المرور"
+                Text="{Binding Password}" />-->
+            <Button
+                BackgroundColor="{StaticResource KHly}"
+                Command="{Binding RegisterCommand}"
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="{x:Static resx:AppResources.Register}"
+                TextColor="White" />
+
+
+            <!--<Label
                 Margin="0,10,0,0"
                 FontAttributes="Bold"
+                FontSize="15"
                 HorizontalOptions="Center"
-                Text="لديك حساب بالفعل؟ تسجيل الدخول"
-                TextColor="Blue">
+                Text="{x:Static resx:AppResources.GoToLogin}"
+                TextColor="{StaticResource KHly}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
                 </Label.GestureRecognizers>
-            </Label>
+            </Label>-->
 
 
             <ActivityIndicator

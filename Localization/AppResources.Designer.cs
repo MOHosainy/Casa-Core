@@ -160,6 +160,15 @@ namespace OURSTORE.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string GoToLogin {
+            get {
+                return ResourceManager.GetString("GoToLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {

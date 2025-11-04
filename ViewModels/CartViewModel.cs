@@ -62,6 +62,12 @@ namespace MauiStoreApp.ViewModels
         [RelayCommand]
         public async Task Init()
         {
+
+
+            await _cartService.LoadCartFromStorageAsync();
+            SyncCartItems();
+
+
             if (isFirstRun)
             {
                 await GetCartByUserIdAsync();

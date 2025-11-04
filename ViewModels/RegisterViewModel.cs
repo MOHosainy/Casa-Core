@@ -20,11 +20,10 @@ namespace MauiStoreApp.ViewModels
         [ObservableProperty] string email;
         [ObservableProperty] string password;
 
-        public RegisterViewModel()
+        public RegisterViewModel(AuthService authService)
         {
-            _authService = new AuthService();
+            _authService = authService;
         }
-
 
 
 
@@ -65,5 +64,24 @@ namespace MauiStoreApp.ViewModels
                 IsBusy = false;
             }
         }
+
+
+
+
+
+
+        [ObservableProperty]
+        private bool isPasswordVisible = false;
+
+        public string PasswordEntryText => isPasswordVisible ? "Text" : "Password";
+
+        [RelayCommand]
+        private void TogglePasswordVisibility()
+        {
+            IsPasswordVisible = !IsPasswordVisible;
+            OnPropertyChanged(nameof(PasswordEntryText));
+        }
+
+
     }
 }

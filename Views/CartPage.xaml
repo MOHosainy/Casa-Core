@@ -269,17 +269,19 @@
                         FontSize="Large"
                         HorizontalOptions="Center"
                         Text="Boo!"
+                        TextColor="{StaticResource KHly}"
                         VerticalOptions="Center" />
 
                     <Label
                         Margin="0,5"
                         HorizontalOptions="Center"
                         Text="Your cart is empty."
-                        TextColor="Gray"
+                        TextColor="{StaticResource KHly}"
                         VerticalOptions="Center" />
 
                     <Button
                         Margin="0,45"
+                        BackgroundColor="{StaticResource KHly}"
                         Command="{Binding GoToRouteCommand}"
                         CommandParameter="HomePage"
                         CornerRadius="20"

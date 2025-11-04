@@ -12,7 +12,7 @@ namespace MauiStoreApp
     public static class MauiProgram
     {
         public static Supabase.Client SupabaseClient { get; private set; }
-
+        public static object ServiceProvider { get; internal set; }
 
         public const string SupabaseUrl = "https://phbarflogerpotdqiwrp.supabase.co";
         public const string SupabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBoYmFyZmxvZ2VycG90ZHFpd3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5NDY1NjksImV4cCI6MjA3NzUyMjU2OX0.FUC7B6BJFWcFl-w2I2CLjkLb3YyCVzlCrR9tKEdyJ5M";
@@ -69,8 +69,13 @@ namespace MauiStoreApp
             builder.Services.AddSingleton<CategoryService>();
             builder.Services.AddSingleton<CartService>();
             builder.Services.AddSingleton<UserService>();
-            builder.Services.AddSingleton<AuthService>();
+            //builder.Services.AddSingleton<AuthService>();
             //builder.Services.AddSingleton<CartViewModel>();
+
+            
+            builder.Services.AddSingleton<AuthService>();
+
+
 
             builder.Services.AddTransient<CartViewModel>();
             

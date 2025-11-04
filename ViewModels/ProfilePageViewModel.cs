@@ -23,9 +23,10 @@ namespace MauiStoreApp.ViewModels
         [ObservableProperty]
         private bool isBusy;
 
-        public ProfilePageViewModel()
+        public ProfilePageViewModel(AuthService authService)
         {
-            _authService = new AuthService();
+            //_authService = new AuthService();
+            _authService = authService;
             InitCommand = new AsyncRelayCommand(Init);
             LoginCommand = new AsyncRelayCommand(Login);
             LogoutCommand = new AsyncRelayCommand(Logout);
