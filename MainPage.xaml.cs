@@ -103,7 +103,7 @@ namespace MauiStoreApp
             }
         }
 
-        private async void LoadAndLogCart(int cartId)
+        private async Task LoadAndLogCart(int cartId)
         {
             try
             {
@@ -117,11 +117,8 @@ namespace MauiStoreApp
 
                     Console.WriteLine($"Cart ID: {cart.Id}, User ID: {cart.UserId}, Date: {cart.Date}");
                     foreach (var product in cart.Products)
-                    {
                         Console.WriteLine($"Product ID: {product.ProductId}, Quantity: {product.Quantity}");
-                    }
 
-                    // delay and then reset the button
                     await Task.Delay(1500);
                     GetCartBtn.Text = "Get Cart";
                     GetCartBtn.BackgroundColor = _originalButtonColor;
@@ -132,6 +129,7 @@ namespace MauiStoreApp
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
+
 
         private async void LoadAndLogUser(int userId)
         {
@@ -145,7 +143,10 @@ namespace MauiStoreApp
                     GetUserBtn.Text = "User 200 OK";
                     GetUserBtn.BackgroundColor = Colors.Green;
 
-                    Console.WriteLine($"User ID: {user.Id}, Name: {user.Name}, Email: {user.Email}");
+                    //Console.WriteLine($"User ID: {user.Id}, Name: {user.Name}, Email: {user.Email}");
+
+                    Console.WriteLine($"User ID: {user.Id}, Username: {user.Username}, Email: {user.Email}");
+
 
                     // delay and then reset the button
                     await Task.Delay(1500);

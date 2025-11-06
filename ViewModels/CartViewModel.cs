@@ -1,67 +1,73 @@
-﻿using System.Collections.ObjectModel;
+﻿
+
+using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiStoreApp.Models;
 using MauiStoreApp.Services;
+using Microsoft.Maui.Storage;
 
 namespace MauiStoreApp.ViewModels
 {
-    /// <summary>
-    /// Represents the view model for the cart page.
-    /// </summary>
     public partial class CartViewModel : BaseViewModel
     {
         private readonly CartService _cartService;
         private readonly AuthService _authService;
+        //public IAsyncRelayCommand InitCommand { get; }
 
-        bool isFirstRun;
+        bool isFirstRun = true;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CartViewModel"/> class.
-        /// </summary>
-        /// <param name="cartService">An instance of the <see cref="CartService"/> class used for cart operations.</param>
-        /// <param name="authService">An instance of the <see cref="AuthService"/> class used for authentication operations.</param>
+
         public CartViewModel(CartService cartService, AuthService authService)
         {
+            //InitCommand = new AsyncRelayCommand(Init);
+
             _cartService = cartService;
             _authService = authService;
-            isFirstRun = true;
-        }
+            CartItems = new ObservableCollection<CartItemDetail>(_cartService.GetCartItems());
+            //InitCommand = new AsyncRelayCommand(Init);
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CartViewModel"/> class.
-        /// </summary>
-        public CartViewModel()
+            _cartService.CartUpdated += OnCartUpdated; // ✅ متابعة تغييرات السلة
+
+
+        }
+        private void OnCartUpdated()
         {
+            CartItems = new ObservableCollection<CartItemDetail>(_cartService.GetCartItems());
+            OnPropertyChanged(nameof(CartItems));
+
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the user is logged in.
-        /// </summary>
+
+     
+
+
+
+
         [ObservableProperty]
         public bool isUserLoggedIn;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the view model is busy with cart modification.
-        /// </summary>
         [ObservableProperty]
         private bool isBusyWithCartModification;
+        //bool isFirstRun = true;
 
-        /// <summary>
-        /// Gets the cart items.
-        /// </summary>
-        public ObservableCollection<CartItemDetail> CartItems { get; private set; } = new ObservableCollection<CartItemDetail>();
+        public ObservableCollection<CartItemDetail> CartItems { get; private set; }
 
-        /// <summary>
-        /// Initializes the cart view model.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [RelayCommand]
         public async Task Init()
         {
+
+
+            await _cartService.LoadCartFromStorageAsync();
+            SyncCartItems();
+
+
             if (isFirstRun)
             {
                 await GetCartByUserIdAsync();
@@ -69,82 +75,66 @@ namespace MauiStoreApp.ViewModels
             }
             else
             {
-                this.SyncCartItems();
+                SyncCartItems();
             }
-            IsUserLoggedIn = _authService.IsUserLoggedIn;
+
+            // guard null
+            //IsUserLoggedIn = _authService?.IsUserLoggedIn ?? false;
+            //IsUserLoggedIn = _authService.IsUserLoggedIn;
+            IsUserLoggedIn = true; // ✅ مؤقتًا للعرض فقط
+
         }
 
         private async Task GetCartByUserIdAsync()
         {
-            if (_authService.IsUserLoggedIn)
+            try
             {
-                if (IsBusy)
-                {
+                if (!(_authService?.IsUserLoggedIn ?? false))
                     return;
-                }
 
-                int userId;
+                if (IsBusy)
+                    return;
+
                 var userIdStr = await SecureStorage.GetAsync("userId");
-                if (!int.TryParse(userIdStr, out userId))
+                if (!int.TryParse(userIdStr, out int userId))
                 {
                     Debug.WriteLine("Failed to get or parse userId from SecureStorage.");
-                    await Shell.Current.DisplayAlert("Error", "Failed to retrieve user.", "OK");
+                    // don't block app if no user id
                     return;
                 }
 
-                try
-                {
-                    IsBusy = true;
+                IsBusy = true;
 
-                    await _cartService.RefreshCartItemsByUserIdAsync(userId);
-                    CartItems.Clear();
-                    foreach (var cartItem in _cartService.GetCartItems())
-                    {
-                        CartItems.Add(cartItem);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Unable to get cart: {ex.Message}");
-                    await Shell.Current.DisplayAlert("Error", "Failed to retrieve cart.", "OK");
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
+                await _cartService.RefreshCartItemsByUserIdAsync(userId);
+
+                SyncCartItems();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Unable to get cart: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "Failed to retrieve cart.", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
-        /// <summary>
-        /// Navigates to the login page.
-        /// </summary>
-        /// <returns>A task that represents the asynchronous operation.</returns>
         [RelayCommand]
         public async Task GoToLoginPage()
         {
             await Shell.Current.GoToAsync("LoginPage");
         }
 
-        /// <summary>
-        /// Deletes the cart.
-        /// </summary>
-        /// <returns>A task that represents the asynchronous operation.</returns>
         [RelayCommand]
         public async Task DeleteCart()
         {
-            if (IsBusy || IsBusyWithCartModification)
-            {
-                return;
-            }
+            if (IsBusy || IsBusyWithCartModification) return;
 
             try
             {
                 var userResponse = await Shell.Current.DisplayAlert("Confirm", "Are you sure you want to delete the cart?", "Yes", "No");
-                if (!userResponse)
-                {
-                    Debug.WriteLine("Cart deletion cancelled by the user.");
-                    return;
-                }
+                if (!userResponse) return;
 
                 if (CartItems.Count > 0)
                 {
@@ -154,26 +144,18 @@ namespace MauiStoreApp.ViewModels
 
                     if (response != null && response.IsSuccessStatusCode)
                     {
-                        Debug.WriteLine("Cart deleted.");
                         CartItems.Clear();
 
-                        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-                        string infoText = "Cart deleted successfully.";
-                        ToastDuration duration = ToastDuration.Short;
-                        var toast = Toast.Make(infoText, duration);
-
-                        await toast.Show(cancellationTokenSource.Token);
+                        var toast = Toast.Make("Cart deleted successfully.", ToastDuration.Short);
+                        await toast.Show();
                     }
                     else
                     {
-                        Debug.WriteLine("Failed to delete cart.");
                         await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
                     }
                 }
                 else
                 {
-                    Debug.WriteLine("No cart found.");
                     await Shell.Current.DisplayAlert("Error", "No cart found.", "OK");
                 }
             }
@@ -188,15 +170,12 @@ namespace MauiStoreApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Increases the quantity of the specified product in the cart.
-        /// </summary>
-        /// <param name="product">The product whose quantity to increase.</param>
         [RelayCommand]
         public void IncreaseProductQuantity(Product product)
         {
             try
             {
+                if (product == null) return;
                 _cartService.IncreaseProductQuantity(product.Id);
                 SyncCartItems();
             }
@@ -207,15 +186,12 @@ namespace MauiStoreApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Decreases the quantity of the specified product in the cart.
-        /// </summary>
-        /// <param name="product">The product whose quantity to decrease.</param>
         [RelayCommand]
         public void DecreaseProductQuantity(Product product)
         {
             try
             {
+                if (product == null) return;
                 _cartService.DecreaseProductQuantity(product.Id);
                 SyncCartItems();
             }
@@ -228,26 +204,19 @@ namespace MauiStoreApp.ViewModels
 
         private void SyncCartItems()
         {
-            var updatedCartItems = _cartService.GetCartItems();
-            foreach (var item in CartItems.ToList())
+            // replace entire collection to keep UI consistent
+            try
             {
-                if (!updatedCartItems.Any(ci => ci.Product.Id == item.Product.Id))
-                {
-                    CartItems.Remove(item);
-                }
-            }
-
-            foreach (var updatedItem in updatedCartItems)
-            {
-                var existingItem = CartItems.FirstOrDefault(ci => ci.Product.Id == updatedItem.Product.Id);
-                if (existingItem == null)
+                var updatedCartItems = _cartService.GetCartItems() ?? new System.Collections.Generic.List<CartItemDetail>();
+                CartItems.Clear();
+                foreach (var updatedItem in updatedCartItems)
                 {
                     CartItems.Add(updatedItem);
                 }
-                else
-                {
-                    existingItem.Quantity = updatedItem.Quantity;
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"SyncCartItems error: {ex.Message}");
             }
         }
     }

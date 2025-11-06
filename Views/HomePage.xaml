@@ -58,7 +58,7 @@
             <Border
                 Margin="30,20,30,0"
                 Padding="10"
-                BackgroundColor="{StaticResource babublue}"
+                BackgroundColor="{StaticResource White}"
                 Stroke="{StaticResource White}"
                 StrokeShape="RoundRectangle 18"
                 StrokeThickness="2">
@@ -125,12 +125,7 @@
                                                 ZIndex="1" />
 
                                             <!--  Desaturation Overlay  -->
-                                            <BoxView
-                                                Margin="0,-140,0,0"
-                                                HeightRequest="140"
-                                                HorizontalOptions="FillAndExpand"
-                                                VerticalOptions="FillAndExpand"
-                                                ZIndex="2" />
+
 
                                             <!--  Label  -->
                                             <Label

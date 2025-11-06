@@ -180,6 +180,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiStoreApp.Services;
 using MauiStoreApp.Views;
+using OURSTORE.Localization;
+using System.ComponentModel;
+using System.Globalization;
+using System.Windows.Input;
 
 namespace MauiStoreApp.ViewModels
 {
@@ -190,15 +194,65 @@ namespace MauiStoreApp.ViewModels
         [ObservableProperty] string email;
         [ObservableProperty] string password;
 
-        public LoginViewModel()
+        [ObservableProperty]
+        private string currentLang = Preferences.Get("AppLanguage", "ar");
+
+
+        //public string CurrentLang { get; private set; }
+
+        public LoginViewModel(AuthService authService)
         {
-            _authService = new AuthService();
+            //_authService = new AuthService();
+            _authService = authService;
+
+            ApplyLanguage(CurrentLang);
+        }
+        [RelayCommand]
+        private void ChangeLanguages(string lang)
+        {
+            CurrentLang = lang;
+            Preferences.Set("AppLanguage", CurrentLang);
+
+            //ApplyLanguage(CurrentLang);
+
+            App.LocalizationResourceManager.SetCulture(lang);
+            // 🔄 Reload UI
+            Application.Current.MainPage = new AppShell();
         }
 
 
-        //public ICommand GoToRegisterCommand { get; }
-        
-        
+
+        private void ApplyLanguage(string lang)
+        {
+            var culture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+            AppResources.Culture = culture;
+
+            Application.Current.MainPage.FlowDirection =
+                lang == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+
+            OnPropertyChanged(nameof(CurrentLang));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         [RelayCommand]
 
         private async Task GoToRegister()
@@ -209,31 +263,64 @@ namespace MauiStoreApp.ViewModels
 
 
 
-
         [RelayCommand]
-        public async Task Login()
-        {
-            if (IsBusy) return;
-            IsBusy = true;
 
+        private async Task Login()
+        {
             try
             {
-                var success = await _authService.LoginAsync(Email, Password);
+                if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+                {
+                    await Shell.Current.DisplayAlert("تنبيه", "من فضلك أدخل البريد وكلمة المرور", "موافق");
+                    return;
+                }
 
-                if (success)
+                IsBusy = true;
+
+                var result = await _authService.LoginAsync(Email, Password);
+                //CartService.Instance.LoadCart();
+
+
+
+                if (!result)
                 {
-                    await Shell.Current.DisplayAlert("تم ✅", "تم تسجيل الدخول بنجاح", "موافق");
-                    await Shell.Current.GoToAsync("//HomePage");
+
+                    await Shell.Current.DisplayAlert("خطأ", "اسم المستخدم أو كلمة المرور غير صحيحة ‼️", "موافق");
+                    return;
                 }
-                else
-                {
-                    await Shell.Current.DisplayAlert("خطأ ❌", "بيانات الدخول غير صحيحة", "حسناً");
-                }
+                //await _authService.StoreSessionAsync(result.Session);
+                var session = _authService.CurrentSession;
+                await _authService.StoreSessionAsync(session);
+
+
+                await Shell.Current.GoToAsync("//HomePage");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("خطأ", "Login Error: " + ex.Message, "موافق");
             }
             finally
             {
                 IsBusy = false;
             }
         }
+
+
+
+
+        [ObservableProperty]
+        private bool isPasswordVisible = false;
+
+        public string PasswordEntryText => isPasswordVisible ? "Text" : "Password";
+
+        [RelayCommand]
+        private void TogglePasswordVisibility()
+        {
+            IsPasswordVisible = !IsPasswordVisible;
+            OnPropertyChanged(nameof(PasswordEntryText));
+        }
+
+
+
     }
 }

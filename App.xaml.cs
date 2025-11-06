@@ -1,37 +1,27 @@
-﻿//namespace MauiStoreApp
-//{
-//    public partial class App : Application
-//    {
-//        public App()
-//        {
-//            InitializeComponent();
+﻿
 
-//            MainPage = new AppShell();
-//            Shell.Current.GoToAsync("//LoginPage");
-
-//        }
-//    }
-//}
-
+using MauiStoreApp.Services;
 using MauiStoreApp.Views;
 using OURSTORE.Localization;
-//using MauiStoreApp.Localization; // تأكد من وجود هذا الـ namespace
 
 namespace MauiStoreApp
 {
     public partial class App : Application
     {
-        //public static object LocalizationResourceManager { get; internal set; }
         public static LocalizationResourceManager LocalizationResourceManager { get; private set; }
-        //public static LocalizationResourceManager LocalizationResourceManager { get; } = new LocalizationResourceManager();
+        public Func<object, object, Task> Loaded { get; }
+        private readonly AuthService _authService;
 
 
-        public App()
+
+        public App(AuthService authService)
         {
             InitializeComponent();
 
+            _authService = authService; // ✅ صح
+            //CartService.Instance.LoadCart();
 
-            // تحميل اللغة المحفوظة أو الإنجليزية كافتراضية
+            //authService = authService; // ✅ مهم جداً
             var savedLang = Preferences.Get("AppLanguage", "en");
 
             LocalizationResourceManager = new LocalizationResourceManager(typeof(AppResources));
@@ -39,46 +29,48 @@ namespace MauiStoreApp
 
 
 
-            MainPage = new AppShell();
+        MainPage = new AppShell();
 
-            // ✅ نخلي الانتقال يحصل بعد ما الـ Shell يجهز
-            //GoToLoginPage();
-            MainPage.Dispatcher.Dispatch(async () => await GoToLoginPage());
+            
+            MainPage.Loaded += async (s, e) => await CheckUserSession();
+
 
         }
 
-        private async Task GoToLoginPage()
+
+        private async void CheckLoginState()
         {
-            try
-            {
-                await Task.Delay(300); // اختياري فقط لراحة التحميل
+            var logged = await SecureStorage.GetAsync("isLoggedIn");
+
+            if (logged == "true")
+                await Shell.Current.GoToAsync("//HomePage");
+            else
                 await Shell.Current.GoToAsync("//LoginPage");
-            }
-            catch (Exception ex)
+        }
+
+        private async Task CheckUserSession()
+        {
+            var logged = await SecureStorage.GetAsync("isLoggedIn");
+
+            if (logged != "true")
             {
-                System.Diagnostics.Debug.WriteLine($"Navigation Error: {ex}");
-                await Application.Current.MainPage.DisplayAlert("Navigation Error", ex.Message, "OK");
+                await Shell.Current.GoToAsync("//LoginPage");
+                return;
             }
+
+            bool restored = await _authService.TryRestoreFullSessionAsync();
+
+            if (restored)
+                await Shell.Current.GoToAsync("//HomePage");
+            else
+                await Shell.Current.GoToAsync("//LoginPage");
         }
 
 
 
+       
 
 
-        //private async void GoToLoginPage()
-        //{
-        //    try
-        //    {
-        //        // ننتظر شوية لحد ما الـ Shell يتهيأ بالكامل
-        //        await Task.Delay(300);
 
-        //        await Shell.Current.GoToAsync("//LoginPage");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // useful for debugging if it still fails silently
-        //        System.Diagnostics.Debug.WriteLine($"Navigation Error: {ex.Message}");
-        //    }
-        //}
     }
 }

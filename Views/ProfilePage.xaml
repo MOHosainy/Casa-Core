@@ -4,12 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+    xmlns:converters="clr-namespace:MauiStoreApp.Converters"
     xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
     xmlns:model="clr-namespace:MauiStoreApp.Models"
     xmlns:modelroot="clr-namespace:MauiStoreApp.Models"
     xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
     x:DataType="local:ProfilePageViewModel"
     BackgroundColor="{StaticResource babublue}">
+
+
+
+
+
 
     <Shell.TitleView>
         <Grid HorizontalOptions="FillAndExpand">
@@ -39,6 +45,8 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converters:FirstLetterUppercaseConverter x:Key="FirstLetterConverter" />
+
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -93,7 +101,7 @@
                                 FontAttributes="Bold"
                                 FontSize="20"
                                 HorizontalOptions="Center"
-                                Text="{Binding AvatarInitial}"
+                                Text="{Binding AvatarInitial, Converter={StaticResource FirstLetterConverter}}"
                                 TextColor="{StaticResource KHly}"
                                 VerticalOptions="Center" />
                         </Frame>
@@ -114,21 +122,21 @@
                             <FlexLayout AlignItems="Center" Direction="Row">
 
                                 <!--  Location marker icon  -->
-                                <Image
+                                <!--<Image
                                     Margin="1,0,0,0"
                                     Aspect="AspectFit"
                                     HeightRequest="18"
                                     Source="location_yellow.svg"
-                                    WidthRequest="18" />
+                                    WidthRequest="18" />-->
 
                                 <!--  City label  -->
-                                <Label
+                                <!--<Label
                                     Margin="3,0,0,0"
                                     FontAttributes="Bold"
                                     HeightRequest="20"
                                     HorizontalOptions="StartAndExpand"
                                     Text="{Binding User.Address.CityCapitalized}"
-                                    TextColor="{StaticResource babublue}" />
+                                    TextColor="{StaticResource babublue}" />-->
                             </FlexLayout>
                         </StackLayout>
                     </FlexLayout>
@@ -169,7 +177,7 @@
                         Text="Account"
                         TextColor="DimGray" />-->
 
-                    <FlexLayout
+                    <!--<FlexLayout
                         Margin="0,8,0,0"
                         AlignItems="Center"
                         Direction="Row"
@@ -198,7 +206,7 @@
                         <FlexLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding LoginCommand}" />
                         </FlexLayout.GestureRecognizers>
-                    </FlexLayout>
+                    </FlexLayout>-->
 
                     <FlexLayout
                         Margin="0,8,0,0"
@@ -238,19 +246,26 @@
                         HeightRequest="20"
                         IsVisible="{Binding IsUserLoggedIn}"
                         JustifyContent="SpaceBetween">
-                        <Label
+                        <!--<Label
                             FontAttributes="Bold"
                             FontSize="17"
                             Text="Delete account"
-                            TextColor="Red" />
+                            TextColor="Red" />-->
 
-                        <Image
+                        <!--<Image
                             Aspect="AspectFit"
                             Source="delete_red.svg"
                             WidthRequest="24" />
                         <FlexLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding DeleteAccountCommand}" />
-                        </FlexLayout.GestureRecognizers>
+                        </FlexLayout.GestureRecognizers>-->
+
+
+                        <!--<Button
+                            Command="{Binding DeleteAccountCommand}"
+                            Text="Delete Account"
+                            TextColor="Red" />-->
+
                     </FlexLayout>
                 </StackLayout>
 
@@ -263,13 +278,13 @@
                         Text="About the app"
                         TextColor="DimGray" />-->
 
-                    <FlexLayout
+                    <!--<FlexLayout
                         Margin="0,8,0,0"
                         AlignItems="Center"
                         Direction="Row"
                         HeightRequest="20"
-                        JustifyContent="SpaceBetween">
-                        <!--<Label
+                        JustifyContent="SpaceBetween">-->
+                    <!--<Label
                             FontAttributes="Bold"
                             FontSize="17"
                             Text="Fake Store API"
@@ -278,7 +293,7 @@
                                 <TapGestureRecognizer Command="{Binding OpenFakeStoreApiCommand}" />
                             </Label.GestureRecognizers>
                         </Label>-->
-                        <!--<Image
+                    <!--<Image
                             Aspect="AspectFit"
                             Source="arrow_next_small.svg"
                             WidthRequest="24">
@@ -287,18 +302,19 @@
                             </Image.GestureRecognizers>
                         </Image>-->
 
-                        <FlexLayout.GestureRecognizers>
+                    <!--<FlexLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenFakeStoreApiCommand}" />
                         </FlexLayout.GestureRecognizers>
-                    </FlexLayout>
+                    </FlexLayout>-->
 
-                    <FlexLayout
+                    <!--<FlexLayout
                         Margin="0,15,0,0"
                         AlignItems="Center"
                         Direction="Row"
                         HeightRequest="20"
                         JustifyContent="SpaceBetween">
-                        <!--<Label
+                    -->
+                    <!--<Label
                             FontAttributes="Bold"
                             FontSize="17"
                             Text="Master Thesis (Croatian)"
@@ -307,7 +323,7 @@
                                 <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />
                             </Label.GestureRecognizers>
                         </Label>-->
-                        <!--<Image
+                    <!--<Image
                             Aspect="AspectFit"
                             Source="arrow_next_small.svg"
                             WidthRequest="24">
@@ -315,11 +331,12 @@
                                 <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />
                             </Image.GestureRecognizers>
                         </Image>-->
+                    <!--
 
                         <FlexLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenMasterThesisCommand}" />
                         </FlexLayout.GestureRecognizers>
-                    </FlexLayout>
+                    </FlexLayout>-->
                 </StackLayout>
             </StackLayout>
         </Grid>

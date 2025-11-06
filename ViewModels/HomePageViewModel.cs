@@ -41,6 +41,7 @@ namespace MauiStoreApp.ViewModels
             _categoryService = categoryService;
             _recentlyViewedProductsService = recentlyViewedProductsService;
             isFirstRun = true;
+
         }
 
         /// <summary>

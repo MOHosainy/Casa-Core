@@ -196,4 +196,7 @@
     <value>منتجات مميزة
 </value>
   </data>
+  <data name="GoToLogin" xml:space="preserve">
+    <value>الذهاب لتسجيل الدخول</value>
+  </data>
 </root>
