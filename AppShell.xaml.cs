@@ -14,7 +14,16 @@ namespace MauiStoreApp
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(CartPage), typeof(CartPage));
 
-            //Routing.RegisterRoute("CartPage", typeof(CartPage));
+            //Routing.RegisterRoute(nameof(CheckoutPage), typeof(CheckoutPage));
+            Routing.RegisterRoute("CheckoutRoute", typeof(MauiStoreApp.Views.CheckoutPage));
+
+            //Routing.RegisterRoute("CheckoutPage", typeof(CheckoutPage));
+            //Routing.RegisterRoute("CheckoutPage", typeof(MauiStoreApp.Views.CheckoutPage));
+
+            //Routing.RegisterRoute("CheckoutRoute", typeof(MauiStoreApp.Views.CheckoutPage));
+
+
+
         }
     }
 }

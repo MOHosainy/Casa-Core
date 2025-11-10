@@ -6,6 +6,7 @@ using MauiStoreApp.Views;
 using Microsoft.Extensions.Logging;
 using MauiStoreApp.CustomControls.Borderless; // لازم تضيفه فوق كمان
 using Microsoft.Maui.Handlers;
+//using OURSTORE.ViewModels;
 
 namespace MauiStoreApp
 {
@@ -27,6 +28,7 @@ namespace MauiStoreApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    //fonts.AddFont("AstoreEczarSemiBold.ttf", "AstoreEczarSemiBold");
                     fonts.AddFont("astore-eczar-semi-bold.ttf", "astore-eczar-semi-bold");
                 }).UseMauiCommunityToolkit();
 
@@ -55,8 +57,8 @@ namespace MauiStoreApp
               });
 
 
-
-
+            //await SupabaseClient.InitializeAsync();
+            //_ = SupabaseClient.InitializeAsync();
 
 
 
@@ -75,10 +77,17 @@ namespace MauiStoreApp
             
             builder.Services.AddSingleton<AuthService>();
 
+            builder.Services.AddSingleton<RegisterPage>();
+            builder.Services.AddTransient<RegisterViewModel>();
 
 
             builder.Services.AddTransient<CartViewModel>();
-            
+            builder.Services.AddTransient<CheckoutPage>();
+            builder.Services.AddTransient<CheckoutViewModel>();
+
+
+
+
             builder.Services.AddSingleton<RecentlyViewedProductsService>();
             builder.Services.AddTransient<HomePageViewModel>();
             builder.Services.AddTransient<HomePage>();

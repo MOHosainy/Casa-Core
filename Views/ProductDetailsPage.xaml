@@ -10,6 +10,7 @@
     xmlns:vm="clr-namespace:MauiStoreApp.ViewModels"
     x:DataType="local:ProductDetailsViewModel"
     BackgroundColor="{StaticResource babublue}"
+    FlowDirection="{Binding CurrentFlowDirection}"
     Shell.NavBarIsVisible="False">
 
     <ContentPage.Behaviors>
@@ -84,7 +85,6 @@
                     <Label
                         Padding="20,0"
                         FontAttributes="Bold"
-                        FontFamily="AstoreEczarSemiBold"
                         FontSize="Small"
                         Text="{x:Static resx:AppResources.Available}"
                         TextColor="Green"
@@ -92,7 +92,6 @@
 
                     <Label
                         Padding="20,10,20,0"
-                        FontFamily="AstoreEczarSemiBold"
                         FontSize="21"
                         Text="{Binding Product.Title}"
                         TextColor="{StaticResource KHly}" />
@@ -106,7 +105,6 @@
                         JustifyContent="SpaceBetween">
                         <Label
                             FontAttributes="Bold"
-                            FontFamily="AstoreEczarSemiBold"
                             FontSize="24"
                             Text="{Binding Product.Price, StringFormat='€{0:F2}'}"
                             TextColor="{StaticResource KHly}"
@@ -121,7 +119,6 @@
                             CommandParameter="{Binding Product}"
                             CornerRadius="10"
                             FontAttributes="Bold"
-                            FontFamily="AstoreEczarSemiBold"
                             FontSize="Medium"
                             Text="{x:Static resx:AppResources.AddToCart}"
                             TextColor="White"
@@ -138,13 +135,11 @@
                         <StackLayout>
                             <Label
                                 FontAttributes="Bold"
-                                FontFamily="AstoreEczarSemiBold"
                                 FontSize="17"
                                 Text="{x:Static resx:AppResources.ProductDescription}"
                                 TextColor="{StaticResource KHly}" />
 
                             <Label
-                                FontFamily="AstoreEczarSemiBold"
                                 FontSize="16"
                                 Text="{Binding Product.Description}"
                                 TextColor="{StaticResource KHly}" />
@@ -161,11 +156,9 @@
                         <StackLayout>
                             <Label
                                 FontAttributes="Bold"
-                                FontFamily="AstoreEczarSemiBold"
                                 FontSize="17"
                                 Text="{x:Static resx:AppResources.Category}" />
                             <Label
-                                FontFamily="AstoreEczarSemiBold"
                                 FontSize="16"
                                 Text="{Binding Product.Category}"
                                 TextColor="{StaticResource KHly}"
@@ -174,16 +167,16 @@
                     </Frame>
 
                     <StackLayout Padding="20,0">
-                        <Label
+                        <!--<Label
                             Margin="0,5"
                             FontAttributes="Bold"
-                            FontFamily="AstoreEczarSemiBold"
+                            FontFamily="astore-eczar-semi-bold"
                             FontSize="17"
                             Text="{x:Static resx:AppResources.Reviews}"
-                            TextColor="{StaticResource KHly}" />
+                            TextColor="{StaticResource KHly}" />-->
 
                         <!--  rating  -->
-                        <Frame
+                        <!--<Frame
                             Padding="15,12"
                             BorderColor="Transparent"
                             CornerRadius="15"
@@ -207,7 +200,7 @@
                                     <Label
                                         Margin="0,0"
                                         FontAttributes="Bold"
-                                        FontFamily="AstoreEczarSemiBold"
+                                        FontFamily="astore-eczar-semi-bold"
                                         FontSize="18"
                                         Text="{Binding Product.Rating.Rate}"
                                         TextColor="{StaticResource KHly}"
@@ -228,13 +221,12 @@
                                     Source="arrow_next_small.svg"
                                     VerticalOptions="Center" />
                             </FlexLayout>
-                        </Frame>
+                        </Frame>-->
 
                         <!--  cross-sell section  -->
                         <Label
                             Margin="0,20,0,10"
                             FontAttributes="Bold"
-                            FontFamily="AstoreEczarSemiBold"
                             FontSize="17"
                             Text="{x:Static resx:AppResources.YouMayAlsoLike}"
                             TextColor="{StaticResource KHly}" />
@@ -287,7 +279,6 @@
                                                     WidthRequest="16" />
                                                 <Label
                                                     FontAttributes="Bold"
-                                                    FontFamily="AstoreEczarSemiBold"
                                                     FontSize="Small"
                                                     HorizontalOptions="StartAndExpand"
                                                     Text="{Binding Rating.Rate}"
@@ -298,7 +289,6 @@
                                             <!--  title  -->
                                             <Label
                                                 Margin="0,3"
-                                                FontFamily="AstoreEczarSemiBold"
                                                 FontSize="Small"
                                                 HeightRequest="38"
                                                 LineBreakMode="WordWrap"
@@ -309,7 +299,6 @@
                                             <!--  price  -->
                                             <Label
                                                 FontAttributes="Bold"
-                                                FontFamily="AstoreEczarSemiBold"
                                                 FontSize="Medium"
                                                 HeightRequest="30"
                                                 HorizontalOptions="StartAndExpand"

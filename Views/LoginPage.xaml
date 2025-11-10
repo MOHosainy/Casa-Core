@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-
 <ContentPage
     x:Class="MauiStoreApp.Views.LoginPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -8,7 +7,8 @@
     xmlns:converters="clr-namespace:MauiStoreApp.Converters"
     xmlns:resx="clr-namespace:OURSTORE.Localization"
     xmlns:viewmodels="clr-namespace:MauiStoreApp.ViewModels"
-    BackgroundColor="{StaticResource babublue}">
+    BackgroundColor="{StaticResource babublue}"
+    FlowDirection="{Binding CurrentFlowDirection}">
 
     <!--<ContentPage.BindingContext>
         <viewmodels:LoginViewModel />
@@ -21,6 +21,7 @@
 
             <converters:BoolToPasswordIconConverter x:Key="BoolToPasswordIconConverter" />
             <converters:LanguageButtonVisibilityConverter x:Key="LanguageButtonVisibilityConverter" />
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -44,8 +45,7 @@
                 FontAttributes="Bold"
                 FontSize="17"
                 IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='ar'}"
-                Text="🌐 العربية"
-                TextColor="{StaticResource PrimaryColor}" />
+                Text="🌐 العربيه" />
 
             <Button
                 Margin="10"
@@ -55,58 +55,14 @@
                 FontAttributes="Bold"
                 FontSize="17"
                 IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='en'}"
-                Text="🌍 English"
-                TextColor="{StaticResource PrimaryColor}" />
+                Text="🌐 English" />
 
 
 
 
 
-
-
-
-            <!--<Button
-                Grid.Column="0"
-                Margin="10,0"
-                BackgroundColor="{StaticResource KHly}"
-                Command="{Binding ChangeLanguageCommand}"
-                CommandParameter="ar"
-                FontAttributes="Bold"
-                FontSize="17"
-                IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='ar'}"
-                Text="العربية" />
-            -->
-            <!--  زر الإنجليزية  -->
-            <!--
-
-            <Button
-                Grid.Column="1"
-                Margin="10,0"
-                BackgroundColor="{StaticResource KHly}"
-                Command="{Binding ChangeLanguageCommand}"
-                CommandParameter="en"
-                FontAttributes="Bold"
-                FontSize="17"
-                IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='en'}"
-                Text="English" />-->
 
         </HorizontalStackLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -118,6 +74,8 @@
 
 
             <Label
+                FontAttributes="Bold"
+                FontSize="25"
                 HorizontalOptions="CenterAndExpand"
                 HorizontalTextAlignment="Center"
                 Text="{x:Static resx:AppResources.WelcomeToOurFashionWorld}"
@@ -136,9 +94,10 @@
 
 
             <Label
-                FontSize="17"
+                FontAttributes="Bold"
+                FontSize="25"
                 HorizontalOptions="End"
-                Text="{x:Static resx:AppResources.UserName}"
+                Text="{x:Static resx:AppResources.Email}"
                 TextColor="{StaticResource KHly}" />
             <Border
                 Grid.Row="1"
@@ -149,7 +108,6 @@
                     BackgroundColor="Transparent"
                     FontSize="16"
                     HeightRequest="40"
-                    Placeholder="{x:Static resx:AppResources.UserName}"
                     Text="{Binding Email}"
                     TextColor="{StaticResource Black}" />
 
@@ -157,10 +115,18 @@
 
 
             <Label
-                FontSize="17"
+                FontAttributes="Bold"
+                FontSize="25"
                 HorizontalOptions="End"
                 Text="{x:Static resx:AppResources.Password}"
                 TextColor="{StaticResource KHly}" />
+
+
+
+            <!--  IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"  -->
+
+
+
 
 
             <Border
@@ -179,9 +145,7 @@
                         Grid.Column="0"
                         BackgroundColor="Transparent"
                         FontSize="16"
-                        HeightRequest="40"
-                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
-                        Placeholder="{x:Static resx:AppResources.Password}"
+                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolConverter}}"
                         Text="{Binding Password}"
                         TextColor="{StaticResource Black}" />
 
@@ -208,24 +172,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-            <!--<Entry Placeholder="اسم المستخدم" Text="{Binding Email}" />
-            <Entry
-                IsPassword="True"
-                Placeholder="كلمة المرور"
-                Text="{Binding Password}" />-->
             <Button
                 BackgroundColor="{StaticResource KHly}"
                 Command="{Binding LoginCommand}"
+                FontAttributes="Bold"
+                FontSize="20"
                 Text="{x:Static resx:AppResources.Login}"
                 TextColor="White" />
 
@@ -235,17 +186,10 @@
 
 
             <HorizontalStackLayout Margin="0,0,0,20" HorizontalOptions="Center">
-                <!--<Label
-                    Style="{StaticResource LabelStyle}"
-                    Text="{x:Static resx:AppResources.NoAccount}"
-                    TextColor="{StaticResource KHly}"
-                    VerticalOptions="Center" />-->
-
-
 
                 <Label
                     FontAttributes="Bold"
-                    FontSize="20"
+                    FontSize="25"
                     Text="{x:Static resx:AppResources.Register}"
                     TextColor="{StaticResource KHly}"
                     VerticalOptions="Center">
@@ -253,8 +197,6 @@
                         <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
-
-
 
             </HorizontalStackLayout>
 

@@ -11,7 +11,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiStoreApp.Models;
 using MauiStoreApp.Services;
+using MauiStoreApp.Views;
 using Microsoft.Maui.Storage;
+using Newtonsoft.Json;
+using Supabase.Gotrue;
 
 namespace MauiStoreApp.ViewModels
 {
@@ -22,6 +25,9 @@ namespace MauiStoreApp.ViewModels
         //public IAsyncRelayCommand InitCommand { get; }
 
         bool isFirstRun = true;
+        public int TotalQuantity => CartItems?.Sum(i => i.Quantity) ?? 0;
+
+        public decimal TotalPrice => CartItems?.Sum(i => i.Quantity * i.Product.Price) ?? 0m;
 
 
         public CartViewModel(CartService cartService, AuthService authService)
@@ -35,17 +41,41 @@ namespace MauiStoreApp.ViewModels
 
             _cartService.CartUpdated += OnCartUpdated; // ✅ متابعة تغييرات السلة
 
-
+            CalculateTotals();
         }
+
+
+
+
         private void OnCartUpdated()
         {
-            CartItems = new ObservableCollection<CartItemDetail>(_cartService.GetCartItems());
-            OnPropertyChanged(nameof(CartItems));
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                //SyncCartItems();
+                CartItems.Clear();
 
+                foreach (var item in _cartService.GetCartItems())
+                    CartItems.Add(item);
+
+                CalculateTotals();
+            });
         }
 
 
-     
+
+
+
+
+
+
+        private void CalculateTotals()
+        {
+            OnPropertyChanged(nameof(TotalQuantity));
+            OnPropertyChanged(nameof(TotalPrice));
+        }
+
+
+
 
 
 
@@ -66,7 +96,7 @@ namespace MauiStoreApp.ViewModels
 
             await _cartService.LoadCartFromStorageAsync();
             SyncCartItems();
-
+            CalculateTotals();
 
             if (isFirstRun)
             {
@@ -108,6 +138,7 @@ namespace MauiStoreApp.ViewModels
                 await _cartService.RefreshCartItemsByUserIdAsync(userId);
 
                 SyncCartItems();
+                CalculateTotals();
             }
             catch (Exception ex)
             {
@@ -126,49 +157,108 @@ namespace MauiStoreApp.ViewModels
             await Shell.Current.GoToAsync("LoginPage");
         }
 
-        [RelayCommand]
-        public async Task DeleteCart()
-        {
-            if (IsBusy || IsBusyWithCartModification) return;
+        //[RelayCommand]
+        //public async Task DeleteCart()
+        //{
+        //    if (IsBusy || IsBusyWithCartModification) return;
 
-            try
-            {
-                var userResponse = await Shell.Current.DisplayAlert("Confirm", "Are you sure you want to delete the cart?", "Yes", "No");
-                if (!userResponse) return;
+        //    try
+        //    {
+        //        var userResponse = await Shell.Current.DisplayAlert("Confirm", "Are you sure you want to delete the cart?", "Yes", "No");
+        //        if (!userResponse) return;
 
-                if (CartItems.Count > 0)
-                {
-                    IsBusyWithCartModification = true;
+        //        if (CartItems.Count > 0)
+        //        {
+        //            IsBusyWithCartModification = true;
 
-                    var response = await _cartService.DeleteCartAsync();
+        //            var response = await _cartService.DeleteCartAsync();
 
-                    if (response != null && response.IsSuccessStatusCode)
-                    {
-                        CartItems.Clear();
+        //            if (response != null && response.IsSuccessStatusCode)
+        //            {
+        //                CartItems.Clear();
+        //                CalculateTotals();
+        //                var toast = Toast.Make("Cart deleted successfully.", ToastDuration.Short);
+        //                await toast.Show();
+        //            }
+        //            else
+        //            {
+        //                await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            await Shell.Current.DisplayAlert("Error", "No cart found.", "OK");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine($"Unable to delete cart: {ex.Message}");
+        //        await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
+        //    }
+        //    finally
+        //    {
+        //        IsBusyWithCartModification = false;
+        //    }
+        //}
 
-                        var toast = Toast.Make("Cart deleted successfully.", ToastDuration.Short);
-                        await toast.Show();
-                    }
-                    else
-                    {
-                        await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
-                    }
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Error", "No cart found.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Unable to delete cart: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
-            }
-            finally
-            {
-                IsBusyWithCartModification = false;
-            }
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         [RelayCommand]
         public void IncreaseProductQuantity(Product product)
@@ -178,6 +268,7 @@ namespace MauiStoreApp.ViewModels
                 if (product == null) return;
                 _cartService.IncreaseProductQuantity(product.Id);
                 SyncCartItems();
+                CalculateTotals();
             }
             catch (Exception ex)
             {
@@ -194,6 +285,7 @@ namespace MauiStoreApp.ViewModels
                 if (product == null) return;
                 _cartService.DecreaseProductQuantity(product.Id);
                 SyncCartItems();
+                CalculateTotals();
             }
             catch (Exception ex)
             {
@@ -202,6 +294,127 @@ namespace MauiStoreApp.ViewModels
             }
         }
 
+
+
+
+
+
+        //[RelayCommand]
+        //private async Task GoToCheckoutAsync()
+        //{
+        //    // // معناه route مطلق
+        //    await Shell.Current.GoToAsync("CheckoutPage");
+        //}
+
+
+        
+        [RelayCommand]
+        private async Task GoToCheckoutAsync()
+        {
+            try
+            {
+                //await Shell.Current.GoToAsync(nameof(CheckoutPage));
+                await Shell.Current.GoToAsync("CheckoutRoute");
+                //await Shell.Current.GoToAsync("CheckoutRoute");
+
+
+            }
+            catch (Exception ex)
+            {           
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
+
+
+
+
+
+
+
+        [RelayCommand]
+        public async Task DeleteCart()
+        {
+            if (IsBusy || IsBusyWithCartModification) return;
+
+            try
+            {
+                var confirmed = await Shell.Current.DisplayAlert("Confirm", "Are you sure you want to delete the cart?", "Yes", "No");
+                if (!confirmed) return;
+
+                IsBusyWithCartModification = true;
+
+                var success = await _cartService.DeleteCartAsync();
+
+                if (success)
+                {
+                    CartItems.Clear();
+                    var toast = Toast.Make("Cart deleted successfully.", ToastDuration.Short);
+                    await toast.Show();
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
+                }
+            }
+            finally
+            {
+                IsBusyWithCartModification = false;
+            }
+        }
+
+        [RelayCommand]
+        public async Task AddProduct(Product product)
+        {
+            var userIdStr = await SecureStorage.GetAsync("userId");
+            if (!int.TryParse(userIdStr, out int userId)) return;
+
+            await _cartService.AddProductToCartAsync(product, userId);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [RelayCommand]
         private void SyncCartItems()
         {
             // replace entire collection to keep UI consistent
@@ -212,6 +425,7 @@ namespace MauiStoreApp.ViewModels
                 foreach (var updatedItem in updatedCartItems)
                 {
                     CartItems.Add(updatedItem);
+                    OnPropertyChanged(nameof(CartItems));
                 }
             }
             catch (Exception ex)

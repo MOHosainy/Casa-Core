@@ -8,13 +8,11 @@
     xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
     xmlns:model="clr-namespace:MauiStoreApp.Models"
     xmlns:modelroot="clr-namespace:MauiStoreApp.Models"
+    xmlns:resx="clr-namespace:OURSTORE.Localization"
     xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
     x:DataType="local:ProfilePageViewModel"
-    BackgroundColor="{StaticResource babublue}">
-
-
-
-
+    BackgroundColor="{StaticResource babublue}"
+    FlowDirection="{Binding CurrentFlowDirection}">
 
 
     <Shell.TitleView>
@@ -28,10 +26,9 @@
             <Label
                 Grid.Column="0"
                 FontAttributes="Bold"
-                FontFamily="AstoreEczarSemiBold"
-                FontSize="20"
+                FontSize="30"
                 HorizontalOptions="CenterAndExpand"
-                Text="My account"
+                Text="{x:Static resx:AppResources.MyAccount}"
                 TextColor="{StaticResource KHly}"
                 VerticalOptions="CenterAndExpand" />
 
@@ -209,16 +206,16 @@
                     </FlexLayout>-->
 
                     <FlexLayout
-                        Margin="0,8,0,0"
+                        Margin="0,0,0,0"
                         AlignItems="Center"
                         Direction="Row"
-                        HeightRequest="20"
+                        HeightRequest="55"
                         IsVisible="{Binding IsUserLoggedIn}"
                         JustifyContent="SpaceBetween">
                         <Label
                             FontAttributes="Bold"
-                            FontSize="17"
-                            Text="Sign out"
+                            FontSize="27"
+                            Text="{x:Static resx:AppResources.Signout}"
                             TextColor="Black">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding LogoutCommand}" />
@@ -228,7 +225,7 @@
                         <Image
                             Aspect="AspectFit"
                             Source="logout.svg"
-                            WidthRequest="24">
+                            WidthRequest="34">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding LogoutCommand}" />
                             </Image.GestureRecognizers>
@@ -239,34 +236,36 @@
                         </FlexLayout.GestureRecognizers>
                     </FlexLayout>
 
-                    <FlexLayout
+                    <!--<FlexLayout
                         Margin="0,15,0,0"
                         AlignItems="Center"
                         Direction="Row"
                         HeightRequest="20"
                         IsVisible="{Binding IsUserLoggedIn}"
                         JustifyContent="SpaceBetween">
-                        <!--<Label
+                        <Label
                             FontAttributes="Bold"
                             FontSize="17"
                             Text="Delete account"
-                            TextColor="Red" />-->
+                            TextColor="Red" />
 
-                        <!--<Image
+                        <Button
+                            Command="{Binding DeleteAccountCommand}"
+                            Text="Delete Account"
+                            TextColor="Red" />
+
+                        <Image
                             Aspect="AspectFit"
                             Source="delete_red.svg"
                             WidthRequest="24" />
                         <FlexLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding DeleteAccountCommand}" />
-                        </FlexLayout.GestureRecognizers>-->
+                        </FlexLayout.GestureRecognizers>
 
 
-                        <!--<Button
-                            Command="{Binding DeleteAccountCommand}"
-                            Text="Delete Account"
-                            TextColor="Red" />-->
 
-                    </FlexLayout>
+
+                    </FlexLayout>-->
                 </StackLayout>
 
                 <!--  About Section  -->

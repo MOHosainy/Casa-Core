@@ -52,5 +52,26 @@ namespace MauiStoreApp.ViewModels
         {
             await Shell.Current.GoToAsync($"//{pageName}");
         }
+
+
+
+        protected async Task<HttpResponseMessage> DeleteAsync(string url)
+        {
+            using var client = new HttpClient();
+            return await client.DeleteAsync($"https://phbarflogerpotdqiwrp.supabase.co");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

@@ -195,5 +195,54 @@ namespace MauiStoreApp.ViewModels
 
 
 
+
+
+
+
+
+
+
+
+        private string _currentLang = Preferences.Get("AppLanguage", "ar");
+        public string CurrentLang
+        {
+            get => _currentLang;
+            set
+            {
+                if (SetProperty(ref _currentLang, value))
+                    OnPropertyChanged(nameof(CurrentFlowDirection));
+            }
+        }
+
+        public FlowDirection CurrentFlowDirection =>
+            CurrentLang == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+
+        [RelayCommand]
+        private void ChangeLanguages(string lang)
+        {
+            // 1. احفظ اللغة الجديدة
+            CurrentLang = lang;
+            Preferences.Set("AppLanguage", lang);
+
+            // 2. طبق اللغة والاتجاه العام للتطبيق
+            App.SetAppLanguage(lang);
+
+            // 3. أعد تحميل الواجهة لتطبيق النصوص والاتجاه
+            Application.Current.MainPage = new AppShell();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

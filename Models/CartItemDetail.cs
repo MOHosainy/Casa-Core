@@ -42,6 +42,8 @@ namespace MauiStoreApp.Models
             }
         }
 
+        public int Price { get; internal set; }
+
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>

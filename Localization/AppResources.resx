@@ -198,4 +198,40 @@
   <data name="GoToLogin" xml:space="preserve">
     <value />
   </data>
+  <data name="CompleteTheOrderAndPaymentUponReceipt" xml:space="preserve">
+    <value />
+  </data>
+  <data name="YourCartIsEmpty" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BrowseProducts" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConfirmOrder" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Signout" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MyAccount" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RecentlyViewed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ThereAreNoRecentlyViewedProducts" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartShopping" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TotalQuantity" xml:space="preserve">
+    <value />
+  </data>
 </root>

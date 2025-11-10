@@ -11,7 +11,8 @@
     xmlns:resx="clr-namespace:OURSTORE.Localization"
     xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
     x:DataType="local:CategoryPageViewModel"
-    BackgroundColor="{StaticResource babublue}">
+    BackgroundColor="{StaticResource babublue}"
+    FlowDirection="{Binding CurrentFlowDirection}">
 
 
     <Shell.TitleView>
@@ -26,7 +27,6 @@
                 Grid.Column="0"
                 Margin="0,0,40,0"
                 FontAttributes="Bold"
-                FontFamily="AstoreEczarSemiBold"
                 FontSize="20"
                 HorizontalOptions="CenterAndExpand"
                 Text="{Binding Category.Name, Converter={StaticResource FirstLetterUppercaseConverter}}"
@@ -200,7 +200,6 @@
                                             WidthRequest="16" />
                                         <Label
                                             FontAttributes="Bold"
-                                            FontFamily="AstoreEczarSemiBold"
                                             FontSize="Small"
                                             HorizontalOptions="StartAndExpand"
                                             Text="{Binding Rating.Rate}"
@@ -211,7 +210,6 @@
                                     <!--  title  -->
                                     <Label
                                         Margin="0,3"
-                                        FontFamily="AstoreEczarSemiBold"
                                         FontSize="Small"
                                         HeightRequest="35"
                                         LineBreakMode="WordWrap"
@@ -221,7 +219,6 @@
                                     <!--  price  -->
                                     <Label
                                         FontAttributes="Bold"
-                                        FontFamily="AstoreEczarSemiBold"
                                         FontSize="Medium"
                                         HeightRequest="30"
                                         HorizontalOptions="StartAndExpand"

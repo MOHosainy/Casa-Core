@@ -4,7 +4,9 @@ using CommunityToolkit.Mvvm.Input;
 using MauiStoreApp.Models;
 using MauiStoreApp.Services;
 using MauiStoreApp.Views;
-using System.Linq; // تأكد إنها موجودة
+using System.Linq;
+using OURSTORE.Localization;
+using System.Globalization; // تأكد إنها موجودة
 
 namespace MauiStoreApp.ViewModels
 {
@@ -21,6 +23,11 @@ namespace MauiStoreApp.ViewModels
         /// Gets the products.
         /// </summary>
         public ObservableCollection<Product> Products { get; } = new ObservableCollection<Product>();
+
+
+        private string currentLang = Preferences.Get("AppLanguage", "ar");
+
+
 
         /// <summary>
         /// Gets the categories.
@@ -49,6 +56,8 @@ namespace MauiStoreApp.ViewModels
         /// </summary>
         public HomePageViewModel()
         {
+            //ApplyLanguage(CurrentLang);
+
         }
 
         /// <summary>
@@ -80,34 +89,6 @@ namespace MauiStoreApp.ViewModels
         }
 
 
-        //private async Task GetProductsAsync()
-        //{
-        //    if (IsBusy)
-        //    {
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        IsBusy = true;
-
-        //        var products = await _productService.GetProductsAsync();
-        //        Products.Clear();
-        //        foreach (var product in products)
-        //        {
-        //            Products.Add(product);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine($"Unable to get products: {ex.Message}");
-        //        await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
-        //    }
-        //    finally
-        //    {
-        //        IsBusy = false;
-        //    }
-        //}
 
 
 
@@ -214,7 +195,74 @@ namespace MauiStoreApp.ViewModels
 
 
 
-private string _searchText;
+
+
+
+
+
+        private string _currentLang = Preferences.Get("AppLanguage", "ar");
+        public string CurrentLang
+        {
+            get => _currentLang;
+            set
+            {
+                if (SetProperty(ref _currentLang, value))
+                    OnPropertyChanged(nameof(CurrentFlowDirection));
+            }
+        }
+
+        public FlowDirection CurrentFlowDirection =>
+            CurrentLang == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+
+        [RelayCommand]
+        private void ChangeLanguages(string lang)
+        {
+            // 1. احفظ اللغة الجديدة
+            CurrentLang = lang;
+            Preferences.Set("AppLanguage", lang);
+
+            // 2. طبق اللغة والاتجاه العام للتطبيق
+            App.SetAppLanguage(lang);
+
+            // 3. أعد تحميل الواجهة لتطبيق النصوص والاتجاه
+            Application.Current.MainPage = new AppShell();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private string _searchText;
     public string SearchText
     {
         get => _searchText;
@@ -227,7 +275,9 @@ private string _searchText;
         }
     }
 
-    private List<Product> _allProducts = new(); // الأصلية من الـ API
+        //public string CurrentLang { get; private set; }
+
+        private List<Product> _allProducts = new(); // الأصلية من الـ API
 
     private void FilterProducts()
     {

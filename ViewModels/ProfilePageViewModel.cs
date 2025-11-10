@@ -180,34 +180,39 @@ namespace MauiStoreApp.ViewModels
 
 
 
-        //private async Task DeleteAccount()
-        //{
-        //    bool confirm = await Shell.Current.DisplayAlert(
-        //        "Delete Account",
-        //        "Are you sure you want to delete your account?",
-        //        "Yes", "Cancel");
 
-        //    //if (!confirm)
-        //    //    return;
+        private string _currentLang = Preferences.Get("AppLanguage", "ar");
+        public string CurrentLang
+        {
+            get => _currentLang;
+            set
+            {
+                if (SetProperty(ref _currentLang, value))
+                    OnPropertyChanged(nameof(CurrentFlowDirection));
+            }
+        }
 
-        //    //await _authService.DeleteAccountAsync();
-        //    //await Logout();
+        public FlowDirection CurrentFlowDirection =>
+            CurrentLang == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+
+        [RelayCommand]
+        private void ChangeLanguages(string lang)
+        {
+            // 1. احفظ اللغة الجديدة
+            CurrentLang = lang;
+            Preferences.Set("AppLanguage", lang);
+
+            // 2. طبق اللغة والاتجاه العام للتطبيق
+            App.SetAppLanguage(lang);
+
+            // 3. أعد تحميل الواجهة لتطبيق النصوص والاتجاه
+            Application.Current.MainPage = new AppShell();
+        }
 
 
 
 
 
-        //    if (!confirm)
-        //        return;
-
-        //    var result = await _authService.DeleteAccountAsync();
-
-        //    if (result)
-        //    {
-        //        IsUserLoggedIn = false;
-        //        await Shell.Current.GoToAsync("//LoginPage"); // ✅ وجهه للّوجين
-        //    }
-        //}
     }
 }
 
