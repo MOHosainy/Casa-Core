@@ -189,6 +189,7 @@
 
             <Button
                 Margin="0,45"
+                BackgroundColor="{StaticResource KHly}"
                 Command="{Binding GoToHomeCommand}"
                 CornerRadius="20"
                 HorizontalOptions="Center"

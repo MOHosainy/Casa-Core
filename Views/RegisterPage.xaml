@@ -30,7 +30,7 @@
         <VerticalStackLayout Padding="30" Spacing="15">
             <Label
                 FontAttributes="Bold"
-                FontSize="24"
+                FontSize="33"
                 HorizontalOptions="Center"
                 Text="{x:Static resx:AppResources.CreateAccount}"
                 TextColor="{StaticResource KHly}" />
@@ -40,7 +40,8 @@
 
 
             <Label
-                FontSize="17"
+                FontAttributes="Bold"
+                FontSize="22"
                 HorizontalOptions="End"
                 Text="{x:Static resx:AppResources.Email}"
                 TextColor="{StaticResource KHly}" />
@@ -64,7 +65,8 @@
 
 
             <Label
-                FontSize="17"
+                FontAttributes="Bold"
+                FontSize="22"
                 HorizontalOptions="End"
                 Text="{x:Static resx:AppResources.Password}"
                 TextColor="{StaticResource KHly}" />

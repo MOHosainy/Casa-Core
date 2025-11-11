@@ -38,26 +38,120 @@ namespace MauiStoreApp.Services
             _cartService = cartService;
         }
 
+        //public async Task<bool> RegisterAsync(string email, string password)
+        //{
+        //    try
+        //    {
+
+        //        email = email?.Trim().ToLowerInvariant();
+        //        password = password?.Trim();
+
+
+        //        var result = await _supabase.Auth.SignUp(email, password);
+
+        //        Session session = result as Session;
+        //        if (session == null)
+        //        {
+        //            var prop = result?.GetType().GetProperty("Session");
+        //            session = prop?.GetValue(result) as Session;
+        //        }
+
+        //        if (session == null || session.User == null)
+        //            return false;
+
+        //        _currentSession = session;
+        //        _currentUser = session.User;
+        //        await SaveSessionAsync(email);
+        //        return true;
+        //    }
+        //    catch (Supabase.Gotrue.Exceptions.GotrueException ex)
+        //    {
+        //        if (ex.Message.Contains("user_already_exists"))
+        //        {
+        //            await Shell.Current.DisplayAlert("تنبيه ⚠️", "هذا البريد مسجّل بالفعل ✅", "حسناً");
+        //            return false;
+        //        }
+
+        //        await Shell.Current.DisplayAlert("خطأ ❌", "حدث خطأ أثناء التسجيل!\n" + ex.Message, "موافق");
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await Shell.Current.DisplayAlert("خطأ ❌", ex.Message, "موافق");
+        //        return false;
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<bool> RegisterAsync(string email, string password)
         {
             try
             {
+                // ✅ 1. توحيد شكل الإيميل والباسورد
+                email = email?.Trim().ToLowerInvariant();
+                password = password?.Trim();
+
+                // ✅ 2. تنفيذ التسجيل
                 var result = await _supabase.Auth.SignUp(email, password);
 
-                Session session = result as Session;
-                if (session == null)
+                // ✅ 3. التعامل مع النتيجة
+                Session session = null;
+
+                if (result is Session s)
+                    session = s;
+                else
                 {
                     var prop = result?.GetType().GetProperty("Session");
                     session = prop?.GetValue(result) as Session;
                 }
 
-                if (session == null || session.User == null)
-                    return false;
+                // ✅ 4. Supabase أحيانًا بيرجع Session = null (لو التفعيل بالبريد مطلوب)
+                if (session?.User == null)
+                {
 
-                _currentSession = session;
-                _currentUser = session.User;
-                await SaveSessionAsync(email);
+                    _currentSession = session;
+                    _currentUser = session.User;
+
+                    await SaveSessionAsync(email);
+
+                    await Shell.Current.DisplayAlert("تم ✅", "تم إنشاء الحساب وتسجيل الدخول بنجاح 🎉", "استمرار");
+
+                    // ⬅️ هنا تدخله الصفحة الرئيسية أو أي صفحة انت عايزها
+                    await Shell.Current.GoToAsync("//HomePage"); // مثال
+                    //await Shell.Current.DisplayAlert("تم ✅", "تم إنشاء الحساب بنجاح! برجاء تسجيل الدخول الآن.", "موافق");
+                    return true; // 🔹 بنرجع true علشان نسمحله يدخل على صفحة Login
+                }
+
+                await Shell.Current.DisplayAlert("تم ✅", "تم إنشاء الحساب بنجاح! برجاء تفعيل البريد الإلكتروني قبل تسجيل الدخول.", "موافق");
                 return true;
+
+                
             }
             catch (Supabase.Gotrue.Exceptions.GotrueException ex)
             {
@@ -83,10 +177,34 @@ namespace MauiStoreApp.Services
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<bool> LoginAsync(string email, string password)
         {
             try
             {
+
+
+                email = email?.Trim().ToLowerInvariant();
+                password = password?.Trim();
+
+
                 var result = await _supabase.Auth.SignIn(email, password);
 
                 if (result == null)
@@ -99,8 +217,15 @@ namespace MauiStoreApp.Services
                     session = prop?.GetValue(result) as Session;
                 }
 
+                //if (session == null || session.User == null)
+                //    return false;
+
                 if (session == null || session.User == null)
+                {
+                    await Shell.Current.DisplayAlert("خطأ ❌", "البريد الإلكتروني أو كلمة المرور غير صحيحة.", "موافق");
                     return false;
+                }
+
 
                 _currentSession = session;
                 _currentUser = session.User;
@@ -110,6 +235,8 @@ namespace MauiStoreApp.Services
             }
             catch (Exception ex)
             {
+                await Shell.Current.DisplayAlert("خطأ ❌", "فشل تسجيل الدخول. تأكد من البريد وكلمة المرور.", "موافق");
+
                 System.Diagnostics.Debug.WriteLine("Login Error: " + ex.Message);
                 return false;
             }

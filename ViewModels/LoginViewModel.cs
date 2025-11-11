@@ -105,9 +105,13 @@ namespace MauiStoreApp.ViewModels
         {
             try
             {
+
+                Email = Email?.Trim().ToLowerInvariant();
+                Password = Password?.Trim();
+
                 if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
                 {
-                    await Shell.Current.DisplayAlert("تنبيه", "من فضلك أدخل البريد وكلمة المرور", "موافق");
+                    await Shell.Current.DisplayAlert(" (Alert) تنبيه", " (Please enter your email and password) من فضلك أدخل البريد وكلمة المرور", " (OK) موافق");
                     return;
                 }
 

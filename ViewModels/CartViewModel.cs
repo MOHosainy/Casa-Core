@@ -151,6 +151,71 @@ namespace MauiStoreApp.ViewModels
             await Shell.Current.GoToAsync("LoginPage");
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //[RelayCommand]
+        //public async Task DeleteCart()
+        //{
+        //    if (IsBusy || IsBusyWithCartModification) return;
+
+        //    try
+        //    {
+        //        var userResponse = await Shell.Current.DisplayAlert("Confirm", "Are you sure you want to delete the cart?", "Yes", "No");
+        //        if (!userResponse) return;
+
+        //        if (CartItems.Count > 0)
+        //        {
+        //            IsBusyWithCartModification = true;
+
+        //            var response = await _cartService.DeleteCartAsync();
+
+        //            if (response != null && response.IsSuccessStatusCode)
+        //            {
+        //                CartItems.Clear();
+        //                CalculateTotals();
+        //                var toast = Toast.Make("Cart deleted successfully.", ToastDuration.Short);
+        //                await toast.Show();
+        //            }
+        //            else
+        //            {
+        //                await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            await Shell.Current.DisplayAlert("Error", "No cart found.", "OK");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine($"Unable to delete cart: {ex.Message}");
+        //        await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
+        //    }
+        //    finally
+        //    {
+        //        IsBusyWithCartModification = false;
+        //    }
+        //}
+
         [RelayCommand]
         public async Task DeleteCart()
         {
@@ -158,42 +223,90 @@ namespace MauiStoreApp.ViewModels
 
             try
             {
-                var userResponse = await Shell.Current.DisplayAlert("Confirm", "Are you sure you want to delete the cart?", "Yes", "No");
-                if (!userResponse) return;
+                var userResponse = await Shell.Current.DisplayAlert(
+                    "(Confirm deletion) تأكيد الحذف",
+                    "(Are you sure you want to delete all products from the cart?) هل أنت متأكد أنك تريد حذف جميع المنتجات من السلة؟ ",
+                    "(Yes) نعم", "(No) لا");
+
+                if (!userResponse)
+                    return;
 
                 if (CartItems.Count > 0)
                 {
                     IsBusyWithCartModification = true;
 
-                    var response = await _cartService.DeleteCartAsync();
+                    // حذف السلة محليًا
+                    await _cartService.ClearCartAsync();
 
-                    if (response != null && response.IsSuccessStatusCode)
-                    {
-                        CartItems.Clear();
-                        CalculateTotals();
-                        var toast = Toast.Make("Cart deleted successfully.", ToastDuration.Short);
-                        await toast.Show();
-                    }
-                    else
-                    {
-                        await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
-                    }
+                    // تحديث الـ UI فورًا
+                    CartItems.Clear();
+                    CalculateTotals();
+
+                    var toast = Toast.Make("تم حذف السلة بنجاح.", ToastDuration.Short);
+                    await toast.Show();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", "No cart found.", "OK");
+                    await Shell.Current.DisplayAlert("خطأ", "لا توجد سلة لحذفها.", "موافق");
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Unable to delete cart: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
+                Debug.WriteLine($"فشل حذف السلة: {ex.Message}");
+                await Shell.Current.DisplayAlert("خطأ", "فشل في حذف السلة.", "موافق");
             }
             finally
             {
                 IsBusyWithCartModification = false;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         [RelayCommand]
         public void IncreaseProductQuantity(Product product)

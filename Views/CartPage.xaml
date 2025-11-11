@@ -182,10 +182,11 @@
                                             VerticalOptions="Center">
                                             <Label
                                                 Padding="0"
-                                                FontSize="14"
+                                                FontSize="17"
                                                 HorizontalTextAlignment="Center"
                                                 LineBreakMode="WordWrap"
                                                 Text="{Binding Quantity, StringFormat='{0}'}"
+                                                TextColor="{StaticResource Black}"
                                                 VerticalTextAlignment="Center" />
                                         </Frame>
 

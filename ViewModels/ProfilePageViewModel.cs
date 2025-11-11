@@ -101,7 +101,7 @@ namespace MauiStoreApp.ViewModels
 
         private async Task Logout()
         {
-            bool confirm = await Shell.Current.DisplayAlert("تسجيل الخروج", "هل تريد بالفعل تسجيل الخروج؟", "نعم", "إلغاء");
+            bool confirm = await Shell.Current.DisplayAlert("(LogOut) تسجيل الخروج", "(Do you really want to log out?) هل تريد بالفعل تسجيل الخروج؟", "نعم", "إلغاء");
 
             if (!confirm) return;
             IsBusy = true;
@@ -139,8 +139,8 @@ namespace MauiStoreApp.ViewModels
         private async Task DeleteAccount()
         {
             bool confirm = await Shell.Current.DisplayAlert(
-                "Delete Account",
-                "Are you sure you want to delete your account?",
+                "Log out ( تسجيل الخروج)",
+                "Are you sure you want to LogOut your account? (هل تريد الخروج بالفعل)",
                 "Yes", "Cancel");
 
             if (!confirm)

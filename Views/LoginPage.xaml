@@ -97,9 +97,10 @@
 
 
             <Label
-                FontSize="20"
+                FontAttributes="Bold"
+                FontSize="22"
                 HorizontalOptions="End"
-                Text="{x:Static resx:AppResources.UserName}"
+                Text="{x:Static resx:AppResources.Email}"
                 TextColor="{StaticResource KHly}" />
             <Border
                 Grid.Row="1"
@@ -117,7 +118,8 @@
 
 
             <Label
-                FontSize="20"
+                FontAttributes="Bold"
+                FontSize="22"
                 HorizontalOptions="End"
                 Text="{x:Static resx:AppResources.Password}"
                 TextColor="{StaticResource KHly}" />

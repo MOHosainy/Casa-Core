@@ -5,6 +5,7 @@ using MauiStoreApp.Services;
 using MauiStoreApp.Views;
 using OURSTORE.Localization;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace MauiStoreApp.ViewModels
 {
@@ -22,6 +23,8 @@ namespace MauiStoreApp.ViewModels
         public RegisterViewModel(AuthService authService)
         {
             _authService = authService;
+            CurrentLang = Preferences.Get("AppLanguage", "ar");
+
             ApplyLanguage(CurrentLang);
 
         }
@@ -41,7 +44,25 @@ namespace MauiStoreApp.ViewModels
 
 
 
-        [RelayCommand]
+
+
+
+
+
+
+
+private bool IsValidEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            return false;
+
+        var pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
+    }
+
+
+
+    [RelayCommand]
         public async Task Register()
         {
             if (IsBusy) return;
@@ -49,17 +70,37 @@ namespace MauiStoreApp.ViewModels
 
             try
             {
+
+                Email = Email?.Trim().ToLowerInvariant();
+                Password = Password?.Trim();
+
+                if (!IsValidEmail(Email))
+                {
+                    await Shell.Current.DisplayAlert("خطأ(error) ⚠️", "(Email is invalid) البريد الإلكتروني غير صالح.", "موافق(OK)");
+                    return;
+                }
+
+
                 var success = await _authService.RegisterAsync(Email, Password);
 
                 if (success)
                 {
-                    await Shell.Current.DisplayAlert("تم ✅", "تم إنشاء الحساب بنجاح!", "موافق");
-                    await Shell.Current.GoToAsync("//LoginPage");
+                    await Shell.Current.DisplayAlert("تم(Done) ✅", "(The account has been successfully created)تم إنشاء الحساب بنجاح!", "موافق(Ok)");
+                    await Shell.Current.GoToAsync("//HomePage");
                 }
                 else
                 {
-                    // هنا نفترض أن false يعني الإيميل موجود
-                    //await Shell.Current.DisplayAlert("تنبيه ⚠️", "هذا الإيميل مسجل بالفعل", "حسناً");
+                    var loginSuccess = await _authService.LoginAsync(Email, Password);
+
+                    if (loginSuccess)
+                    {
+                        await Shell.Current.DisplayAlert(" (Wellcome) مرحباً👋", "(Login successful!) تم تسجيل الدخول بنجاح!", "(continuation) استمرار");
+                        await Shell.Current.GoToAsync("//HomePage");
+                    }
+                    else
+                    {
+                        //await Shell.Current.DisplayAlert("تنبيه ⚠️", "هذا البريد مسجل بالفعل، لكن كلمة المرور غير صحيحة.", "موافق");
+                    }
                 }
             }
             catch (Exception ex)
