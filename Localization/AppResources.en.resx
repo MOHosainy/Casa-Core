@@ -118,119 +118,117 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NoAccount" xml:space="preserve">
-    <value>لا تمتلك حساب؟</value>
+    <value>No Account</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>تسجيل الدخول</value>
+    <value>Login</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>انشاء حساب ؟</value>
+    <value>Register</value>
   </data>
   <data name="WelcomeToOurFashionWorld" xml:space="preserve">
-    <value>مرحباً بك في عالم الأناقة والموضة</value>
+    <value>WelcomeToOurFashionWorld</value>
   </data>
   <data name="Cart" xml:space="preserve">
-    <value>عربة التسوّق</value>
+    <value>Cart</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>ترتيب حسب</value>
+    <value>Sort By</value>
   </data>
   <data name="PriceAscending" xml:space="preserve">
-    <value>السعر من الأقل إلى الأعلى</value>
+    <value>Price Ascending</value>
   </data>
   <data name="PriceDescending" xml:space="preserve">
-    <value>السعر من الأعلى إلى الأدنى</value>
+    <value>Price Descending</value>
   </data>
   <data name="SearchProducts" xml:space="preserve">
-    <value>بحث عن المنتجات...</value>
+    <value>Search Products</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value>الفئات</value>
+    <value>Categories</value>
   </data>
   <data name="Available" xml:space="preserve">
-    <value> متاح</value>
+    <value> Available</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
-    <value>اضف للسله</value>
+    <value>Add To Cart</value>
   </data>
   <data name="ProductDescription" xml:space="preserve">
-    <value>وصف المنتج</value>
+    <value>Product Description</value>
   </data>
   <data name="Category" xml:space="preserve">
-    <value>الفئه</value>
+    <value>Category</value>
   </data>
   <data name="Reviews" xml:space="preserve">
-    <value>التعليقات</value>
+    <value>Reviews</value>
   </data>
   <data name="YouMayAlsoLike" xml:space="preserve">
-    <value>ربما يعجبك هذا</value>
+    <value>YouMayAlsoLike</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value>اللغه العربيه</value>
+    <value>English</value>
   </data>
   <data name="ChangeLanguage" xml:space="preserve">
-    <value>تغيير اللغه</value>
+    <value>ChangeLanguage</value>
   </data>
   <data name="QNB" xml:space="preserve">
-    <value>ييي</value>
+    <value>QNB</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>اسم المستخدم</value>
+    <value>UserName</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>الرقم السري</value>
+    <value>Password</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
-    <value>تاكيد الرقم السري</value>
+    <value>Confirm Password</value>
   </data>
   <data name="CreateAccount" xml:space="preserve">
-    <value>انشاء حساب</value>
+    <value>Create Account</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>الايميل</value>
+    <value>Email</value>
   </data>
   <data name="FeaturedProducts" xml:space="preserve">
-    <value>منتجات مميزة
-</value>
+    <value>Featured Products</value>
   </data>
   <data name="GoToLogin" xml:space="preserve">
-    <value>الذهاب لتسجيل الدخول</value>
+    <value>Go To Login</value>
   </data>
   <data name="CompleteTheOrder" xml:space="preserve">
-    <value> اتمام الطلب والدفع عند الاستلام</value>
+    <value>Complete the order and Payment upon receipt</value>
   </data>
   <data name="YourCartIsEmpty" xml:space="preserve">
-    <value>سلة التسوق الخاصة بك فارغة</value>
+    <value>Your cart is empty</value>
   </data>
   <data name="BrowseProducts" xml:space="preserve">
-    <value>تصفح المنتجات</value>
+    <value>Browse products</value>
   </data>
   <data name="Checkout" xml:space="preserve">
-    <value>الدفع</value>
+    <value>Checkout</value>
   </data>
   <data name="TotalPrice" xml:space="preserve">
-    <value>السعر الإجمالي</value>
+    <value>Total Price</value>
   </data>
   <data name="ConfirmOrder" xml:space="preserve">
-    <value>تاكيد الطلب</value>
+    <value>Confirm Order</value>
   </data>
   <data name="Signout" xml:space="preserve">
-    <value>تسجيل خروج</value>
+    <value>Sign out</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
-    <value>حسابي</value>
+    <value>My account</value>
   </data>
   <data name="RecentlyViewed" xml:space="preserve">
-    <value>تم عرضها مؤخرا</value>
+    <value>Recently Viewed</value>
   </data>
   <data name="ThereAreNoRecentlyViewedProducts" xml:space="preserve">
-    <value>لا توجد منتجات تم عرضها مؤخرًا</value>
+    <value>There are no recently viewed products</value>
   </data>
   <data name="StartShopping" xml:space="preserve">
-    <value>ابدا التسوق</value>
+    <value>Start shopping</value>
   </data>
   <data name="TotalQuantity" xml:space="preserve">
-    <value>الكمية الإجمالية
-</value>
+    <value>Total Quantity</value>
   </data>
 </root>

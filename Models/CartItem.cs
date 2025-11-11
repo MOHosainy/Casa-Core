@@ -28,6 +28,8 @@ namespace CASACORE.Models
     {
         public Product Product { get; set; }
         public int Quantity { get; set; } = 1;
+        public int Price { get; internal set; }
+        public decimal TotalPrice { get; internal set; }
     }
 
 }

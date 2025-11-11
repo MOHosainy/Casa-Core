@@ -43,6 +43,9 @@
     <ShellContent ContentTemplate="{DataTemplate views:RegisterPage}" Route="RegisterPage" />
 
 
+
+    <ShellContent ContentTemplate="{DataTemplate views:CheckoutPage}" Route="CheckoutPage" />
+
     <!--  ✅ التبويبات بعد تسجيل الدخول  -->
     <TabBar Route="MainTabs">
 

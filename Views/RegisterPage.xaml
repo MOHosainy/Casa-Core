@@ -6,7 +6,8 @@
     xmlns:BorderlessControls="clr-namespace:MauiStoreApp.CustomControls.Borderless"
     xmlns:converters="clr-namespace:MauiStoreApp.Converters"
     xmlns:resx="clr-namespace:OURSTORE.Localization"
-    xmlns:viewmodels="clr-namespace:MauiStoreApp.ViewModels">
+    xmlns:viewmodels="clr-namespace:MauiStoreApp.ViewModels"
+    FlowDirection="{Binding CurrentFlowDirection}">
 
     <!--<ContentPage.BindingContext>
         <viewmodels:RegisterViewModel />
@@ -18,6 +19,8 @@
 
             <converters:BoolToPasswordIconConverter x:Key="BoolToPasswordIconConverter" />
             <converters:LanguageButtonVisibilityConverter x:Key="LanguageButtonVisibilityConverter" />
+
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -52,7 +55,6 @@
                     BackgroundColor="Transparent"
                     FontSize="16"
                     HeightRequest="40"
-                    Placeholder="{x:Static resx:AppResources.Email}"
                     Text="{Binding Email}"
                     TextColor="{StaticResource Black}" />
 
@@ -77,6 +79,7 @@
 
 
 
+                <!--  IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"  -->
 
 
 
@@ -93,8 +96,7 @@
                         BackgroundColor="Transparent"
                         FontSize="16"
                         HeightRequest="40"
-                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
-                        Placeholder="{x:Static resx:AppResources.Password}"
+                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolConverter}}"
                         Text="{Binding Password}"
                         TextColor="{StaticResource Black}" />
 

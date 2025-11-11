@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiStoreApp.Models;
 using MauiStoreApp.Services;
+using MauiStoreApp.Views;
 using Microsoft.Maui.Storage;
 
 namespace MauiStoreApp.ViewModels
@@ -22,6 +23,9 @@ namespace MauiStoreApp.ViewModels
         //public IAsyncRelayCommand InitCommand { get; }
 
         bool isFirstRun = true;
+        public int TotalQuantity => CartItems?.Sum(i => i.Quantity) ?? 0;
+
+        public decimal TotalPrice => CartItems?.Sum(i => i.Quantity * i.Product.Price) ?? 0m;
 
 
         public CartViewModel(CartService cartService, AuthService authService)
@@ -35,17 +39,37 @@ namespace MauiStoreApp.ViewModels
 
             _cartService.CartUpdated += OnCartUpdated; // ✅ متابعة تغييرات السلة
 
-
+            CalculateTotals();
         }
         private void OnCartUpdated()
         {
+            SyncCartItems();
+            CalculateTotals();
             CartItems = new ObservableCollection<CartItemDetail>(_cartService.GetCartItems());
             OnPropertyChanged(nameof(CartItems));
 
         }
 
+        private void CalculateTotals()
+        {
+            OnPropertyChanged(nameof(TotalQuantity));
+            OnPropertyChanged(nameof(TotalPrice));
+        }
 
-     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -66,7 +90,7 @@ namespace MauiStoreApp.ViewModels
 
             await _cartService.LoadCartFromStorageAsync();
             SyncCartItems();
-
+            CalculateTotals();
 
             if (isFirstRun)
             {
@@ -108,6 +132,7 @@ namespace MauiStoreApp.ViewModels
                 await _cartService.RefreshCartItemsByUserIdAsync(userId);
 
                 SyncCartItems();
+                CalculateTotals();
             }
             catch (Exception ex)
             {
@@ -145,7 +170,7 @@ namespace MauiStoreApp.ViewModels
                     if (response != null && response.IsSuccessStatusCode)
                     {
                         CartItems.Clear();
-
+                        CalculateTotals();
                         var toast = Toast.Make("Cart deleted successfully.", ToastDuration.Short);
                         await toast.Show();
                     }
@@ -178,6 +203,7 @@ namespace MauiStoreApp.ViewModels
                 if (product == null) return;
                 _cartService.IncreaseProductQuantity(product.Id);
                 SyncCartItems();
+                CalculateTotals();
             }
             catch (Exception ex)
             {
@@ -194,6 +220,7 @@ namespace MauiStoreApp.ViewModels
                 if (product == null) return;
                 _cartService.DecreaseProductQuantity(product.Id);
                 SyncCartItems();
+                CalculateTotals();
             }
             catch (Exception ex)
             {
@@ -201,6 +228,22 @@ namespace MauiStoreApp.ViewModels
                 Shell.Current.DisplayAlert("Error", "Failed to decrease product quantity.", "OK");
             }
         }
+
+
+        [RelayCommand]
+        private async Task GoToCheckout()
+        {
+
+            await Shell.Current.GoToAsync(nameof(CheckoutPage));
+
+
+        }
+
+
+
+
+
+        [RelayCommand]
 
         private void SyncCartItems()
         {
@@ -212,6 +255,7 @@ namespace MauiStoreApp.ViewModels
                 foreach (var updatedItem in updatedCartItems)
                 {
                     CartItems.Add(updatedItem);
+                    OnPropertyChanged(nameof(CartItems));
                 }
             }
             catch (Exception ex)

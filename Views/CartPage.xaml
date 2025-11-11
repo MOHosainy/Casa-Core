@@ -10,7 +10,8 @@
     xmlns:resx="clr-namespace:OURSTORE.Localization"
     xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
     xmlns:viewmodel="clr-namespace:MauiStoreApp.ViewModels"
-    BackgroundColor="{StaticResource babublue}">
+    BackgroundColor="{StaticResource babublue}"
+    FlowDirection="{Binding CurrentFlowDirection}">
 
     <Shell.TitleView>
         <Grid HorizontalOptions="FillAndExpand">
@@ -34,8 +35,7 @@
             <Label
                 Grid.Column="1"
                 FontAttributes="Bold"
-                FontFamily="AstoreEczarSemiBold"
-                FontSize="20"
+                FontSize="35"
                 HorizontalOptions="CenterAndExpand"
                 Text="{x:Static resx:AppResources.Cart}"
                 TextColor="{StaticResource KHly}"
@@ -125,7 +125,6 @@
                                             <Label
                                                 Grid.Column="0"
                                                 Padding="0"
-                                                FontFamily="AstoreEczarSemiBold"
                                                 FontSize="14"
                                                 LineBreakMode="WordWrap"
                                                 Text="{Binding Product.Category, Converter={StaticResource FirstLetterUppercaseConverter}}"
@@ -146,7 +145,7 @@
                                         Margin="10,45,0,0"
                                         Padding="2,10,0,0"
                                         FontAttributes="Bold"
-                                        FontFamily="AstoreEczarSemiBold"
+                                        FontFamily="astore-eczar-semi-bold"
                                         FontSize="14"
                                         LineBreakMode="WordWrap"
                                         MaxLines="2"
@@ -183,7 +182,6 @@
                                             VerticalOptions="Center">
                                             <Label
                                                 Padding="0"
-                                                FontFamily="AstoreEczarSemiBold"
                                                 FontSize="14"
                                                 HorizontalTextAlignment="Center"
                                                 LineBreakMode="WordWrap"
@@ -275,7 +273,7 @@
                     <Label
                         Margin="0,5"
                         HorizontalOptions="Center"
-                        Text="Your cart is empty."
+                        Text="{x:Static resx:AppResources.YourCartIsEmpty}"
                         TextColor="{StaticResource KHly}"
                         VerticalOptions="Center" />
 
@@ -286,49 +284,34 @@
                         CommandParameter="HomePage"
                         CornerRadius="20"
                         HorizontalOptions="Center"
-                        Text="Browse products"
+                        Text="{x:Static resx:AppResources.BrowseProducts}"
                         VerticalOptions="Center"
                         WidthRequest="155" />
                 </StackLayout>
             </StackLayout>
 
             <!--  if user is not logged in  -->
+            <!--  if user is logged in  -->
             <StackLayout
                 Grid.Row="0"
                 Padding="10"
-                IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}"
-                VerticalOptions="CenterAndExpand">
-                <!--<Image
-                    Margin="0,0,0,45"
-                    HorizontalOptions="Center"
-                    Source="not_logged_in.svg"
-                    VerticalOptions="Center" />
+                IsVisible="{Binding IsUserLoggedIn}"
+                VerticalOptions="EndAndExpand">
 
-                <Label
-                    Margin="0,5"
+                <Button
+                    Margin="0,15,0,125"
+                    BackgroundColor="{StaticResource KHly}"
+                    Command="{Binding GoToCheckoutCommand}"
+                    CornerRadius="25"
                     FontAttributes="Bold"
-                    FontSize="Large"
-                    HorizontalOptions="Center"
-                    Text="You are not logged in"
-                    VerticalOptions="Center" />
-
-                <Label
-                    Margin="0,5"
-                    HorizontalOptions="Center"
-                    Text="Please log in order to see your cart."
-                    TextColor="Gray"
-                    VerticalOptions="Center" />-->
-
-                <!--<Button
-                    Margin="0,45"
-                    Command="{Binding GoToLoginPageCommand}"
-                    CornerRadius="20"
-                    HorizontalOptions="Center"
-                    Text="Sign in"
-                    VerticalOptions="Center"
-                    WidthRequest="150" />-->
-
+                    FontSize="20"
+                    HeightRequest="50"
+                    IsVisible="{Binding CartItems.Count, Converter={StaticResource IntToBoolConverter}}"
+                    Text="{x:Static resx:AppResources.CompleteTheOrder}"
+                    TextColor="{StaticResource babublue}"
+                    VerticalOptions="End" />
             </StackLayout>
+
         </Grid>
 
         <!--  Activity Indicator for loading status  -->

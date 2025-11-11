@@ -18,6 +18,9 @@ namespace MauiStoreApp
         {
             InitializeComponent();
 
+            //_ = typeof(OURSTORE.Localization.AppResources);
+
+
             _authService = authService; // ✅ صح
             //CartService.Instance.LoadCart();
 
@@ -31,8 +34,25 @@ namespace MauiStoreApp
 
         MainPage = new AppShell();
 
-            
-            MainPage.Loaded += async (s, e) => await CheckUserSession();
+
+            //MainPage.Loaded += async (s, e) => await CheckUserSession();
+
+
+
+            MainPage.Loaded += async (s, e) =>
+            {
+                try
+                {
+                    await MauiProgram.SupabaseClient.InitializeAsync();
+                    await Task.Delay(800); // ✅ ندي فرصة للـ UI يثبت
+                    await CheckUserSession(); // ✅ تشيك بعد الاستقرار
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"CheckUserSession Error: {ex.Message}");
+                    await Shell.Current.DisplayAlert("Error", "Something went wrong while checking user session.", "OK");
+                }
+            };
 
 
         }
@@ -48,8 +68,22 @@ namespace MauiStoreApp
                 await Shell.Current.GoToAsync("//LoginPage");
         }
 
+
+
+
+
+
         private async Task CheckUserSession()
         {
+            try
+            {
+                await MauiProgram.SupabaseClient.InitializeAsync(); // ✅ هنا initialization
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"🔥 Init Error: {ex}");
+            }
+
             var logged = await SecureStorage.GetAsync("isLoggedIn");
 
             if (logged != "true")
@@ -58,17 +92,60 @@ namespace MauiStoreApp
                 return;
             }
 
-            bool restored = await _authService.TryRestoreFullSessionAsync();
+            bool restored = false;
 
-            if (restored)
-                await Shell.Current.GoToAsync("//HomePage");
-            else
-                await Shell.Current.GoToAsync("//LoginPage");
+            try
+            {
+                restored = await _authService.TryRestoreFullSessionAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"🔥 Restore Error: {ex.Message}");
+            }
+
+            await Shell.Current.GoToAsync(restored ? "//HomePage" : "//LoginPage");
+
+            //if (restored)
+            //    await Shell.Current.GoToAsync("//HomePage");
+            //else
+            //    await Shell.Current.GoToAsync("//LoginPage");
         }
 
 
 
-       
+
+
+
+
+        public static void SetAppLanguage(string lang)
+        {
+            try
+            {
+                var culture = new System.Globalization.CultureInfo(lang);
+                System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+                System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
+                OURSTORE.Localization.AppResources.Culture = culture;
+
+                if (Application.Current?.MainPage != null)
+                {
+                    Application.Current.MainPage.FlowDirection =
+                        lang == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error setting language: {ex.Message}");
+            }
+        }
+
+
+
+
+
+
+
+
+
 
 
 

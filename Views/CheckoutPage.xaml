@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiStoreApp.Views.CheckoutPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiStoreApp.ViewModels"
+    xmlns:resx="clr-namespace:OURSTORE.Localization"
+    BackgroundColor="{StaticResource babublue}"
+    FlowDirection="{Binding CurrentFlowDirection}">
+
+    <!--  ✅ Title Bar مثل Category  -->
+    <Shell.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+
+
+
+            <Label
+                Grid.Column="0"
+                Margin="0,0,40,0"
+                FontAttributes="Bold"
+                FontSize="35"
+                HorizontalOptions="CenterAndExpand"
+                Text="{x:Static resx:AppResources.Checkout}"
+                TextColor="{StaticResource KHly}"
+                VerticalOptions="CenterAndExpand" />
+        </Grid>
+    </Shell.TitleView>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="15" Spacing="15">
+
+            <!--  ✅ Cart Items  -->
+            <CollectionView ItemsSource="{Binding CartItems}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label FontSize="18" Text="{Binding TotalQuantity}" />
+
+                            <Label
+                                Grid.Column="1"
+                                FontSize="18"
+                                Text="{Binding TotalPrice, StringFormat='€{0:F2}'}"
+                                TextColor="Green" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!--  ✅ Total Section  -->
+            <Grid Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label FontSize="18" Text="{x:Static resx:AppResources.TotalQuantity}" />
+
+                <Label
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="{Binding TotalQuantity}"
+                    TextColor="Black" />
+
+                <Label
+                    Grid.Row="1"
+                    FontSize="18"
+                    Text="{x:Static resx:AppResources.TotalPrice}"
+                    TextColor="Black" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="{Binding TotalPrice, StringFormat='€{0:F2}'}"
+                    TextColor="Green" />
+            </Grid>
+
+            <!--  ✅ Confirm Order  -->
+            <!--  IsVisible="{Binding Source={x:Reference RootPage}, Path=BindingContext.IsUserLoggedIn}"  -->
+
+            <Button
+                BackgroundColor="{StaticResource KHly}"
+                Command="{Binding ConfirmOrderCommand}"
+                CornerRadius="15"
+                FontSize="20"
+                Text="{x:Static resx:AppResources.ConfirmOrder}"
+                TextColor="White" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -141,9 +141,6 @@
   <data name="PriceDescending" xml:space="preserve">
     <value>Price Descending</value>
   </data>
-  <data name="OurStore" xml:space="preserve">
-    <value>Our Store</value>
-  </data>
   <data name="SearchProducts" xml:space="preserve">
     <value>Search Products...</value>
   </data>
@@ -196,6 +193,42 @@
     <value>Featured Products</value>
   </data>
   <data name="GoToLogin" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CompleteTheOrder" xml:space="preserve">
+    <value />
+  </data>
+  <data name="YourCartIsEmpty" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BrowseProducts" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConfirmOrder" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Signout" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MyAccount" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RecentlyViewed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ThereAreNoRecentlyViewedProducts" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartShopping" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TotalQuantity" xml:space="preserve">
     <value />
   </data>
 </root>

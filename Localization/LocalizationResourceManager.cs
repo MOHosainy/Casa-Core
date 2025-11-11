@@ -35,7 +35,14 @@ namespace OURSTORE.Localization
 
         public string GetValue(string key)
         {
-            return _resourceManager.GetString(key, CultureInfo.CurrentUICulture);
+            try
+            {
+                return _resourceManager.GetString(key, CultureInfo.CurrentUICulture);
+            }
+            catch
+            {
+                return key;
+            }
         }
     }
 }

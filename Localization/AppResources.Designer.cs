@@ -79,6 +79,15 @@ namespace OURSTORE.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string BrowseProducts {
+            get {
+                return ResourceManager.GetString("BrowseProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cart.
         /// </summary>
         public static string Cart {
@@ -111,6 +120,33 @@ namespace OURSTORE.Localization {
         public static string ChangeLanguage {
             get {
                 return ResourceManager.GetString("ChangeLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Checkout {
+            get {
+                return ResourceManager.GetString("Checkout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string CompleteTheOrder {
+            get {
+                return ResourceManager.GetString("CompleteTheOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string ConfirmOrder {
+            get {
+                return ResourceManager.GetString("ConfirmOrder", resourceCulture);
             }
         }
         
@@ -178,20 +214,20 @@ namespace OURSTORE.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string MyAccount {
+            get {
+                return ResourceManager.GetString("MyAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NoAccount?.
         /// </summary>
         public static string NoAccount {
             get {
                 return ResourceManager.GetString("NoAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Our Store.
-        /// </summary>
-        public static string OurStore {
-            get {
-                return ResourceManager.GetString("OurStore", resourceCulture);
             }
         }
         
@@ -241,6 +277,15 @@ namespace OURSTORE.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string RecentlyViewed {
+            get {
+                return ResourceManager.GetString("RecentlyViewed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Register.
         /// </summary>
         public static string Register {
@@ -268,11 +313,56 @@ namespace OURSTORE.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Signout {
+            get {
+                return ResourceManager.GetString("Signout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sort by.
         /// </summary>
         public static string SortBy {
             get {
                 return ResourceManager.GetString("SortBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string StartShopping {
+            get {
+                return ResourceManager.GetString("StartShopping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string ThereAreNoRecentlyViewedProducts {
+            get {
+                return ResourceManager.GetString("ThereAreNoRecentlyViewedProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string TotalPrice {
+            get {
+                return ResourceManager.GetString("TotalPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string TotalQuantity {
+            get {
+                return ResourceManager.GetString("TotalQuantity", resourceCulture);
             }
         }
         
@@ -300,6 +390,15 @@ namespace OURSTORE.Localization {
         public static string YouMayAlsoLike {
             get {
                 return ResourceManager.GetString("YouMayAlsoLike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string YourCartIsEmpty {
+            get {
+                return ResourceManager.GetString("YourCartIsEmpty", resourceCulture);
             }
         }
     }

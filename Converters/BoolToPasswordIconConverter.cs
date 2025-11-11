@@ -10,6 +10,8 @@ namespace MauiStoreApp.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (bool)value ? "eye_off.svg" : "eye_show.svg";
+            //return (value is bool b && b) ? "eye_off.svg" : "eye_show.svg";
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
