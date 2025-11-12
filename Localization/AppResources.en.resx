@@ -127,7 +127,7 @@
     <value>Register</value>
   </data>
   <data name="WelcomeToOurFashionWorld" xml:space="preserve">
-    <value>WelcomeToOurFashionWorld</value>
+    <value>Welcome To Our FashionWorld</value>
   </data>
   <data name="Cart" xml:space="preserve">
     <value>Cart</value>
@@ -166,13 +166,13 @@
     <value>Reviews</value>
   </data>
   <data name="YouMayAlsoLike" xml:space="preserve">
-    <value>YouMayAlsoLike</value>
+    <value>You May Also Like</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
   <data name="ChangeLanguage" xml:space="preserve">
-    <value>ChangeLanguage</value>
+    <value>Change Language</value>
   </data>
   <data name="QNB" xml:space="preserve">
     <value>QNB</value>
@@ -199,16 +199,16 @@
     <value>Go To Login</value>
   </data>
   <data name="CompleteTheOrderAndPaymentUponReceipt" xml:space="preserve">
-    <value>Complete the order and Payment upon receipt</value>
+    <value>Complete The Order And Payment Upon Receipt</value>
   </data>
   <data name="YourCartIsEmpty" xml:space="preserve">
-    <value>Your cart is empty</value>
+    <value>Your Cart Is Empty</value>
   </data>
   <data name="BrowseProducts" xml:space="preserve">
     <value>Browse products</value>
   </data>
   <data name="Checkout" xml:space="preserve">
-    <value>Checkout</value>
+    <value>CheckOut</value>
   </data>
   <data name="TotalPrice" xml:space="preserve">
     <value>Total Price</value>
@@ -217,7 +217,7 @@
     <value>Confirm Order</value>
   </data>
   <data name="Signout" xml:space="preserve">
-    <value>Sign out</value>
+    <value>Sign Out</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
     <value>My account</value>

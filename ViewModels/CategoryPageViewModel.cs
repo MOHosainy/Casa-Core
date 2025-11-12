@@ -85,7 +85,7 @@ namespace MauiStoreApp.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Unable to get products: {ex.Message}");
+                Debug.WriteLine($"Unable to get products ( غير قادر على الحصول على المنتجات ) : {ex.Message}");
                 await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
             }
             finally

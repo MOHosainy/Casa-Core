@@ -43,6 +43,7 @@
                 Command="{Binding ChangeLanguagesCommand}"
                 CommandParameter="ar"
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="17"
                 IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='ar'}"
                 Text="🌐 العربيه" />
@@ -53,6 +54,7 @@
                 Command="{Binding ChangeLanguagesCommand}"
                 CommandParameter="en"
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="17"
                 IsVisible="{Binding CurrentLang, Converter={StaticResource LanguageButtonVisibilityConverter}, ConverterParameter='en'}"
                 Text="🌐 English" />
@@ -75,6 +77,7 @@
 
             <Label
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="25"
                 HorizontalOptions="CenterAndExpand"
                 HorizontalTextAlignment="Center"
@@ -86,6 +89,7 @@
 
             <Label
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="35"
                 HorizontalOptions="Center"
                 Text="{x:Static resx:AppResources.Login}"
@@ -95,6 +99,7 @@
 
             <Label
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="25"
                 HorizontalOptions="End"
                 Text="{x:Static resx:AppResources.Email}"
@@ -116,6 +121,7 @@
 
             <Label
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="25"
                 HorizontalOptions="End"
                 Text="{x:Static resx:AppResources.Password}"
@@ -176,6 +182,7 @@
                 BackgroundColor="{StaticResource KHly}"
                 Command="{Binding LoginCommand}"
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="20"
                 Text="{x:Static resx:AppResources.Login}"
                 TextColor="White" />
@@ -189,6 +196,7 @@
 
                 <Label
                     FontAttributes="Bold"
+                    FontFamily="OpenSansCondensedBold"
                     FontSize="25"
                     Text="{x:Static resx:AppResources.Register}"
                     TextColor="{StaticResource KHly}"

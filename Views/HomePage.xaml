@@ -27,16 +27,13 @@
     </ContentPage.Behaviors>
 
     <Shell.TitleView>
-        <Label
-            FontAttributes="Bold"
-            FontSize="Large"
-            HorizontalOptions="Center"
-            VerticalOptions="Center">
+        <Label HorizontalOptions="Center" VerticalOptions="Center">
             <Label.FormattedText>
                 <FormattedString>
                     <Span
                         FontAttributes="Bold"
-                        FontSize="30"
+                        FontFamily="OpenSansCondensedBold"
+                        FontSize="35"
                         Text="{x:Static resx:AppResources.OurStore}"
                         TextColor="{StaticResource KHly}" />
                 </FormattedString>
@@ -93,7 +90,8 @@
                 <Label
                     Margin="0,15,0,10"
                     FontAttributes="Bold"
-                    FontSize="20"
+                    FontFamily="OpenSansCondensedBold"
+                    FontSize="30"
                     HorizontalOptions="Start"
                     Text="{x:Static resx:AppResources.Categories}"
                     TextColor="{StaticResource KHly}"
@@ -131,6 +129,7 @@
                                             <Label
                                                 Margin="0,-80,0,0"
                                                 FontAttributes="Bold"
+                                                FontFamily="OpenSansCondensedBold"
                                                 FontSize="15"
                                                 HeightRequest="20"
                                                 HorizontalTextAlignment="Center"
@@ -152,9 +151,10 @@
                 </ScrollView>
 
                 <Label
-                    Margin="0,15,0,10"
+                    Margin="0,5,0,0"
                     FontAttributes="Bold"
-                    FontSize="20"
+                    FontFamily="OpenSansCondensedBold"
+                    FontSize="30"
                     HorizontalOptions="Start"
                     Text="{x:Static resx:AppResources.FeaturedProducts}"
                     TextColor="{StaticResource KHly}"
@@ -212,6 +212,7 @@
                                             WidthRequest="16" />
                                         <Label
                                             FontAttributes="Bold"
+                                            FontFamily="OpenSansCondensedBold"
                                             FontSize="Small"
                                             HorizontalOptions="StartAndExpand"
                                             Text="{Binding Rating.Rate}"
@@ -222,6 +223,7 @@
                                     <!--  title  -->
                                     <Label
                                         Margin="0,3"
+                                        FontFamily="OpenSansCondensedBold"
                                         FontSize="Small"
                                         HeightRequest="38"
                                         LineBreakMode="WordWrap"
@@ -231,6 +233,7 @@
                                     <!--  price  -->
                                     <Label
                                         FontAttributes="Bold"
+                                        FontFamily="OpenSansCondensedBold"
                                         FontSize="Medium"
                                         HeightRequest="30"
                                         HorizontalOptions="StartAndExpand"

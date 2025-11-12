@@ -186,7 +186,7 @@ namespace MauiStoreApp.ViewModels
             await Shell.Current.GoToAsync("//MainTabs/CartPage");
             //await Shell.Current.GoToAsync("CartPage");
 
-            var toast = Toast.Make("✅ Product added to cart", ToastDuration.Short);
+            var toast = Toast.Make("✅ Product added to cart ( تمت إضافة المنتج إلى عربة التسوّق ) ", ToastDuration.Short);
             await toast.Show();
         }
 

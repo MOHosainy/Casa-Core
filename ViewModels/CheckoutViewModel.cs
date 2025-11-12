@@ -81,13 +81,18 @@ namespace MauiStoreApp.ViewModels
         {
             if (!CartItems.Any())
             {
-                await Shell.Current.DisplayAlert("Error", "Cart is empty!", "OK");
+                await Shell.Current.DisplayAlert("Error ( حدث خطا ) ", "Cart is empty! ( السله فارغه )", "OK ( تم ) ");
                 return;
             }
 
             //_cartService.ClearCart();
             //LoadCheckoutData();
-            await Shell.Current.DisplayAlert("✅ Success", "Order has been submitted!", "OK");
+            await _cartService.ClearCartAsync(); // هتمسح من التخزين كمان
+
+            // ✅ 3. فضّي القائمة المعروضة
+            CartItems.Clear();
+
+            await Shell.Current.DisplayAlert("✅ Success (تم بنجاح)", "Order has been submitted (  تم تقديم الطلب ) ", "OK");
             await Shell.Current.GoToAsync("//HomePage");
 
         }

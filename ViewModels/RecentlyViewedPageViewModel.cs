@@ -85,7 +85,7 @@ namespace MauiStoreApp.ViewModels
         private async Task DeleteAll()
         {
             // fire alert to confirm
-            var result = await Shell.Current.DisplayAlert("Delete All", "Are you sure you want to delete all recently viewed products?", "Yes", "No");
+            var result = await Shell.Current.DisplayAlert("Delete All ( حذف الكل ) ", "Are you sure you want to delete all recently viewed products? ( هل أنت متأكد أنك تريد حذف جميع المنتجات التي شاهدتها مؤخرًا؟ ) ", "Yes ( نعم ) ", "No ( لا ) ");
 
             if (!result)
             {

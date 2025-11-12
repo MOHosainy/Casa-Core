@@ -30,6 +30,10 @@ namespace MauiStoreApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     //fonts.AddFont("AstoreEczarSemiBold.ttf", "AstoreEczarSemiBold");
                     fonts.AddFont("astore-eczar-semi-bold.ttf", "astore-eczar-semi-bold");
+                    fonts.AddFont("Poppins-Bold.ttf", "PoppinsBold");
+                    fonts.AddFont("OpenSans_Condensed-Bold.ttf", "OpenSansCondensedBold");
+
+
                 }).UseMauiCommunityToolkit();
 
 #if ANDROID
@@ -77,7 +81,7 @@ namespace MauiStoreApp
             
             builder.Services.AddSingleton<AuthService>();
 
-            builder.Services.AddSingleton<RegisterPage>();
+            builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<RegisterViewModel>();
 
 

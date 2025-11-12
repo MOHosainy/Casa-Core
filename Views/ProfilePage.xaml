@@ -26,6 +26,7 @@
             <Label
                 Grid.Column="0"
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="30"
                 HorizontalOptions="CenterAndExpand"
                 Text="{x:Static resx:AppResources.MyAccount}"
@@ -96,6 +97,7 @@
                             ZIndex="2">
                             <Label
                                 FontAttributes="Bold"
+                                FontFamily="OpenSansCondensedBold"
                                 FontSize="20"
                                 HorizontalOptions="Center"
                                 Text="{Binding AvatarInitial, Converter={StaticResource FirstLetterConverter}}"
@@ -111,6 +113,7 @@
                             <Label
                                 Margin="0,0,0,3"
                                 FontAttributes="Bold"
+                                FontFamily="OpenSansCondensedBold"
                                 FontSize="20"
                                 HorizontalOptions="Center"
                                 Text="{Binding Email}"
@@ -214,6 +217,7 @@
                         JustifyContent="SpaceBetween">
                         <Label
                             FontAttributes="Bold"
+                            FontFamily="OpenSansCondensedBold"
                             FontSize="27"
                             Text="{x:Static resx:AppResources.Signout}"
                             TextColor="Black">

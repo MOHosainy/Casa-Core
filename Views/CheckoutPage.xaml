@@ -35,6 +35,7 @@
                 Grid.Column="0"
                 Margin="0,0,40,0"
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="35"
                 HorizontalOptions="CenterAndExpand"
                 Text="{x:Static resx:AppResources.Checkout}"
@@ -56,11 +57,16 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Label FontSize="18" Text="{Binding TotalQuantity}" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="22"
+                                Text="{Binding TotalQuantity}" />
 
                             <Label
                                 Grid.Column="1"
-                                FontSize="18"
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansCondensedBold"
+                                FontSize="22"
                                 Text="{Binding TotalPrice, StringFormat='€{0:F2}'}"
                                 TextColor="Green" />
                         </Grid>
@@ -80,39 +86,52 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Label FontSize="18" Text="{x:Static resx:AppResources.TotalQuantity}" />
+                <Label
+                    FontAttributes="Bold"
+                    FontFamily="OpenSansCondensedBold"
+                    FontSize="28"
+                    Text="{x:Static resx:AppResources.TotalQuantity}"
+                    TextColor="{StaticResource KHly}" />
 
                 <Label
                     Grid.Column="1"
                     FontAttributes="Bold"
-                    FontSize="18"
+                    FontFamily="OpenSansCondensedBold"
+                    FontSize="25"
                     Text="{Binding TotalQuantity}"
-                    TextColor="Black" />
+                    TextColor="{StaticResource KHly}" />
 
                 <Label
                     Grid.Row="1"
-                    FontSize="18"
+                    Margin="0,10,0,0"
+                    FontAttributes="Bold"
+                    FontFamily="OpenSansCondensedBold"
+                    FontSize="28"
                     Text="{x:Static resx:AppResources.TotalPrice}"
-                    TextColor="Black" />
+                    TextColor="{StaticResource KHly}" />
 
                 <Label
                     Grid.Row="1"
                     Grid.Column="1"
+                    Margin="0,10,0,0"
                     FontAttributes="Bold"
-                    FontSize="18"
+                    FontFamily="OpenSansCondensedBold"
+                    FontSize="22"
                     Text="{Binding TotalPrice, StringFormat='€{0:F2}'}"
                     TextColor="Green" />
             </Grid>
 
             <!--  ✅ Confirm Order  -->
             <Button
-                BackgroundColor="{StaticResource KHly}"
+                BackgroundColor="{StaticResource White}"
                 Command="{Binding ConfirmOrderCommand}"
                 CornerRadius="15"
-                FontSize="20"
+                FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
+                FontSize="28"
                 IsVisible="{Binding Source={x:Reference RootPage}, Path=BindingContext.IsUserLoggedIn}"
                 Text="{x:Static resx:AppResources.ConfirmOrder}"
-                TextColor="White" />
+                TextColor="{StaticResource KHly}" />
 
         </VerticalStackLayout>
     </ScrollView>

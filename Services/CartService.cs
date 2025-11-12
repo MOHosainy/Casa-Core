@@ -242,25 +242,73 @@ namespace MauiStoreApp.Services
 
 
         // حفظ السلة محليًا
-        private async Task SaveCartLocallyAsync()
+        public async Task SaveCartLocallyAsync()
         {
             var json = JsonConvert.SerializeObject(_cartItems);
             await SecureStorage.SetAsync("localCart", json);
         }
 
         // تحميل السلة من التخزين المحلي
+        //public async Task LoadCartFromStorageAsync()
+        //{
+        //    try
+        //    {
+        //        var json = await SecureStorage.GetAsync("localCart");
+        //        if (!string.IsNullOrEmpty(json))
+        //            _cartItems = JsonConvert.DeserializeObject<List<CartItemDetail>>(json);
+
+        //        CartUpdated?.Invoke();
+        //    }
+        //    catch { }
+        //}
+
+
+
+
+
+
+
+
         public async Task LoadCartFromStorageAsync()
         {
             try
             {
                 var json = await SecureStorage.GetAsync("localCart");
-                if (!string.IsNullOrEmpty(json))
+
+                // ✅ لو السلة قديمة جدًا أو فاضية أو فيها بيانات ديفولت.. امسحها
+                if (string.IsNullOrEmpty(json) || json.Contains("default", StringComparison.OrdinalIgnoreCase))
+                {
+                    _cartItems.Clear();
+                    SecureStorage.Remove("localCart");
+                }
+                else
+                {
                     _cartItems = JsonConvert.DeserializeObject<List<CartItemDetail>>(json);
+                }
 
                 CartUpdated?.Invoke();
             }
-            catch { }
+            catch
+            {
+                _cartItems.Clear();
+                SecureStorage.Remove("localCart");
+            }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -293,12 +341,92 @@ namespace MauiStoreApp.Services
             else
                 _cartItems.Add(new CartItemDetail { Product = product, Quantity = 1 });
 
-            CartUpdated?.Invoke();
+            //CartUpdated?.Invoke();
             await SaveCartLocallyAsync();
+            //CartUpdated?.Invoke();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                CartUpdated?.Invoke();
+            });
+
         }
 
 
         // داخل CartService
+
+
+
+
+        //private void OnCartUpdated()
+        //{
+        //    MainThread.BeginInvokeOnMainThread(() =>
+        //    {
+        //        _cartItems.Clear();
+
+        //        foreach (var item in _cartService.GetCartItems())
+        //            _cartItems.Add(item);
+
+        //        CalculateTotals();
+        //    });
+        //}
+
+
+
+
+
+
+
+
+
+        //public async Task<Cart> CreateCartForUserAsync(int userId)
+        //{
+        //    var newCart = new Cart
+        //    {
+        //        UserId = userId,
+        //        Products = new List<CartProduct>()
+        //    };
+
+        //    var json = JsonConvert.SerializeObject(newCart);
+
+        //    using var client = new HttpClient();
+        //    var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        //    var response = await client.PostAsync("https://phbarflogerpotdqiwrp.supabase.co", content);
+
+        //    response.EnsureSuccessStatusCode();
+
+        //    var resultJson = await response.Content.ReadAsStringAsync();
+        //    var createdCart = JsonConvert.DeserializeObject<Cart>(resultJson);
+
+        //    cartId = createdCart.Id; // 🔑 تعيين cartId للسلة الجديدة
+
+        //    return createdCart;
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<Cart> CreateCartForUserAsync(int userId)
         {
             var newCart = new Cart
@@ -308,29 +436,43 @@ namespace MauiStoreApp.Services
             };
 
             var json = JsonConvert.SerializeObject(newCart);
-
-            using var client = new HttpClient();
             var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync("https://phbarflogerpotdqiwrp.supabase.co", content);
+            // ✅ endpoint الصحيح (مش الدومين العام)
+            var url = "https://phbarflogerpotdqiwrp.supabase.co/rest/v1/carts";
 
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("apikey", "YOUR_SUPABASE_API_KEY");
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_SUPABASE_API_KEY");
+
+            var response = await client.PostAsync(url, content);
             response.EnsureSuccessStatusCode();
 
             var resultJson = await response.Content.ReadAsStringAsync();
             var createdCart = JsonConvert.DeserializeObject<Cart>(resultJson);
 
-            cartId = createdCart.Id; // 🔑 تعيين cartId للسلة الجديدة
+            // ✅ تأكد أن cartId متعين بعد الإنشاء
+            cartId = createdCart?.Id;
+
+            // ✅ امسح أي بيانات قديمة من السلة المحلية
+            //_cartItems.Clear();
+            //await SaveCartLocallyAsync();
+
+            // ✅ امسح فقط لو مفيش بيانات محلية أو أول مرة تسجيل دخول
+            if (_cartItems == null || !_cartItems.Any())
+            {
+                _cartItems = new List<CartItemDetail>();
+                await SaveCartLocallyAsync();
+            }
+
+
+
+
+
+            CartUpdated?.Invoke();
 
             return createdCart;
         }
-
-
-
-
-
-
-
-
 
 
 

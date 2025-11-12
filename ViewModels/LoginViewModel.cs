@@ -111,9 +111,14 @@ namespace MauiStoreApp.ViewModels
         {
             try
             {
+
+                Email = Email?.Trim().ToLowerInvariant();
+                Password = Password?.Trim();
+
+
                 if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
                 {
-                    await Shell.Current.DisplayAlert("تنبيه", "من فضلك أدخل البريد وكلمة المرور", "موافق");
+                    await Shell.Current.DisplayAlert(" (Alert) تنبيه", " ( Please enter your email and password ) من فضلك أدخل البريد وكلمة المرور", " (Ok) موافق");
                     return;
                 }
 
@@ -127,7 +132,7 @@ namespace MauiStoreApp.ViewModels
                 if (!result)
                 {
 
-                    await Shell.Current.DisplayAlert("خطأ", "اسم المستخدم أو كلمة المرور غير صحيحة ‼️", "موافق");
+                    await Shell.Current.DisplayAlert("( Error ) خطأ", " ( Incorrect username or password ) اسم المستخدم أو كلمة المرور غير صحيحة ‼️", " (Ok) موافق");
                     return;
                 }
                 //await _authService.StoreSessionAsync(result.Session);
@@ -146,7 +151,7 @@ namespace MauiStoreApp.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("خطأ", "Login Error: " + ex.Message, "موافق");
+                await Shell.Current.DisplayAlert(" ( Error ) خطأ", "Login Error (خطأ في تسجيل الدخول) : " + ex.Message, "موافق");
             }
             finally
             {

@@ -12,14 +12,23 @@ public partial class CartPage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
-   
-    protected override void OnAppearing()
+
+    //protected override void OnAppearing()
+    //{
+    //    base.OnAppearing();
+
+    //    if (BindingContext is CartViewModel vm)
+    //        vm.InitCommand.Execute(null);
+    //}
+
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
         if (BindingContext is CartViewModel vm)
-            vm.InitCommand.Execute(null);
+            await vm.Init();
     }
+
 
 
 

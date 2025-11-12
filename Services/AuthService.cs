@@ -38,45 +38,169 @@ namespace MauiStoreApp.Services
             _cartService = cartService;
         }
 
+        //public async Task<bool> RegisterAsync(string email, string password)
+        //{
+        //    try
+        //    {
+        //        email = email?.Trim().ToLowerInvariant();
+        //        password = password?.Trim();
+
+        //        var result = await _supabase.Auth.SignUp(email, password);
+
+        //        Session session = result as Session;
+        //        if (session == null)
+        //        {
+        //            var prop = result?.GetType().GetProperty("Session");
+        //            session = prop?.GetValue(result) as Session;
+        //        }
+
+        //        if (session == null || session.User == null)
+        //            return false;
+
+        //        _currentSession = session;
+        //        _currentUser = session.User;
+        //        await SaveSessionAsync(email);
+        //        return true;
+        //    }
+        //    catch (Supabase.Gotrue.Exceptions.GotrueException ex)
+        //    {
+        //        if (ex.Message.Contains("user_already_exists"))
+        //        {
+        //            await Shell.Current.DisplayAlert("تنبيه ⚠️", "هذا البريد مسجّل بالفعل ✅", "حسناً");
+        //            return false;
+        //        }
+
+        //        await Shell.Current.DisplayAlert("خطأ ❌", "حدث خطأ أثناء التسجيل!\n" + ex.Message, "موافق");
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await Shell.Current.DisplayAlert("خطأ ❌", ex.Message, "موافق");
+        //        return false;
+        //    }
+        //}
+
+
+
+
         public async Task<bool> RegisterAsync(string email, string password)
         {
             try
             {
+                // ✅ 1. توحيد شكل الإيميل والباسورد
+                email = email?.Trim().ToLowerInvariant();
+                password = password?.Trim();
+
+                // ✅ 2. تنفيذ التسجيل
                 var result = await _supabase.Auth.SignUp(email, password);
 
-                Session session = result as Session;
-                if (session == null)
+                // ✅ 3. التعامل مع النتيجة
+                Session session = null;
+
+                if (result is Session s)
+                    session = s;
+                else
                 {
                     var prop = result?.GetType().GetProperty("Session");
                     session = prop?.GetValue(result) as Session;
                 }
 
-                if (session == null || session.User == null)
-                    return false;
+                // ✅ 4. Supabase أحيانًا بيرجع Session = null (لو التفعيل بالبريد مطلوب)
+                if (session?.User == null)
+                {
+                    // المستخدم اتسجل فعلاً لكن محتاج تأكيد أو تسجيل دخول يدوي بعد التسجيل
+                    //await Shell.Current.DisplayAlert("تم ✅", "تم إنشاء الحساب بنجاح! برجاء تسجيل الدخول الآن.", "موافق");
+                    return true; // 🔹 بنرجع true علشان نسمحله يدخل على صفحة Login
+                }
 
+                // ✅ 5. لو Session متاحة، خزّنها كالمعتاد
                 _currentSession = session;
                 _currentUser = session.User;
                 await SaveSessionAsync(email);
+
                 return true;
             }
             catch (Supabase.Gotrue.Exceptions.GotrueException ex)
             {
                 if (ex.Message.Contains("user_already_exists"))
                 {
-                    await Shell.Current.DisplayAlert("تنبيه ⚠️", "هذا البريد مسجّل بالفعل ✅", "حسناً");
+                    //await Shell.Current.DisplayAlert("تنبيه ⚠️", "هذا البريد مسجّل بالفعل ✅", "حسناً");
                     return false;
                 }
 
-                await Shell.Current.DisplayAlert("خطأ ❌", "حدث خطأ أثناء التسجيل!\n" + ex.Message, "موافق");
+                await Shell.Current.DisplayAlert("خطأ ( Error ) ❌", "حدث خطأ أثناء التسجيل ( Error occurred during registration ) " + ex.Message, "موافق ( Ok )");
                 return false;
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("خطأ ❌", ex.Message, "موافق");
+                await Shell.Current.DisplayAlert("خطأ ( Error ) ❌", ex.Message, "موافق ( Ok ) ");
                 return false;
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public async Task<bool> LoginAsync(string email, string password)
+        //{
+        //    try
+        //    {
+
+
+        //        email = email?.Trim().ToLowerInvariant();
+        //        password = password?.Trim();
+
+
+
+        //        var result = await _supabase.Auth.SignIn(email, password);
+
+        //        if (result == null)
+        //            return false;
+
+        //        Session session = result as Session;
+        //        if (session == null)
+        //        {
+        //            var prop = result.GetType().GetProperty("Session");
+        //            session = prop?.GetValue(result) as Session;
+        //        }
+
+        //        if (session == null || session.User == null)
+        //            return false;
+
+        //        _currentSession = session;
+        //        _currentUser = session.User;
+
+        //        await SaveSessionAsync(email);
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine("Login Error: " + ex.Message);
+        //        return false;
+        //    }
+        //}
 
 
 
@@ -87,33 +211,61 @@ namespace MauiStoreApp.Services
         {
             try
             {
-                var result = await _supabase.Auth.SignIn(email, password);
+                email = email?.Trim().ToLowerInvariant();
+                password = password?.Trim();
 
-                if (result == null)
-                    return false;
+                // SignInWithPassword هو الأفضل مع Supabase 2.x
+                var result = await _supabase.Auth.SignInWithPassword(email, password);
 
-                Session session = result as Session;
-                if (session == null)
+                if (result?.User == null)
                 {
-                    var prop = result.GetType().GetProperty("Session");
-                    session = prop?.GetValue(result) as Session;
+                    // الحساب موجود لكن فشل تسجيل الدخول
+                    await Shell.Current.DisplayAlert("خطأ ( Error ) ", "اسم المستخدم أو كلمة المرور غير صحيحة ( Incorrect username or password ) ", "موافق ( Ok ) ");
+                    return false;
                 }
 
-                if (session == null || session.User == null)
-                    return false;
-
-                _currentSession = session;
-                _currentUser = session.User;
+                _currentSession = result;
+                _currentUser = result.User;
 
                 await SaveSessionAsync(email);
                 return true;
             }
+            catch (Supabase.Gotrue.Exceptions.GotrueException ex)
+            {
+                await Shell.Current.DisplayAlert("خطأ تسجيل الدخول ( Login error ) ", ex.Message, "موافق ( Ok ) ");
+                return false;
+            }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Login Error: " + ex.Message);
+                await Shell.Current.DisplayAlert("خطأ ( Error ) ", ex.Message, "موافق ( Ok ) ");
                 return false;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         public async Task LogoutAsync()

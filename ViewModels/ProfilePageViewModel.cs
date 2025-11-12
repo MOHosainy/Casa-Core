@@ -101,7 +101,7 @@ namespace MauiStoreApp.ViewModels
 
         private async Task Logout()
         {
-            bool confirm = await Shell.Current.DisplayAlert("تسجيل الخروج", "هل تريد بالفعل تسجيل الخروج؟", "نعم", "إلغاء");
+            bool confirm = await Shell.Current.DisplayAlert(" ( Log Out ) تسجيل الخروج", " ( Do you really want to Log Out? ) هل تريد بالفعل تسجيل الخروج؟", "(Yes) نعم", " (No) إلغاء");
 
             if (!confirm) return;
             IsBusy = true;

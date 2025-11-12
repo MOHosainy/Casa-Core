@@ -89,31 +89,150 @@ namespace MauiStoreApp.ViewModels
 
         public ObservableCollection<CartItemDetail> CartItems { get; private set; }
 
-        [RelayCommand]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //[RelayCommand]
+        //public async Task Init()
+        //{
+
+
+        //    await _cartService.LoadCartFromStorageAsync();
+        //    SyncCartItems();
+        //    CalculateTotals();
+
+        //    if (isFirstRun)
+        //    {
+        //        await GetCartByUserIdAsync();
+        //        isFirstRun = false;
+        //    }
+        //    else
+        //    {
+        //        SyncCartItems();
+        //    }
+
+        //    // guard null
+        //    //IsUserLoggedIn = _authService?.IsUserLoggedIn ?? false;
+        //    //IsUserLoggedIn = _authService.IsUserLoggedIn;
+        //    IsUserLoggedIn = true; // ✅ مؤقتًا للعرض فقط
+
+        //}
+
+
+        //public async Task Init()
+        //{
+        //    // ✅ أول تشغيل فقط امسح التخزين المحلي لو موجود
+        //    //if (isFirstRun)
+        //    //{
+        //    //    SecureStorage.Remove("localCart");
+        //    //}
+
+
+        //    bool isFirstRun = Preferences.Get("isFirstRun", true);
+
+        //    if (isFirstRun)
+        //    {
+        //        SecureStorage.Remove("localCart");
+        //        Preferences.Set("isFirstRun", false);
+        //    }
+
+
+        //    await _cartService.LoadCartFromStorageAsync();
+        //    SyncCartItems();
+        //    CalculateTotals();
+
+        //    if (isFirstRun)
+        //    {
+        //        await GetCartByUserIdAsync();
+        //        isFirstRun = false;
+        //    }
+        //    else
+        //    {
+        //        SyncCartItems();
+        //    }
+
+        //    IsUserLoggedIn = true;
+        //}
+
         public async Task Init()
         {
-
-
-            await _cartService.LoadCartFromStorageAsync();
-            SyncCartItems();
-            CalculateTotals();
+            bool isFirstRun = Preferences.Get("isFirstRun", true);
 
             if (isFirstRun)
             {
+                // امسح أي سلة قديمة أول مرة
+                SecureStorage.Remove("localCart");
+
+                // جلب السلة من السيرفر لأول مرة
                 await GetCartByUserIdAsync();
-                isFirstRun = false;
+                await _cartService.SaveCartLocallyAsync();
+
+                Preferences.Set("isFirstRun", false);
             }
             else
             {
-                SyncCartItems();
+                // تحميل السلة من التخزين المحلي
+                await _cartService.LoadCartFromStorageAsync();
             }
 
-            // guard null
-            //IsUserLoggedIn = _authService?.IsUserLoggedIn ?? false;
-            //IsUserLoggedIn = _authService.IsUserLoggedIn;
-            IsUserLoggedIn = true; // ✅ مؤقتًا للعرض فقط
+            // تحديث الـ UI بعد التحميل
+            SyncCartItems();
+            CalculateTotals();
 
+            IsUserLoggedIn = true;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private async Task GetCartByUserIdAsync()
         {
@@ -316,7 +435,7 @@ namespace MauiStoreApp.ViewModels
                 //await Shell.Current.GoToAsync(nameof(CheckoutPage));
                 await Shell.Current.GoToAsync("CheckoutRoute");
                 //await Shell.Current.GoToAsync("CheckoutRoute");
-
+                
 
             }
             catch (Exception ex)
@@ -338,7 +457,7 @@ namespace MauiStoreApp.ViewModels
 
             try
             {
-                var confirmed = await Shell.Current.DisplayAlert("Confirm", "Are you sure you want to delete the cart?", "Yes", "No");
+                var confirmed = await Shell.Current.DisplayAlert("Confirm ( تاكييد )", "Are you sure you want to delete the cart? ( هل أنت متأكد أنك تريد حذف عربة التسوق؟ ) ", "Yes ( نعم ) ", "No ( لا ) ");
                 if (!confirmed) return;
 
                 IsBusyWithCartModification = true;
@@ -348,12 +467,12 @@ namespace MauiStoreApp.ViewModels
                 if (success)
                 {
                     CartItems.Clear();
-                    var toast = Toast.Make("Cart deleted successfully.", ToastDuration.Short);
+                    var toast = Toast.Make("Cart deleted successfully ( تم حذف سلة التسوق بنجاح ) ", ToastDuration.Short);
                     await toast.Show();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", "Failed to delete cart.", "OK");
+                    await Shell.Current.DisplayAlert("Error ( خطا ) ", "Failed to delete cart ( فشل في حذف سله التسوق ) ", "OK  ( نعم ) ");
                 }
             }
             finally
@@ -369,6 +488,9 @@ namespace MauiStoreApp.ViewModels
             if (!int.TryParse(userIdStr, out int userId)) return;
 
             await _cartService.AddProductToCartAsync(product, userId);
+            //SyncCartItems();
+            //CalculateTotals();
+
         }
 
 

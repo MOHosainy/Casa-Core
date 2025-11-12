@@ -30,6 +30,7 @@
         <VerticalStackLayout Padding="30" Spacing="15">
             <Label
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="30"
                 HorizontalOptions="Center"
                 Text="{x:Static resx:AppResources.CreateAccount}"
@@ -40,7 +41,9 @@
 
 
             <Label
-                FontSize="17"
+                FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
+                FontSize="25"
                 HorizontalOptions="End"
                 Text="{x:Static resx:AppResources.Email}"
                 TextColor="{StaticResource KHly}" />
@@ -64,7 +67,9 @@
 
 
             <Label
-                FontSize="17"
+                FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
+                FontSize="25"
                 HorizontalOptions="End"
                 Text="{x:Static resx:AppResources.Password}"
                 TextColor="{StaticResource KHly}" />
@@ -138,6 +143,7 @@
                 BackgroundColor="{StaticResource KHly}"
                 Command="{Binding RegisterCommand}"
                 FontAttributes="Bold"
+                FontFamily="OpenSansCondensedBold"
                 FontSize="18"
                 Text="{x:Static resx:AppResources.Register}"
                 TextColor="White" />

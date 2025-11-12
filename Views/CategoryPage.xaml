@@ -27,7 +27,8 @@
                 Grid.Column="0"
                 Margin="0,0,40,0"
                 FontAttributes="Bold"
-                FontSize="20"
+                FontFamily="OpenSansCondensedBold"
+                FontSize="30"
                 HorizontalOptions="CenterAndExpand"
                 Text="{Binding Category.Name, Converter={StaticResource FirstLetterUppercaseConverter}}"
                 TextColor="{StaticResource KHly}"
@@ -66,7 +67,8 @@
                     Grid.Row="0"
                     Margin="30,20,20,5"
                     FontAttributes="Bold"
-                    FontSize="20"
+                    FontFamily="OpenSansCondensedBold"
+                    FontSize="25"
                     HorizontalOptions="Start"
                     IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
                     Text="{Binding Products.Count, Converter={StaticResource FirstLetterUppercaseConverter}, StringFormat='{0} products'}"
@@ -89,9 +91,23 @@
 
 
                         <!--  text  -->
+
+
+
                         <Label
                             FontAttributes="Bold"
-                            FontSize="14"
+                            FontFamily="OpenSansCondensedBold"
+                            FontSize="18"
+                            Text="Sort By"
+                            TextColor="{StaticResource KHly}" />
+
+
+
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontFamily="OpenSansCondensedBold"
+                            FontSize="18"
                             TextColor="{StaticResource KHly}">
                             <Label.Triggers>
                                 <DataTrigger
@@ -99,24 +115,17 @@
                                     TargetType="Label"
                                     Value="asc">
 
-                                    <Setter Property="Text" Value="{x:Static resx:AppResources.PriceAscending}" />
+                                    <Setter Property="Text" Value="Price Ascending" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding SortOrder}"
                                     TargetType="Label"
                                     Value="desc">
-                                    <Setter Property="Text" Value="{x:Static resx:AppResources.PriceDescending}" />
+                                    <Setter Property="Text" Value="Price Descending" />
                                 </DataTrigger>
                             </Label.Triggers>
                         </Label>
 
-
-
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="14"
-                            Text="{x:Static resx:AppResources.SortBy}"
-                            TextColor="{StaticResource KHly}" />
                         <!--  arrow  -->
                         <Image
                             Margin="0,-4,0,0"
@@ -200,6 +209,7 @@
                                             WidthRequest="16" />
                                         <Label
                                             FontAttributes="Bold"
+                                            FontFamily="OpenSansCondensedBold"
                                             FontSize="Small"
                                             HorizontalOptions="StartAndExpand"
                                             Text="{Binding Rating.Rate}"
@@ -210,6 +220,7 @@
                                     <!--  title  -->
                                     <Label
                                         Margin="0,3"
+                                        FontFamily="OpenSansCondensedBold"
                                         FontSize="Small"
                                         HeightRequest="35"
                                         LineBreakMode="WordWrap"
@@ -219,6 +230,7 @@
                                     <!--  price  -->
                                     <Label
                                         FontAttributes="Bold"
+                                        FontFamily="OpenSansCondensedBold"
                                         FontSize="Medium"
                                         HeightRequest="30"
                                         HorizontalOptions="StartAndExpand"
